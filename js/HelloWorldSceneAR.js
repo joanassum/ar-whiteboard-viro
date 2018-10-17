@@ -30,10 +30,10 @@ export default class HelloWorldSceneAR extends Component {
   }
 
   componentDidMount() {
-    return fetch('http://ec2-35-178-8-185.eu-west-2.compute.amazonaws.com:8080/data')
+    return fetch('http://ec2-35-178-8-185.eu-west-2.compute.amazonaws.com:8080/trello/getBoardName/SkS6g4qa')
      .then((response) => {
        response.json().then(body => this.setState({
-         text: body[0],
+         text: body._value,
        }));
      })
      .catch((error) =>{
