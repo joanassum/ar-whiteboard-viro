@@ -13,6 +13,7 @@ import {
   Viro3DObject,
   ViroAmbientLight,
   ViroSpotLight,
+    ViroARPlaneSelector,
 } from 'react-viro';
 
 export default class HelloWorldSceneAR extends Component {
@@ -44,6 +45,7 @@ export default class HelloWorldSceneAR extends Component {
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized} >
+          <ViroARPlaneSelector>
         <ViroText text={this.state.text} scale={[.5, .5, .5]} position={[0, 0, -1]} style={styles.helloWorldTextStyle} />
         <ViroBox position={[0, -.5, -1]} scale={[.3, .3, .1]} materials={["grid"]} />
         <ViroAmbientLight color={"#aaaaaa"} />
@@ -57,6 +59,7 @@ export default class HelloWorldSceneAR extends Component {
             position={[-.5, .5, -1]}
             scale={[.2, .2, .2]}
             type="VRX" />
+          </ViroARPlaneSelector>
       </ViroARScene>
     );
   }

@@ -22,9 +22,7 @@ import {
   ViroARSceneNavigator
 } from 'react-viro';
 
-/*
- TODO: Insert your API key below
- */
+
 var sharedProps = {
   apiKey:"2960EB0C-18D5-49A0-9BE2-D418371F615D",
 }
