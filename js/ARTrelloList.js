@@ -15,7 +15,8 @@ class ARTrelloList extends Component {
     this.state = {
       cardArray: [],
       listId: "",
-      listPosition: [0.5, -0.5, 0]
+      listPosition: [0.5, -0.5, 0],
+      listName: ""
     };
   }
 
@@ -26,7 +27,7 @@ class ARTrelloList extends Component {
       listPosition: this.props.listPosition
     });
 
-    return fetch(`http://ec2-35-178-8-185.eu-west-2.compute.amazonaws.com:8080/trello/getList/${this.props.listId}`)
+    fetch(`http://ec2-35-178-8-185.eu-west-2.compute.amazonaws.com:8080/trello/getList/${this.props.listId}`)
       .then((response) => {
         response.json().then(body => {
           this.setState({cardArray: body})
@@ -34,7 +35,17 @@ class ARTrelloList extends Component {
       })
       .catch((error) => {
         console.error(error);
-      })
+      });
+
+    fetch(`http://ec2-35-178-8-185.eu-west-2.compute.amazonaws.com:8080/trello/getListName/${this.props.listId}`)
+        .then((response) => {
+            response.json().then(body => {
+                this.setState({listName: body._value})
+            });
+        })
+        .catch((error) => {
+            console.error(error);
+        });
   }
 
   render() {
@@ -43,7 +54,7 @@ class ARTrelloList extends Component {
         position={this.state.listPosition}
       >
         <ViroText
-          text={this.state.listId}
+          text={this.state.listName}
         />
         {
           this.state.cardArray.map((n, i) => {
