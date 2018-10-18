@@ -84,9 +84,9 @@ var styles = StyleSheet.create({
 
 ViroARTrackingTargets.createTargets({
     poster : {
-        source : require('./res/black_square.jpg.jpg'),
+        source : require('./res/trello-logo-blue.png'),
         orientation : "Up",
-        physicalWidth : 0.19 // real world width in meters
+        physicalWidth : 0.3 // real world width in meters
     }
 });
 
