@@ -48,14 +48,7 @@ export default class HelloWorldSceneAR extends Component {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized} >
       <ViroARImageMarker target={"poster"}>
-          <Viro3DObject
-                      source={require('./res/emoji_smile/emoji_smile.vrx')}
-                      resources={[require('./res/emoji_smile/emoji_smile_diffuse.png'),
-                          require('./res/emoji_smile/emoji_smile_normal.png'),
-                          require('./res/emoji_smile/emoji_smile_specular.png')]}
-                      position={[-.5, .5, -1]}
-                      scale={[.2, .2, .2]}
-                      type="VRX" />
+         <ViroBox position={[0, .25, 0]} scale={[.5, .5, .5]} />
        </ViroARImageMarker>
       </ViroARScene>
     );
@@ -84,7 +77,7 @@ var styles = StyleSheet.create({
 
 ViroARTrackingTargets.createTargets({
     poster : {
-        source : require('./res/trello-logo-blue.png'),
+        source : require('./res/trello-logo.png'),
         orientation : "Up",
         physicalWidth : 0.3 // real world width in meters
     }
