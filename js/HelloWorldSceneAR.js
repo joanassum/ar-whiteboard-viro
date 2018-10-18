@@ -14,6 +14,8 @@ import {
   ViroAmbientLight,
   ViroSpotLight,
   ViroARPlaneSelector,
+  ViroARTrackingTargets,
+  ViroARImageMarker,
 } from 'react-viro';
 
 export default class HelloWorldSceneAR extends Component {
@@ -45,21 +47,16 @@ export default class HelloWorldSceneAR extends Component {
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized} >
-        <ViroText text={this.state.text} scale={[.5, .5, .5]} position={[0, 0, -1]} style={styles.helloWorldTextStyle} />
-        <ViroBox position={[0, -.5, -1]} scale={[.3, .3, .1]} materials={["grid"]} />
-        <ViroAmbientLight color={"#aaaaaa"} />
-        <ViroSpotLight innerAngle={5} outerAngle={90} direction={[0,-1,-.2]}
-          position={[0, 3, 1]} color="#ffffff" castsShadow={true} />
-        <ViroARPlaneSelector>
+      <ViroARImageMarker target={"poster"}>
           <Viro3DObject
-            source={require('./res/emoji_smile/emoji_smile.vrx')}
-            resources={[require('./res/emoji_smile/emoji_smile_diffuse.png'),
-                require('./res/emoji_smile/emoji_smile_normal.png'),
-                require('./res/emoji_smile/emoji_smile_specular.png')]}
-            position={[-.5, .5, -1]}
-            scale={[.2, .2, .2]}
-            type="VRX" />
-        </ViroARPlaneSelector>
+                      source={require('./res/emoji_smile/emoji_smile.vrx')}
+                      resources={[require('./res/emoji_smile/emoji_smile_diffuse.png'),
+                          require('./res/emoji_smile/emoji_smile_normal.png'),
+                          require('./res/emoji_smile/emoji_smile_specular.png')]}
+                      position={[-.5, .5, -1]}
+                      scale={[.2, .2, .2]}
+                      type="VRX" />
+       </ViroARImageMarker>
       </ViroARScene>
     );
   }
@@ -83,6 +80,14 @@ var styles = StyleSheet.create({
     textAlignVertical: 'center',
     textAlign: 'center',
   },
+});
+
+ViroARTrackingTargets.createTargets({
+    poster : {
+        source : require('./res/blackpanther.jpg'),
+        orientation : "Up",
+        physicalWidth : 0.19 // real world width in meters
+    }
 });
 
 ViroMaterials.createMaterials({
