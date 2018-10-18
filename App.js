@@ -22,12 +22,12 @@ import {
   ViroARSceneNavigator
 } from 'react-viro';
 
-var sharedProps = {
+const sharedProps = {
   apiKey:"2960EB0C-18D5-49A0-9BE2-D418371F615D",
-}
+};
 
 // Sets the default scene you want for AR and VR
-var InitialARScene = require('./js/HelloWorldSceneAR');
+const InitialARScene = require('./js/KaizenBoardEntry');
 
 export default class ViroEntry extends Component {
 
