@@ -115,12 +115,38 @@ android {
             include "armeabi-v7a", "x86"
         }
     }
+    signingConfigs {
+        release {
+            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+                storeFile file(MYAPP_RELEASE_STORE_FILE)
+                storePassword MYAPP_RELEASE_STORE_PASSWORD
+                keyAlias MYAPP_RELEASE_KEY_ALIAS
+                keyPassword MYAPP_RELEASE_KEY_PASSWORD
+            }
+        }
+    }
     buildTypes {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
+    productFlavors {
+        ar {
+            resValue 'string', 'app_name', 'ViroSample-ar'
+            buildConfigField 'String', 'VR_PLATFORM', '"GVR"'
+        }
+        gvr {
+            resValue 'string', 'ar_whiteboard', 'ViroSample-gvr'
+            buildConfigField 'String', 'VR_PLATFORM', '"GVR"'
+        }
+       ovr {
+            resValue 'string', 'app_name', 'ViroSample-ovr'
+            applicationIdSuffix '.ovr'
+            buildConfigField 'String', 'VR_PLATFORM', '"OVR_MOBILE"'
+        }
+    }   
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
@@ -137,8 +163,6 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-navigation')
-    compile project(':react-native-camera')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
