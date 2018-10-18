@@ -84,7 +84,7 @@ var styles = StyleSheet.create({
 
 ViroARTrackingTargets.createTargets({
     poster : {
-        source : require('./res/blackpanther.jpg'),
+        source : require('./res/black_square.jpg.jpg'),
         orientation : "Up",
         physicalWidth : 0.19 // real world width in meters
     }
