@@ -2,6 +2,7 @@
 
 import React, {Component} from 'react';
 import {
+  ViroButton,
   ViroText,
   ViroNode
 } from 'react-viro';
@@ -47,6 +48,100 @@ class ARTrelloBoard extends Component {
       <ViroNode
         position={[2, 0, -5]}
       >
+      <ViroButton
+          source={require("./res/green.png")}
+          position={[-10, 3, -10]}
+          height={1}
+          width={5}
+          onTap={this._onButtonTap}
+          onGaze={this._onButtonGaze} />
+        <ViroButton
+          source={require("./res/yellow.png")}
+          // gazeSource={require("./res/button_on_gazing.jpg")}
+          // tapSource={require("./res/yellow.png")}
+          position={[-10, 1.5, -10]}
+          height={1}
+          width={5}
+          onTap={this._onButtonTap}
+          onGaze={this._onButtonGaze} />
+        <ViroButton
+          source={require("./res/orange.png")}
+          // gazeSource={require("./res/button_on_gazing.jpg")}
+          // tapSource={require("./res/yellow.png")}
+          position={[-10, 0, -10]}
+          height={1}
+          width={5}
+          onTap={this._onButtonTap}
+          onGaze={this._onButtonGaze} />
+        <ViroButton
+          source={require("./res/red.png")}
+          // gazeSource={require("./res/button_on_gazing.jpg")}
+          // tapSource={require("./res/yellow.png")}
+          position={[-10, -1.5, -10]}
+          height={1}
+          width={5}
+          onTap={this._onButtonTap}
+          onGaze={this._onButtonGaze} />
+        <ViroButton
+          source={require("./res/purple.png")}
+          // gazeSource={require("./res/button_on_gazing.jpg")}
+          // tapSource={require("./res/yellow.png")}
+          position={[-10, -3, -10]}
+          height={1}
+          width={5}
+          onTap={this._onButtonTap}
+          onGaze={this._onButtonGaze} />
+        <ViroButton
+          source={require("./res/blue.png")}
+          // gazeSource={require("./res/button_on_gazing.jpg")}
+          // tapSource={require("./res/yellow.png")}
+          position={[-10, -4.5, -10]}
+          height={1}
+          width={5}
+          onTap={this._onButtonTap}
+          onGaze={this._onButtonGaze} />
+          <ViroButton
+            source={require("./res/turquoise.png")}
+            // gazeSource={require("./res/button_on_gazing.jpg")}
+            // tapSource={require("./res/yellow.png")}
+            position={[-10, -6, -10]}
+            height={1}
+            width={5}
+            onTap={this._onButtonTap}
+            onGaze={this._onButtonGaze} />
+          <ViroButton
+            source={require("./res/light_green.png")}
+            // gazeSource={require("./res/button_on_gazing.jpg")}
+            // tapSource={require("./res/yellow.png")}
+            position={[-10, -7.5, -10]}
+            height={1}
+            width={5}
+            onTap={this._onButtonTap}
+            onGaze={this._onButtonGaze} />
+          <ViroButton
+            source={require("./res/pink.png")}
+            // gazeSource={require("./res/button_on_gazing.jpg")}
+            // tapSource={require("./res/yellow.png")}
+            position={[-10, -9, -10]}
+            height={1}
+            width={5}
+            onTap={this._onButtonTap}
+            onGaze={this._onButtonGaze} />
+          <ViroButton
+            source={require("./res/black.png")}
+            // gazeSource={require("./res/button_on_gazing.jpg")}
+            // tapSource={require("./res/yellow.png")}
+            position={[-10, -10.5, -10]}
+            height={1}
+            width={5}
+            onTap={this._onButtonTap}
+            onGaze={this._onButtonGaze} />
+        <ViroText
+          position={[-10, 4.5, -10]}
+          height={1}
+          width={5}
+          text={"Labels"}
+        />
         <ViroText
           text={"Board Name"}
         />
@@ -57,6 +152,18 @@ class ARTrelloBoard extends Component {
         }
       </ViroNode>
     );
+  }
+
+  _onButtonGaze() {
+      this.setState({
+          buttonStateTag: "onGaze"
+      });
+  }
+  _onButtonTap() {
+      this.setState({
+          buttonStateTag: "onTap"
+      });
+      console.log("Button tapped");
   }
 }
 
