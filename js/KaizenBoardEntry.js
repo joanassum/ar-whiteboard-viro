@@ -3,10 +3,10 @@
 import React, { Component } from 'react';
 import ARTrelloBoard from "./ARTrelloBoard.js";
 import {
-  ViroARScene,
-  ViroConstants,
-  ViroText,
-  ViroFlexView
+    ViroARScene,
+    ViroConstants,
+    ViroText,
+    ViroFlexView, ViroARImageMarker, ViroARTrackingTargets, ViroBox, ViroNode,
 } from 'react-viro';
 import {StyleSheet} from "react-native";
 
@@ -19,9 +19,19 @@ class KaizenBoardEntry extends Component {
     this.state = {
       text : "Initializing AR...!"
     };
-
+    this.setMarker();
     this._onInitialized = this._onInitialized.bind(this);
   }
+
+    setMarker() {
+        ViroARTrackingTargets.createTargets({
+            "poster" : {
+                source : require('./res/trello.png'),
+                orientation : "Up",
+                physicalWidth : 0.3 // real world width in meters
+            }
+        });
+    }
 
   componentDidMount() {
 
@@ -43,18 +53,26 @@ class KaizenBoardEntry extends Component {
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized}>
-        <ViroFlexView style={styles.titleContainer} height={6} width={4} position={[-1, 0, -5]}>
-          <ViroText
-            style={styles.prodDescriptionText}
-            text="Kaizen Board"
-            position={[0,0,0]}
-          />
-        </ViroFlexView>
-        <ARTrelloBoard />
+        <ViroARImageMarker target={"poster"}>
+            <ViroNode
+                position={[0, 0, 0]} rotation={[-45, 0, 0]}
+            >
+
+                <ARTrelloBoard />
+            </ViroNode>
+        </ViroARImageMarker>
       </ViroARScene>
     );
   }
 }
+
+// ViroARTrackingTargets.createTargets({
+//     poster : {
+//         source : require('./res/trello.png'),
+//         orientation : "Up",
+//         physicalWidth : 0.3 // real world width in meters
+//     }
+// });
 
 module.exports = KaizenBoardEntry;
 

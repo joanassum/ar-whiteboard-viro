@@ -96,7 +96,7 @@ ViroARTrackingTargets.createTargets({
 
 ViroMaterials.createMaterials({
   grid: {
-    diffuseTexture: require('./res/grid_bg.jpg'),
+    diffuseTexture: require('./res/trello-logo.jpg'),
   },
 });
 
