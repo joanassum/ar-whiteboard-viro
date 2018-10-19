@@ -1,9 +1,12 @@
 'use strict';
 
 import React, {Component} from 'react';
+import {StyleSheet} from 'react-native';
+
 import {
   ViroNode,
-  ViroText
+  ViroText,
+  ViroFlexView,
 } from 'react-viro';
 
 class ARTrelloCard extends Component {
@@ -30,11 +33,29 @@ class ARTrelloCard extends Component {
       <ViroNode
         position={this.state.cardPosition}
       >
-        <ViroText
-          text={this.state.cardInfo.name}
-        />
+        <ViroFlexView style={styles.titleContainer} height={0.4} width={1.5} >
+          <ViroText
+            style={styles.prodDescriptionText}
+            text={this.state.cardInfo.name}
+          />
+        </ViroFlexView>
       </ViroNode>
     );
   }
 }
 module.exports = ARTrelloCard;
+
+var styles = StyleSheet.create({
+  prodDescriptionText: {
+    fontFamily: 'sans-serif-light',
+    fontSize: 20,
+    color: '#222222',
+    textAlignVertical: 'center',
+    textAlign: 'left',
+    flex: 1,
+  },
+  titleContainer: {
+    flexDirection: 'column',
+    backgroundColor: "#ffffffdd",
+  }
+});

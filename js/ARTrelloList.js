@@ -3,9 +3,11 @@
 import React, {Component} from 'react';
 import {
   ViroNode,
-  ViroText
+  ViroText,
+  ViroFlexView
 } from 'react-viro';
 import ARTrelloCard from "./ARTrelloCard.js";
+import {StyleSheet} from "react-native";
 
 class ARTrelloList extends Component {
 
@@ -53,14 +55,18 @@ class ARTrelloList extends Component {
       <ViroNode
         position={this.state.listPosition}
       >
-        <ViroText
-          text={this.state.listName}
-        />
-        {
-          this.state.cardArray.map((n, i) => {
-            return <ARTrelloCard cardPosition={[0, (-0.5 * (i + 1)), 0]} cardInfo={this.state.cardArray[i]}/>
-          })
-        }
+
+          <ViroFlexView style={styles.titleContainer} height={0.4} width={1.75}>
+            <ViroText
+              style={styles.prodDescriptionText}
+              text={this.state.listName}
+            />
+          </ViroFlexView>
+          {
+            this.state.cardArray.map((n, i) => {
+              return <ARTrelloCard cardPosition={[0, (-0.5 * (i + 1)), 0]} cardInfo={this.state.cardArray[i]}/>
+            })
+          }
       </ViroNode>
     );
   }
@@ -68,3 +74,18 @@ class ARTrelloList extends Component {
 
 module.exports = ARTrelloList;
 
+
+var styles = StyleSheet.create({
+  prodDescriptionText: {
+    fontFamily: 'sans-serif-light',
+    fontSize: 20,
+    color: '#000000',
+    textAlignVertical: 'center',
+    textAlign: 'left',
+    flex: 1,
+  },
+  titleContainer: {
+    flexDirection: 'column',
+    backgroundColor: "#00ffff",
+  }
+});

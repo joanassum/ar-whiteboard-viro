@@ -5,8 +5,10 @@ import ARTrelloBoard from "./ARTrelloBoard.js";
 import {
   ViroARScene,
   ViroConstants,
-  ViroText
+  ViroText,
+  ViroFlexView
 } from 'react-viro';
+import {StyleSheet} from "react-native";
 
 
 class KaizenBoardEntry extends Component {
@@ -41,10 +43,13 @@ class KaizenBoardEntry extends Component {
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized}>
-        <ViroText
-          text="Kaizen Board"
-          position={[0,0,-5]}
-        />
+        <ViroFlexView style={styles.titleContainer} height={6} width={4} position={[-1, 0, -5]}>
+          <ViroText
+            style={styles.prodDescriptionText}
+            text="Kaizen Board"
+            position={[0,0,0]}
+          />
+        </ViroFlexView>
         <ARTrelloBoard />
       </ViroARScene>
     );
@@ -52,3 +57,18 @@ class KaizenBoardEntry extends Component {
 }
 
 module.exports = KaizenBoardEntry;
+
+var styles = StyleSheet.create({
+  prodDescriptionText: {
+    fontFamily: 'sans-serif-light',
+    fontSize: 20,
+    color: '#000000',
+    textAlignVertical: 'center',
+    textAlign: 'center',
+    flex: 1,
+  },
+  titleContainer: {
+    flexDirection: 'column',
+    backgroundColor: "#ffff00",
+  }
+});
