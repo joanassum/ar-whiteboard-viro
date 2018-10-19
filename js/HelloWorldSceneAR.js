@@ -5,14 +5,16 @@ import React, { Component } from 'react';
 import {StyleSheet} from 'react-native';
 
 import {
-  ViroARScene,
-  ViroText,
-  ViroConstants,
-  ViroBox,
-  ViroMaterials,
-  Viro3DObject,
-  ViroAmbientLight,
-  ViroSpotLight,
+    ViroARScene,
+    ViroText,
+    ViroConstants,
+    ViroBox,
+    ViroMaterials,
+    Viro3DObject,
+    ViroAmbientLight,
+    ViroSpotLight,
+    ViroARImageMarker,
+    ViroARTrackingTargets,
 } from 'react-viro';
 
 export default class HelloWorldSceneAR extends Component {
@@ -44,6 +46,7 @@ export default class HelloWorldSceneAR extends Component {
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized} >
+        <ViroARImageMarker target={"poster"}>
         <ViroText text={this.state.text} scale={[.5, .5, .5]} position={[0, 0, -1]} style={styles.helloWorldTextStyle} />
         <ViroBox position={[0, -.5, -1]} scale={[.3, .3, .1]} materials={["grid"]} />
         <ViroAmbientLight color={"#aaaaaa"} />
@@ -57,6 +60,7 @@ export default class HelloWorldSceneAR extends Component {
             position={[-.5, .5, -1]}
             scale={[.2, .2, .2]}
             type="VRX" />
+        </ViroARImageMarker>
       </ViroARScene>
     );
   }
@@ -80,6 +84,14 @@ var styles = StyleSheet.create({
     textAlignVertical: 'center',
     textAlign: 'center',
   },
+});
+
+ViroARTrackingTargets.createTargets({
+    poster : {
+        source : require('./res/trello-logo.png'),
+        orientation : "Up",
+        physicalWidth : 0.3 // real world width in meters
+    }
 });
 
 ViroMaterials.createMaterials({
