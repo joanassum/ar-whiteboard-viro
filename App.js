@@ -29,7 +29,7 @@ const sharedProps = {
 // Sets the default scene you want for AR and VR
 const InitialARScene = require('./js/KaizenBoardEntry');
 
-export default class ViroEntry extends Component {
+class ViroEntry extends Component {
 
   constructor() {
     super();
@@ -43,5 +43,52 @@ export default class ViroEntry extends Component {
                                   initialScene={{scene: InitialARScene}} />);
   }
 }
+
+import { QRScannerView } from 'ac-qrcode';
+
+class DefaultScreen extends Component {
+    render() {
+        return (
+
+            < QRScannerView
+                onScanResultReceived={this.barcodeReceived.bind(this)}
+
+                renderTopBarView={() => this._renderTitleBar()}
+
+                renderBottomMenuView={() => this._renderMenu()}
+            />
+        )
+    }
+
+    _renderTitleBar(){
+        return(
+            <Text
+                style={{color:'white',textAlignVertical:'center', textAlign:'center',font:20,padding:12}}
+            >Here is title bar</Text>
+        );
+    }
+
+    _renderMenu() {
+        return (
+            <Text
+                style={{color:'white',textAlignVertical:'center', textAlign:'center',font:20,padding:12}}
+            >Here is bottom menu</Text>
+        )
+    }
+
+    barcodeReceived(e) {
+        Toast.show('Type: ' + e.type + '\nData: ' + e.data);
+        //console.log(e)
+    }
+}
+
+export default class MainComponent extends Component {
+    render () {
+        return <div>
+            <DefaultScreen />
+            <ViroEntry />
+        </div>;
+    }
+};
 
 module.exports = ViroEntry;
