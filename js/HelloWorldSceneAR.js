@@ -86,13 +86,13 @@ var styles = StyleSheet.create({
   },
 });
 
-ViroARTrackingTargets.createTargets({
-    poster : {
-        source : require('./res/trello-logo.png'),
-        orientation : "Up",
-        physicalWidth : 0.3 // real world width in meters
-    }
-});
+// ViroARTrackingTargets.createTargets({
+//     poster : {
+//         source : require('./res/trello-logo.png'),
+//         orientation : "Up",
+//         physicalWidth : 0.3 // real world width in meters
+//     }
+// });
 
 ViroMaterials.createMaterials({
   grid: {

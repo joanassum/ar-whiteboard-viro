@@ -54,10 +54,7 @@ class KaizenBoardEntry extends Component {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized}>
         <ViroARImageMarker target={"poster"}>
-            <ViroNode
-                position={[0, 0, 0]} rotation={[-45, 0, 0]}
-            >
-
+            <ViroNode position={[0, 0, 0]} rotation={[-45, 0, 0]}>
                 <ARTrelloBoard />
             </ViroNode>
         </ViroARImageMarker>
