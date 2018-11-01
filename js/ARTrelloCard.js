@@ -8,7 +8,9 @@ import {
     ViroText,
     ViroFlexView,
     ViroAnimations,
+    ViroImage
 } from 'react-viro';
+import {getPerformanceGraph} from "./backend/backendController";
 
 class ARTrelloCard extends Component {
 
@@ -34,9 +36,14 @@ class ARTrelloCard extends Component {
             runAnimation: false,
             mainAnimation: "frontToBack"
         });
+        getPerformanceGraph()
+            .then((response) => {
+                this.setState({performanceGraph: response});
+            });
     }
 
     render() {
+
         ViroAnimations.registerAnimations({
             backToFront:{
                 properties:{rotateY:"+=180.0",
@@ -54,7 +61,7 @@ class ARTrelloCard extends Component {
                             onFinish:this._onAnimationFinished, onStart: this._onStart}}
             >
                 <ViroFlexView style={styles.titleContainer} height={0.4} width={1.5}
-                              onClick={this._onClick}   >
+                              onClick={this._onClick} ignoreEventHandling={this.state.backCards}  >
                         <ViroText
                             style={styles.prodDescriptionText}
                             text={this.state.cardInfo.name}
@@ -63,9 +70,9 @@ class ARTrelloCard extends Component {
 
                 <ViroFlexView style={styles.titleContainer} height={2.5} width={3}
                               rotation={[0,180,0]} onClick={this._onClick} ignoreEventHandling={!this.state.backCards}>
-                    <ViroText
+                    <ViroImage
                         style={styles.prodDescriptionText}
-                        text="test"
+                        source={{uri: 'http://ec2-18-130-143-129.eu-west-2.compute.amazonaws.com:8080/plot4400110000.png'}}
                     />
                 </ViroFlexView>
 
@@ -103,10 +110,6 @@ ViroAnimations.registerAnimations({
         easing:"EaseInEaseOut",
         duration: 1000},
 
-    scaleAndRotate:{properties:{rotateY: "+=90", positionZ: "-3"}, duration:1000},
-    rotate:{properties:{rotateZ:"+=90"}, duration:10000},
-    animateImage:{properties:{scaleX:1, scaleY:.6, scaleZ:1, opacity: 1},
-        easing:"Bounce", duration: 50000},
 });
 
 var styles = StyleSheet.create({
