@@ -17,7 +17,8 @@ class KaizenBoardEntry extends Component {
     super();
 
     this.state = {
-      text : "Initializing AR...!"
+      text : "Initializing AR...!",
+      boardPin : "123456"
     };
     this.setMarker();
     this._onInitialized = this._onInitialized.bind(this);
@@ -55,7 +56,7 @@ class KaizenBoardEntry extends Component {
       <ViroARScene onTrackingUpdated={this._onInitialized}>
         <ViroARImageMarker target={"poster"}>
             <ViroNode position={[0, 0, 0]} rotation={[-45, 0, 0]}>
-                <ARTrelloBoard />
+                <ARTrelloBoard boardPin={this.state.boardPin} />
             </ViroNode>
         </ViroARImageMarker>
       </ViroARScene>

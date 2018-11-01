@@ -6,38 +6,35 @@ import {View, Text, TouchableOpacity, TextInput, StyleSheet, TouchableHighlight}
 import {ViroARSceneNavigator} from "react-viro";
 
 
-
 var InitialARScene = require('./KaizenBoardEntry');
 var UNSET = "UNSET";
 var AR = "AR";
-var boardPin = "";
+var EmptyBoardPin = "";
 var defaultNavigatorType = UNSET;
 
-var sharedProps = {
-    apiKey:"2960EB0C-18D5-49A0-9BE2-D418371F615D",
-    boardPin : boardPin
+const sharedProps = {
+    apiKey: "2960EB0C-18D5-49A0-9BE2-D418371F615D",
+    boardPin: "123456"
 };
+
 class BoardIdentification extends Component {
 
     constructor() {
         super();
         this.state = {
             sharedProps : sharedProps,
-            boardPin : boardPin,
+            board_pin : EmptyBoardPin,
             navigatorType : defaultNavigatorType
         };
     }
 
-    state = {
-        pin: ''
-    }
-
     handlePin = (text) => {
-        this.setState({ pin: text })
+        this.setState({ board_pin: text })
     }
 
     login = (pin) => {
-        alert(' Board Pin: ' + pin)
+        alert(' Board Pin: ' + pin);
+        this.state.sharedProps.boardPin = pin;
     }
 
     render() {
@@ -47,16 +44,16 @@ class BoardIdentification extends Component {
               <View style = {styles.container}>
 
                   <TextInput style = {styles.input}
-                             underlineColorAndroid = "transparent"
+                            // underlineColorAndroid = "transparent"
                              placeholder = "Board Pin"
-                             placeholderTextColor = "#9a73ef"
+                          //   placeholderTextColor = "#9a73ef"
                              autoCapitalize = "none"
                              onChangeText = {this.handlePin}/>
 
                   <TouchableOpacity
                       style = {styles.submitButton}
                       onPress = {
-                          () => this.login(this.state.pin)
+                          () => this.login(this.state.board_pin)
                       }>
                       <Text style = {styles.submitButtonText}> Submit </Text>
                   </TouchableOpacity>

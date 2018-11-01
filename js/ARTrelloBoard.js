@@ -23,7 +23,7 @@ class ARTrelloBoard extends Component {
   }
 
   componentDidMount() {
-    fetch('http://ec2-35-178-8-185.eu-west-2.compute.amazonaws.com:8080/trello/getBoardName/SkS6g4qa')
+    fetch('http://ec2-35-178-8-185.eu-west-2.compute.amazonaws.com:8080/trello/getBoardName/' + this.props.board_pin)
       .then((response) => {
         response.json().then(body => this.setState({
           text: body._value,

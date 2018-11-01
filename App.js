@@ -60,13 +60,7 @@ export default class ViroEntry extends Component {
   // }
 
   render() {
-        if (this.state.navigatorType == UNSET) {
-            return this._getExperienceSelector();
-        } else if (this.state.navigatorType == BOARD_IDENTIFICATION) {
-            return ViroEntry._getBoardIdentifier();
-        } else if (this.state.navigatorType == AR_NAVIGATOR_TYPE) {
-            return this._getARNavigator();
-        }
+    return ViroEntry._getBoardIdentifier();
   }
 
     // Presents the user with a choice of an AR or VR experience
