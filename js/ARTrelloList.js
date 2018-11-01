@@ -38,6 +38,7 @@ class ARTrelloList extends Component {
 
   clickList(position, source) {
 
+
     let curIndex = this.state.listIndex + 1;
     if(curIndex >= this.state.listIds.length){
       curIndex = 0;

@@ -41,6 +41,7 @@ class ARTrelloBoard extends Component {
     const listWidth = 1.75;
 
     return (
+
       <ViroNode
         position={[2.5, -0.5, 0]}
       >
@@ -50,6 +51,7 @@ class ARTrelloBoard extends Component {
             text={this.state.boardName}
           />
         </ViroFlexView>
+
         {this.state.listLoaded ? (<ARTrelloList listIds={this.state.listIds}/>) : null}
       </ViroNode>
     );
