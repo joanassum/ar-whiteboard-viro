@@ -1,37 +1,42 @@
 'use strict';
 
-import React, { Component } from 'react';
-import ARTrelloBoard from "./ARTrelloBoard.js";
+import React, {Component} from 'react';
+import ARTrelloMenu from "./ARTrelloMenu.js";
+
 import {
-    ViroARScene,
-    ViroConstants,
-    ViroText,
-    ViroFlexView, ViroARImageMarker, ViroARTrackingTargets, ViroBox, ViroNode,
+  ViroARScene,
+  ViroConstants,
+  ViroText,
+  ViroFlexView,
+  ViroARImageMarker,
+  ViroARTrackingTargets,
+  ViroBox,
+  ViroNode,
 } from 'react-viro';
 import {StyleSheet} from "react-native";
 
 
 class KaizenBoardEntry extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
-      text : "Initializing AR...!"
+      text: "Initializing AR...!"
     };
     this.setMarker();
     this._onInitialized = this._onInitialized.bind(this);
   }
 
-    setMarker() {
-        ViroARTrackingTargets.createTargets({
-            "poster" : {
-                source : require('./res/trello.png'),
-                orientation : "Up",
-                physicalWidth : 0.3 // real world width in meters
-            }
-        });
-    }
+  setMarker() {
+    ViroARTrackingTargets.createTargets({
+      "poster": {
+        source: require('./res/trello.png'),
+        orientation: "Up",
+        physicalWidth: 0.3 // real world width in meters
+      }
+    });
+  }
 
   componentDidMount() {
 
@@ -40,11 +45,11 @@ class KaizenBoardEntry extends Component {
   _onInitialized(state, reason) {
     if (state === ViroConstants.TRACKING_NORMAL) {
       this.setState({
-        text : "Kaizen Board Menu"
+        text: "Kaizen Board Menu"
       });
     } else if (state === ViroConstants.TRACKING_NONE) {
       this.setState({
-        text : "Lost Tracking"
+        text: "Lost Tracking"
       });
       // Handle loss of tracking
     }
@@ -53,14 +58,13 @@ class KaizenBoardEntry extends Component {
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized}>
-        <ViroARImageMarker target={"poster"}>
-            <ViroNode
-                position={[0, 0, 0]} rotation={[-45, 0, 0]}
-            >
-
-                <ARTrelloBoard />
-            </ViroNode>
-        </ViroARImageMarker>
+        {/*<ViroARImageMarker target={"poster"}>*/}
+        <ViroNode
+           position={[0, 0, -5]} //rotation={[-45, 0, 0]}
+        >
+          <ARTrelloMenu />
+        </ViroNode>
+        {/*</ViroARImageMarker>*/}
       </ViroARScene>
     );
   }
@@ -90,3 +94,4 @@ var styles = StyleSheet.create({
     backgroundColor: "#ffff00",
   }
 });
+

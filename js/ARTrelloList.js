@@ -7,66 +7,74 @@ import {
   ViroFlexView
 } from 'react-viro';
 import ARTrelloCard from "./ARTrelloCard.js";
+import {getList, getListName} from './backend/backendController';
 import {StyleSheet} from "react-native";
 
 class ARTrelloList extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       cardArray: [],
-      listId: "",
-      listName: "",
-      listPosition: [0.5, -0.5, 0]
+      listIds: this.props.listIds,
+      listIndex: 0
     };
+
+    this.clickList = this.clickList.bind(this);
   }
 
   componentDidMount() {
 
-    this.setState({
-      listId: this.props.listId,
-      listPosition: this.props.listPosition
+    Promise.all([
+      getList(this.props.listIds[this.state.listIndex]),
+      getListName(this.props.listIds[this.state.listIndex])
+    ]).then(([listResponse, listNameResponse]) => {
+      this.setState({listName: listNameResponse.name, cardArray: listResponse, listLoaded: true});
+    }).catch((err) => {
+      console.log(err);
     });
+  }
 
-    fetch(`http://ec2-35-178-8-185.eu-west-2.compute.amazonaws.com:8080/trello/getList/${this.props.listId}`)
-      .then((response) => {
-        response.json().then(body => {
-          this.setState({cardArray: body})
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  clickList(position, source) {
 
-    fetch(`http://ec2-35-178-8-185.eu-west-2.compute.amazonaws.com:8080/trello/getListName/${this.props.listId}`)
-      .then((response) => {
-        response.json().then(body => {
-          this.setState({listName: body.name})
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    let curIndex = this.state.listIndex + 1;
+    if(curIndex >= this.state.listIds.length){
+      curIndex = 0;
+    }
+
+    console.log(curIndex);
+    this.setState({listLoaded: false, listIndex: curIndex});
+
+    Promise.all([
+      getList(this.props.listIds[curIndex]),
+      getListName(this.props.listIds[curIndex])
+    ]).then(([listResponse, listNameResponse]) => {
+      this.setState({listName: listNameResponse.name, cardArray: listResponse, listLoaded: true});
+      console.log("DONE");
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
   render() {
     return (
       <ViroNode
-        position={this.state.listPosition}
+        position={[0, -0.5, 0]}
       >
-
-          <ViroFlexView style={styles.titleContainer} height={0.4} width={1.75}>
+          <ViroFlexView style={styles.titleContainer} height={0.4} width={1.75} onClick={this.clickList}>
             <ViroText
               style={styles.prodDescriptionText}
-              text={this.state.listName}
+              text={this.state.listLoaded ? this.state.listName : "Loading..."}
             />
           </ViroFlexView>
-          {
+        {
+          this.state.listLoaded ? (
             this.state.cardArray.map((n, i) => {
-              return <ARTrelloCard cardPosition={[0, (-0.5 * (i + 1)), 0]} cardInfo={this.state.cardArray[i]}/>
+              return <ARTrelloCard cardPosition={[0, (-0.5 * (i + 1)), 0]} cardInfo={this.state.cardArray[i]}/>;
             })
-          }
+          ) : null
+        }
       </ViroNode>
     );
   }
@@ -86,6 +94,6 @@ var styles = StyleSheet.create({
   },
   titleContainer: {
     flexDirection: 'column',
-    backgroundColor: "#00ffff",
+    backgroundColor: "#FFFFFF",
   }
 });

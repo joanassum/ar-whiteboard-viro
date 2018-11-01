@@ -6,61 +6,51 @@ import {
   ViroNode,
   ViroFlexView
 } from 'react-viro';
-import ARTrelloList from "./ARTrelloList.js";
-import {StyleSheet} from "react-native";
 
+import ARTrelloList from "./ARTrelloList.js";
+import {getBoardName, getListIds} from './backend/backendController';
+import {StyleSheet} from "react-native";
 
 class ARTrelloBoard extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
-      text: "Loading...",
-      listIds: []
+      boardName: "Loading...",
+      listIds: [],
+      listLoaded: false
     };
-
   }
 
   componentDidMount() {
-    fetch('http://ec2-35-178-8-185.eu-west-2.compute.amazonaws.com:8080/trello/getBoardName/SkS6g4qa')
-      .then((response) => {
-        response.json().then(body => this.setState({
-          text: body._value,
-        }));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    getBoardName().then((response) => {
+      this.setState({boardName: response._value});
+    });
 
-    fetch('http://ec2-35-178-8-185.eu-west-2.compute.amazonaws.com:8080/trello/getListIds/SkS6g4qa')
-      .then((response) => {
-        response.json().then(body => this.setState({
-          listIds: body,
-        }));
-      })
-      .catch((error) => {
-        console.error(error);
+    getListIds().then((response) => {
+      this.setState({
+        listIds: response,
+        listLoaded: true,
       });
+    });
   }
 
   render() {
+
+    const listWidth = 1.75;
+
     return (
       <ViroNode
-        position={[0.5, 0, -5]}
+        position={[2.5, -0.5, 0]}
       >
-        <ViroFlexView style={styles.titleContainer} height={0.4} width={1.75} position={[2, 0, 0]}>
+        <ViroFlexView style={styles.titleContainer} height={0.4} width={listWidth}>
           <ViroText
             style={styles.prodDescriptionText}
-            text={this.state.text}
+            text={this.state.boardName}
           />
         </ViroFlexView>
-
-        {
-          this.state.listIds.map ( (n, i) => {
-            return <ARTrelloList listPosition={[(2 *(i + 1)), -0.5, 0]} listId={this.state.listIds[i]}/>
-          })
-        }
+        {this.state.listLoaded ? (<ARTrelloList listIds={this.state.listIds}/>) : null}
       </ViroNode>
     );
   }
@@ -80,6 +70,6 @@ var styles = StyleSheet.create({
   },
   titleContainer: {
     flexDirection: 'column',
-    backgroundColor: "#0abc01",
+    backgroundColor: "#FFFFFF",
   }
 });
