@@ -40,3 +40,22 @@ export function getListName(listId){
       console.error(error);
     });
 }
+
+//http://ec2-18-130-143-129.eu-west-2.compute.amazonaws.com:8080/trello/getPerformanceGraph/SkS6g4qa
+export function getPerformanceGraph(boardId){
+    return fetch(`${url}/trello/getPerformanceGraph/SkS6g4qa`)
+        .then((response) => response.text())
+        .then((response) => `${url}/${response}`)
+        .catch((error) => {
+            console.error(error);
+        });
+}
+
+export function getTimeLineGraph(cardId){
+    return fetch(`${url}/trello/getTimelineGraph/${cardId}`)
+        .then((response) => response.text())
+        .then((response) => `${url}/${response}`)
+        .catch((error) => {
+            console.error(error);
+        });
+}

@@ -10,7 +10,7 @@ import {
     ViroAnimations,
     ViroImage
 } from 'react-viro';
-import {getPerformanceGraph} from "./backend/backendController";
+import {getPerformanceGraph, getTimeLineGraph} from "./backend/backendController";
 
 class ARTrelloCard extends Component {
 
@@ -22,6 +22,7 @@ class ARTrelloCard extends Component {
             backCards: false,
             runAnimation: false,
             mainAnimation: "frontToBack",
+            timeLineGraph: ""
         };
         this._onClick = this._onClick.bind(this);
         this._onStart = this._onStart.bind(this);
@@ -36,9 +37,10 @@ class ARTrelloCard extends Component {
             runAnimation: false,
             mainAnimation: "frontToBack"
         });
-        getPerformanceGraph()
+
+        getTimeLineGraph(this.props.cardInfo.id)
             .then((response) => {
-                this.setState({performanceGraph: response});
+                this.setState({timeLineGraph: response});
             });
     }
 
@@ -72,7 +74,7 @@ class ARTrelloCard extends Component {
                               rotation={[0,180,0]} onClick={this._onClick} ignoreEventHandling={!this.state.backCards}>
                     <ViroImage
                         style={styles.prodDescriptionText}
-                        source={{uri: 'http://ec2-18-130-143-129.eu-west-2.compute.amazonaws.com:8080/plot4400110000.png'}}
+                        source={{uri: this.state.timeLineGraph}}
                     />
                 </ViroFlexView>
 

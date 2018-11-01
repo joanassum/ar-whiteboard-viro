@@ -25,7 +25,6 @@ class ARTrelloList extends Component {
   }
 
   componentDidMount() {
-
     Promise.all([
       getList(this.props.listIds[this.state.listIndex]),
       getListName(this.props.listIds[this.state.listIndex])
