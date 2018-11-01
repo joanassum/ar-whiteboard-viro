@@ -8,6 +8,7 @@ import {
 } from 'react-viro';
 import ARTrelloCard from "./ARTrelloCard.js";
 import {StyleSheet} from "react-native";
+import * as GetDummyData from "./GetDummyData.js";
 
 class ARTrelloList extends Component {
 
@@ -29,25 +30,30 @@ class ARTrelloList extends Component {
       listPosition: this.props.listPosition
     });
 
-    fetch(`http://ec2-35-178-8-185.eu-west-2.compute.amazonaws.com:8080/trello/getList/${this.props.listId}`)
-      .then((response) => {
-        response.json().then(body => {
-          this.setState({cardArray: body})
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    let body1 = GetDummyData.getList();
+    this.setState({cardArray: body1});
 
-    fetch(`http://ec2-35-178-8-185.eu-west-2.compute.amazonaws.com:8080/trello/getListName/${this.props.listId}`)
-      .then((response) => {
-        response.json().then(body => {
-          this.setState({listName: body.name})
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    // fetch(`http://ec2-35-178-8-185.eu-west-2.compute.amazonaws.com:8080/trello/getList/${this.props.listId}`)
+    //   .then((response) => {
+    //     response.json().then(body => {
+    //       this.setState({cardArray: body})
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
+
+    let body2 = GetDummyData.getListName();
+    this.setState({listName: body2.name});
+    // fetch(`http://ec2-35-178-8-185.eu-west-2.compute.amazonaws.com:8080/trello/getListName/${this.props.listId}`)
+    //   .then((response) => {
+    //     response.json().then(body => {
+    //       this.setState({listName: body.name})
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
   }
 
   render() {

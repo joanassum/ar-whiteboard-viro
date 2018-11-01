@@ -8,6 +8,7 @@ import {
 } from 'react-viro';
 import ARTrelloList from "./ARTrelloList.js";
 import {StyleSheet} from "react-native";
+import * as GetDummyData from "./GetDummyData.js";
 
 
 class ARTrelloBoard extends Component {
@@ -23,39 +24,40 @@ class ARTrelloBoard extends Component {
   }
 
   componentDidMount() {
-    fetch('http://ec2-35-178-8-185.eu-west-2.compute.amazonaws.com:8080/trello/getBoardName/SkS6g4qa')
-      .then((response) => {
-        response.json().then(body => this.setState({
-          text: body._value,
-        }));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    let body1 = GetDummyData.getBoardName();
+    this.setState({
+        text: body1._value
+    });
+    // fetch('http://ec2-35-178-8-185.eu-west-2.compute.amazonaws.com:8080/trello/getBoardName/SkS6g4qa')
+    //   .then((response) => {
+    //     response.json().then(body => this.setState({
+    //       text: body._value,
+    //     }));
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
 
-    fetch('http://ec2-35-178-8-185.eu-west-2.compute.amazonaws.com:8080/trello/getListIds/SkS6g4qa')
-      .then((response) => {
-        response.json().then(body => this.setState({
-          listIds: body,
-        }));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    let body2 = GetDummyData.getListIds();
+    this.setState({ listIds: body2 });
+    // fetch('http://ec2-35-178-8-185.eu-west-2.compute.amazonaws.com:8080/trello/getListIds/SkS6g4qa')
+    //   .then((response) => {
+    //     response.json().then(body => this.setState({ listIds: body }));
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
   }
 
   render() {
     return (
-      <ViroNode
-        position={[0.5, 0, -5]}
-      >
+      <ViroNode position={[0.5, 0, -5]}>
         <ViroFlexView style={styles.titleContainer} height={0.4} width={1.75} position={[2, 0, 0]}>
           <ViroText
             style={styles.prodDescriptionText}
             text={this.state.text}
           />
         </ViroFlexView>
-
         {
           this.state.listIds.map ( (n, i) => {
             return <ARTrelloList listPosition={[(2 *(i + 1)), -0.5, 0]} listId={this.state.listIds[i]}/>
