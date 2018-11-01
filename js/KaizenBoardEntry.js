@@ -2,6 +2,7 @@
 
 import React, {Component} from 'react';
 import ARTrelloMenu from "./ARTrelloMenu.js";
+import {getPerformanceGraph} from './backend/backendController';
 
 import {
   ViroARScene,
@@ -39,6 +40,8 @@ class KaizenBoardEntry extends Component {
   }
 
   componentDidMount() {
+
+    //getPerformanceGraph();
 
   }
 

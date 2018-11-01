@@ -3,6 +3,7 @@
 import React, {Component} from 'react';
 import {getLabels, getListIds} from './backend/backendController';
 import ARTrelloBoard from "./ARTrelloBoard.js";
+import ARTrelloLabel from "./ARTrelloLabel.js";
 
 import {
   ViroText,
@@ -19,18 +20,19 @@ class ARTrelloMenu extends Component {
     super(props);
 
     this.clickDisplayBoard = this.clickDisplayBoard.bind(this);
+    this.labelClick = this.labelClick.bind(this);
 
     this.state = {
       displayBoard : false,
       labelIds: [],
-      labelsLoaded: false
+      labelsLoaded: false,
+      filter: ""
     };
 
   }
 
   componentDidMount() {
     getLabels().then((response) => {
-      console.log("SHOW ME LABELS: " + response);
       this.setState({
         labelIds: response,
         labelsLoaded: true,
@@ -42,6 +44,10 @@ class ARTrelloMenu extends Component {
     this.setState({
       displayBoard: (!this.state.displayBoard)
     });
+  }
+
+  labelClick(id){
+    this.setState({filter: id});
   }
 
   render() {
@@ -59,23 +65,13 @@ class ARTrelloMenu extends Component {
           />
         </ViroFlexView>
       );
-
+      console.log(this.state.labelsLoaded);
       filterOptions = this.state.labelsLoaded ? (
-        <ViroFlexView position={[0, -1, 0]}>
-          {
-            this.state.labelIds.map ((n, i) => {
-            if(n.name !== null){
-              return (
-                <ViroText
-                  position={[0, -(i + 1) * 0.5, 0]}
-                  style={styles.prodDescriptionText}
-                  text={n.name}
-                />);
-            }
-          })}
-        </ViroFlexView>
+        this.state.labelIds.map ((n, i) => {
+            return <ARTrelloLabel n={n} i={i} labelClick={this.labelClick}/>;
+        })
       ) : null;
-      board = (<ARTrelloBoard />);
+      board = (<ARTrelloBoard filter={this.state.filter}/>);
     } else {
       filterOption = null;
       filterOptions = null;
@@ -100,7 +96,9 @@ class ARTrelloMenu extends Component {
           />
         </ViroFlexView >
         {filterOption}
-        {filterOptions}
+        <ViroNode position={[0, -2.0, 0]}>
+          {filterOptions}
+        </ViroNode>
         {board}
       </ViroNode>
     );

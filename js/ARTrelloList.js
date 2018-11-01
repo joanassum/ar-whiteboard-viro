@@ -37,8 +37,6 @@ class ARTrelloList extends Component {
   }
 
   clickList(position, source) {
-
-
     let curIndex = this.state.listIndex + 1;
     if(curIndex >= this.state.listIds.length){
       curIndex = 0;
@@ -72,7 +70,7 @@ class ARTrelloList extends Component {
         {
           this.state.listLoaded ? (
             this.state.cardArray.map((n, i) => {
-              return <ARTrelloCard cardPosition={[0, (-0.5 * (i + 1)), 0]} cardInfo={this.state.cardArray[i]}/>;
+              return <ARTrelloCard cardPosition={[0, (-0.5 * (i + 1)), 0]} cardInfo={this.state.cardArray[i]} key={n}/>;
             })
           ) : null
         }
@@ -82,7 +80,6 @@ class ARTrelloList extends Component {
 }
 
 module.exports = ARTrelloList;
-
 
 var styles = StyleSheet.create({
   prodDescriptionText: {

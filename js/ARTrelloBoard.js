@@ -36,6 +36,10 @@ class ARTrelloBoard extends Component {
     });
   }
 
+  componentDidUpdate(){
+
+  }
+
   render() {
 
     const listWidth = 1.75;
@@ -52,7 +56,7 @@ class ARTrelloBoard extends Component {
           />
         </ViroFlexView>
 
-        {this.state.listLoaded ? (<ARTrelloList listIds={this.state.listIds}/>) : null}
+        {this.state.listLoaded ? (<ARTrelloList listIds={this.state.listIds} filterId={this.props.filter}/>) : null}
       </ViroNode>
     );
   }
