@@ -40,7 +40,7 @@ export function getListName(listId) {
     });
 }
 
-//getFilteredList/:boardId/:labelId/:listId
+
 export function getFilteredList(labelId, listId) {
   return fetch(`${url}/trello/getFilteredList/SkS6g4qa/${labelId}/${listId}`)
     .then((response) => response.json())
@@ -49,40 +49,21 @@ export function getFilteredList(labelId, listId) {
     });
 }
 
-//http://ec2-18-130-143-129.eu-west-2.compute.amazonaws.com:8080/trello/getFilteredList/SkS6g4qa/5bbb7e409c16fb124af1f747/5bbb7e51f0eed077f49e9454
-//http://ec2-18-130-143-129.eu-west-2.compute.amazonaws.com:8080/trello/getPerformanceGraph/SkS6g4qa
 
+export function getPerformanceGraph(boardId){
+    return fetch(`${url}/trello/getPerformanceGraph/SkS6g4qa`)
+        .then((response) => response.text())
+        .then((response) => `${url}/${response}`)
+        .catch((error) => {
+            console.error(error);
+        });
+}
 
-// [{
-//   "name": "Dummy test 2 (changed name)",
-//   "desc": "description 2",
-//   "id": "5bbb7e6e9eda7486d4933698",
-//   "labels": [{"id": "5bbb7e409c16fb124af1f747", "idBoard": "5bbb7e4006d2af393fc53e4d", "name": "", "color": "red"}]
-// }, {
-//   "name": "Dummy test 3",
-//   "desc": "description 3",
-//   "id": "5bbb7e7179dbc3195a25b5c4",
-//   "labels": [{
-//     "id": "5bc639327dab8021e0a7cd30",
-//     "idBoard": "5bbb7e4006d2af393fc53e4d",
-//     "name": "Red ALert",
-//     "color": "sky"
-//   }, {"id": "5bbb7e409c16fb124af1f747", "idBoard": "5bbb7e4006d2af393fc53e4d", "name": "", "color": "red"}]
-// }]
-// //
-// [{
-//   "id": "5bbb7e6e9eda7486d4933698",
-//   "name": "Dummy test 2 (changed name)",
-//   "desc": "description 2",
-//   "labels": [{"id": "5bbb7e409c16fb124af1f747", "idBoard": "5bbb7e4006d2af393fc53e4d", "name": "", "color": "red"}]
-// }, {
-//   "id": "5bbb7e7179dbc3195a25b5c4",
-//   "name": "Dummy test 3",
-//   "desc": "description 3",
-//   "labels": [{
-//     "id": "5bc639327dab8021e0a7cd30",
-//     "idBoard": "5bbb7e4006d2af393fc53e4d",
-//     "name": "Red ALert",
-//     "color": "sky"
-//   }, {"id": "5bbb7e409c16fb124af1f747", "idBoard": "5bbb7e4006d2af393fc53e4d", "name": "", "color": "red"}]
-// }]
+export function getTimeLineGraph(cardId){
+    return fetch(`${url}/trello/getTimelineGraph/${cardId}`)
+        .then((response) => response.text())
+        .then((response) => `${url}/${response}`)
+        .catch((error) => {
+            console.error(error);
+        });
+}
