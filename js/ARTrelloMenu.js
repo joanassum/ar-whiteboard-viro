@@ -21,14 +21,15 @@ class ARTrelloMenu extends Component {
 
     this.clickDisplayBoard = this.clickDisplayBoard.bind(this);
     this.labelClick = this.labelClick.bind(this);
+    this.child = React.createRef();
 
     this.state = {
       displayBoard : false,
       labelIds: [],
       labelsLoaded: false,
-      filter: ""
+      filter: {id: "none", name: "None", color: "white"},
+      labelObjs: []
     };
-
   }
 
   componentDidMount() {
@@ -47,12 +48,29 @@ class ARTrelloMenu extends Component {
   }
 
   labelClick(id){
-    this.setState({filter: id});
+    let returnObj = this.state.labelIds.filter( (obj) => {
+
+      console.log("LABEL CLICK: " + id);
+
+      if(id === "none"){
+        console.log("none filter");
+        return {id: "none", name: "None", color: "white"};
+      }
+
+      if(obj.id === id){
+        console.log("Obj filter");
+        obj["clicked"] = true;
+        return obj;
+      }
+    });
+    console.log("RETURN OBJEC IS; " + returnObj);
+    this.setState({filter: returnObj[0]}, () => this.child.current.cascadeClick());
   }
 
   render() {
 
     let filterOption;
+    let filterOptionNone;
     let filterOptions;
     let board;
 
@@ -65,15 +83,23 @@ class ARTrelloMenu extends Component {
           />
         </ViroFlexView>
       );
-      console.log(this.state.labelsLoaded);
+
+      filterOptionNone = (
+        <ViroFlexView position={[0, -2.0, 0]} style={styles.titleContainer} height={0.4} width={1.5}>
+          <ARTrelloLabel n={{id: "none", name: "None", color: "grey"}} i={0} labelClick={this.labelClick}/>
+        </ViroFlexView>
+      );
+
       filterOptions = this.state.labelsLoaded ? (
         this.state.labelIds.map ((n, i) => {
             return <ARTrelloLabel n={n} i={i} labelClick={this.labelClick}/>;
         })
       ) : null;
-      board = (<ARTrelloBoard filter={this.state.filter}/>);
+
+      board = (<ARTrelloBoard filter={this.state.filter} ref={this.child}/>);
     } else {
       filterOption = null;
+      filterOptionNone = null;
       filterOptions = null;
       board = null;
     }
@@ -96,6 +122,7 @@ class ARTrelloMenu extends Component {
           />
         </ViroFlexView >
         {filterOption}
+        {/*{filterOptionNone}*/}
         <ViroNode position={[0, -2.0, 0]}>
           {filterOptions}
         </ViroNode>

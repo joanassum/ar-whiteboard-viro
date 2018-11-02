@@ -37,6 +37,13 @@ class ARTrelloCard extends Component {
     }
 
     render() {
+      // console.log(this.state.cardInfo);
+      // if(this.state.cardInfo !== {}){
+      //   console.log(this.state.cardInfo.labels);
+      //   if(this.state.cardInfo.labels > 0){
+      //     console.log("CARD COLOUR: " + this.state.cardInfo.labels[0].color);
+      //   }
+      // }
         ViroAnimations.registerAnimations({
             backToFront:{
                 properties:{rotateY:"+=180.0",
