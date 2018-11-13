@@ -7,7 +7,7 @@ import {
   ViroFlexView
 } from 'react-viro';
 import ARTrelloCard from "./ARTrelloCard.js";
-import {getList, getListName} from './backend/backendController';
+import {getFilteredList, getListName} from './backend/backendController';
 import {StyleSheet} from "react-native";
 
 class ARTrelloList extends Component {
@@ -18,16 +18,17 @@ class ARTrelloList extends Component {
     this.state = {
       cardArray: [],
       listIds: this.props.listIds,
-      listIndex: 0
+      listIndex: 0,
+      listFilterLoad: true
     };
 
     this.clickList = this.clickList.bind(this);
+    this.refresh = this.refresh.bind(this);
   }
 
   componentDidMount() {
-
     Promise.all([
-      getList(this.props.listIds[this.state.listIndex]),
+      getFilteredList(this.props.filter, this.props.listIds[this.state.listIndex]),
       getListName(this.props.listIds[this.state.listIndex])
     ]).then(([listResponse, listNameResponse]) => {
       this.setState({listName: listNameResponse.name, cardArray: listResponse, listLoaded: true});
@@ -42,21 +43,36 @@ class ARTrelloList extends Component {
       curIndex = 0;
     }
 
-    console.log(curIndex);
     this.setState({listLoaded: false, listIndex: curIndex});
 
+
     Promise.all([
-      getList(this.props.listIds[curIndex]),
+      getFilteredList(this.props.filter, this.props.listIds[curIndex]),
       getListName(this.props.listIds[curIndex])
     ]).then(([listResponse, listNameResponse]) => {
       this.setState({listName: listNameResponse.name, cardArray: listResponse, listLoaded: true});
-      console.log("DONE");
     }).catch((err) => {
       console.log(err);
     });
   }
 
+  refresh(){
+    Promise.all([
+      getFilteredList(this.props.filter, this.props.listIds[this.state.listIndex]),
+      getListName(this.props.listIds[this.state.listIndex])
+    ]).then(([listResponse, listNameResponse]) => {
+      this.setState({listName: listNameResponse.name, cardArray: listResponse, listLoaded: true});
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+  componentDidUpdate(){
+
+  }
+
   render() {
+
     return (
       <ViroNode
         position={[0, -0.5, 0]}
@@ -70,7 +86,7 @@ class ARTrelloList extends Component {
         {
           this.state.listLoaded ? (
             this.state.cardArray.map((n, i) => {
-              return <ARTrelloCard cardPosition={[0, (-0.5 * (i + 1)), 0]} cardInfo={this.state.cardArray[i]} key={n}/>;
+              return <ARTrelloCard cardPosition={[0, (-0.5 * (i + 1)), 0]} cardInfo={this.state.cardArray[i]}/>;
             })
           ) : null
         }

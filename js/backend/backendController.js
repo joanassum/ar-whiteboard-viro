@@ -25,7 +25,6 @@ export function getListIds() {
 }
 
 export function getList(listId) {
-
   return fetch(`${url}/trello/getList/${listId}`)
     .then((response) => response.json())
     .catch((error) => {
@@ -41,6 +40,30 @@ export function getListName(listId) {
     });
 }
 
-//http://ec2-18-130-143-129.eu-west-2.compute.amazonaws.com:8080/trello/getPerformanceGraph/SkS6g4qa
+
+export function getFilteredList(labelId, listId) {
+  return fetch(`${url}/trello/getFilteredList/SkS6g4qa/${labelId}/${listId}`)
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error(error);
+    });
+}
 
 
+export function getPerformanceGraph(boardId){
+    return fetch(`${url}/trello/getPerformanceGraph/SkS6g4qa`)
+        .then((response) => response.text())
+        .then((response) => `${url}/${response}`)
+        .catch((error) => {
+            console.error(error);
+        });
+}
+
+export function getTimeLineGraph(cardId){
+    return fetch(`${url}/trello/getTimelineGraph/${cardId}`)
+        .then((response) => response.text())
+        .then((response) => `${url}/${response}`)
+        .catch((error) => {
+            console.error(error);
+        });
+}

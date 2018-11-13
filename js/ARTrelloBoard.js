@@ -21,6 +21,9 @@ class ARTrelloBoard extends Component {
       listIds: [],
       listLoaded: false
     };
+
+    this.cascadeClick = this.cascadeClick.bind(this);
+    this.child = React.createRef();
   }
 
   componentDidMount() {
@@ -36,6 +39,12 @@ class ARTrelloBoard extends Component {
     });
   }
 
+  cascadeClick(){
+
+    this.child.current.refresh();
+
+  }
+
   componentDidUpdate(){
 
   }
@@ -44,19 +53,19 @@ class ARTrelloBoard extends Component {
 
     const listWidth = 1.75;
 
+
     return (
 
       <ViroNode
         position={[2.5, -0.5, 0]}
       >
-        <ViroFlexView style={styles.titleContainer} height={0.4} width={listWidth}>
+        <ViroFlexView style={{flexDirection: 'column', backgroundColor: this.props.filter.color}} height={0.4} width={listWidth}>
           <ViroText
             style={styles.prodDescriptionText}
             text={this.state.boardName}
           />
         </ViroFlexView>
-
-        {this.state.listLoaded ? (<ARTrelloList listIds={this.state.listIds} filterId={this.props.filter}/>) : null}
+        {this.state.listLoaded ? (<ARTrelloList ref={this.child} listIds={this.state.listIds} filter={this.props.filter.id} updateFilter={this.props.filter.clicked}/>) : null}
       </ViroNode>
     );
   }

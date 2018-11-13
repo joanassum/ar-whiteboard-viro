@@ -15,11 +15,9 @@ class ARTrelloLabel extends Component {
     this.state = {
       id: ""
     };
-
   }
 
   componentDidMount() {
-    console.log(this.props.n.id);
     this.setState({
       id: this.props.n.id
     });
@@ -28,11 +26,10 @@ class ARTrelloLabel extends Component {
 
 
   labelClick(){
-    this.props.labelClick(this.state.id);
+    this.props.labelClick(this.props.n.id);
   }
 
   render() {
-
 
     return (
       <ViroFlexView
