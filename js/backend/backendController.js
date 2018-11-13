@@ -1,4 +1,4 @@
-const url = "http://ec2-18-130-143-129.eu-west-2.compute.amazonaws.com:8080";
+const url = "http://ec2-35-177-195-223.eu-west-2.compute.amazonaws.com:8080";
 
 export function getLabels() {
   return fetch(`${url}/trello/getLabels/SkS6g4qa`)
@@ -63,6 +63,22 @@ export function getTimeLineGraph(cardId){
     return fetch(`${url}/trello/getTimelineGraph/${cardId}`)
         .then((response) => response.text())
         .then((response) => `${url}/${response}`)
+        .catch((error) => {
+            console.error(error);
+        });
+}
+
+export function getCardMembers(cardId) {
+    return fetch(`${url}/trello/getCardMembers/${cardId}`)
+        .then((response) => response.json())
+        .catch((error) => {
+            console.error(error);
+        });
+}
+
+export function getCheckLists(cardId) {
+    return fetch(`${url}/trello/getCardChecklists/${cardId}`)
+        .then((response) => response.json())
         .catch((error) => {
             console.error(error);
         });

@@ -2,6 +2,7 @@
 
 import React, {Component} from 'react';
 import ARTrelloMenu from "./ARTrelloMenu.js";
+import ARTrelloCardDetail from "./ARTrelloCardDetail.js";
 import {getPerformanceGraph} from './backend/backendController';
 
 import {
@@ -66,6 +67,7 @@ class KaizenBoardEntry extends Component {
            position={[0, 0, -5]} //rotation={[-45, 0, 0]}
         >
           <ARTrelloMenu />
+          <ARTrelloCardDetail cardId = {"Gu8snXKY"}/>
         </ViroNode>
         {/*</ViroARImageMarker>*/}
       </ViroARScene>

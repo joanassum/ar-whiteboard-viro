@@ -8,19 +8,34 @@ import {
     ViroText,
     ViroFlexView,
 } from 'react-viro';
+import {getCardMembers, getCheckLists} from "./backend/backendController";
+import ARTrelloCard from "./ARTrelloCard";
 
 class ARTrelloCardDetail extends Component {
 
     constructor() {
         super();
         this.state = {
-            cardPosition: [-4, -0.5, 0]
+            cardPosition: [-4, -0.5, 0],
+            cardId: "",
+            members:[],
+            checkLists: []
         };
     }
 
     componentDidMount() {
         this.setState({
-            cardInfo: this.props.cardInfo,
+            cardId: this.props.cardId,
+        });
+
+        getCardMembers(this.props.cardId).then((response) => {
+            this.setState({members: response});
+        });
+
+        getCheckLists(this.props.cardId).then((response) => {
+            this.setState({
+                checkLists: response
+            });
         });
     }
 
@@ -32,8 +47,13 @@ class ARTrelloCardDetail extends Component {
                 <ViroFlexView style={styles.titleContainer} height={2.5} width={3}>
                     <ViroText
                         style={styles.prodDescriptionText}
-                        text="test"
+                        text="Members: "
                     />
+                    {
+                        this.state.members.map((n, i) => {
+                        return <ViroText style={styles.memberNameText} text={this.state.members[i].fullName}/>;
+                        })
+                    }
                 </ViroFlexView>
 
             </ViroNode>
@@ -49,10 +69,18 @@ var styles = StyleSheet.create({
         color: '#222222',
         textAlignVertical: 'center',
         textAlign: 'left',
-        flex: 1,
+        flex: 0.35,
+    },
+    memberNameText: {
+        fontFamily: 'sans-serif-light',
+        fontSize: 20,
+        color: '#222222',
+        textAlignVertical: 'center',
+        textAlign: 'left',
+        flex: 0.2,
     },
     titleContainer: {
-        flexDirection: 'column',
+        flexDirection: 'row',
         backgroundColor: "#ffffffdd",
     },
     cardBack: {
