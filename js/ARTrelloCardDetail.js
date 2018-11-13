@@ -9,7 +9,6 @@ import {
     ViroFlexView,
 } from 'react-viro';
 import {getCardMembers, getCheckLists} from "./backend/backendController";
-import ARTrelloCard from "./ARTrelloCard";
 
 class ARTrelloCardDetail extends Component {
 
@@ -40,20 +39,48 @@ class ARTrelloCardDetail extends Component {
     }
 
     render() {
+        console.log(this.state.checkLists);
+        let checkLists = (
+            this.state.checkLists.map ((n, i) => {
+                return(
+                    <ViroFlexView style={{flexDirection: 'column'}} height={1} width={3}>
+                        <ViroFlexView style={{flexDirection: 'column'}} height={1} width={3}>
+                            <ViroText style={styles.prodDescriptionText} text={n.name + ": "}/>
+                        </ViroFlexView>
+                        {this.state.checkLists[i].checkItems.map((m, j) => {
+                            return (
+                                <ViroFlexView style={{flexDirection: 'column'}} height={1} width={3}>
+                                     <ViroText style={styles.prodDescriptionText} text={
+                                         m.name + "(" +
+                                         m.state + ")"
+                                     }/>
+                                </ViroFlexView>
+                            );
+                        })}
+                    </ViroFlexView>
+
+                );
+            })
+        );
+        console.log(checkLists);
         return (
-            <ViroNode
-                position={this.state.cardPosition}
-            >
-                <ViroFlexView style={styles.titleContainer} height={2.5} width={3}>
-                    <ViroText
-                        style={styles.prodDescriptionText}
-                        text="Members: "
-                    />
-                    {
-                        this.state.members.map((n, i) => {
-                        return <ViroText style={styles.memberNameText} text={this.state.members[i].fullName}/>;
-                        })
-                    }
+            <ViroNode position={this.state.cardPosition}>
+                <ViroFlexView style={styles.titleContainer} height={5.5} width={3}>
+                    <ViroFlexView style={{flexDirection: 'column'}} height={1} width={3}>
+                        <ViroFlexView style={{flexDirection: 'row'}} height={1} width={3}>
+                            <ViroText
+                                style={styles.prodDescriptionText}
+                                text="Members: "
+                            />
+
+                            {
+                                this.state.members.map((n, i) => {
+                                    return <ViroText style={styles.memberNameText} text={this.state.members[i].fullName}/>;
+                                })
+                            }
+                        </ViroFlexView>
+                        {checkLists}
+                    </ViroFlexView>
                 </ViroFlexView>
 
             </ViroNode>
