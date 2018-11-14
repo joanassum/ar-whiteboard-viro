@@ -1,4 +1,3 @@
-
 const mainReducer = (state = { test: "test" }, action) => {
   switch (action.type) {
     case "CHECK_TEST":

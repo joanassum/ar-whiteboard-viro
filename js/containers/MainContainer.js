@@ -1,22 +1,19 @@
 import { connect } from "react-redux";
-import ViroEntry from "../ViroEntry";
-import {checkTestAction} from "../actions/mainActions";
+import App from "../../App";
 
 const mapStateToProps = state => {
   return {
-    test: state.mainReducer.test
+    //prop: state.mainReducer.paramter,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    testAction: () => dispatch(checkTestAction("Tested"))
+    //funcName: () => dispatch(actionName(paramters))
   };
 };
-
-
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ViroEntry);
+)(App);

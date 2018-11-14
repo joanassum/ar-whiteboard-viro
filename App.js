@@ -1,24 +1,32 @@
 import React, { Component } from 'react';
-import mainContainer from "./js/containers/mainContainer";
-import configureStore from "./js/store/configureStore";
-import { Provider } from "react-redux";
-
-
-const store = configureStore({
-  mainReducer: { test: "test" }
-});
+import { Router, Scene } from 'react-native-router-flux';
+import ViroEntry from "./js/ViroEntry";
+import LoginScreen from "./js/LoginScreen";
 
 class App extends Component {
+
+  constructor(props){
+    super(props);
+  }
+
   render() {
     return (
-      <div className="App">
-        <Provider store={store}>
-          <mainContainer />
-        </Provider>
-      </div>
+      <Router>
+        <Scene key="root">
+          <Scene key="login"
+                 component={LoginScreen}
+                 title="Login"
+                 initial
+          />
+          <Scene
+            key="viro"
+            component={ViroEntry}
+            title="Kaizen AR"
+          />
+        </Scene>
+      </Router>
     );
   }
 }
 
 export default App;
-
