@@ -1,47 +1,32 @@
-/**
- * Copyright (c) 2017-present, Viro, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
 import React, { Component } from 'react';
-import {
-  AppRegistry,
-  Text,
-  View,
-  StyleSheet,
-  PixelRatio,
-  TouchableHighlight,
-} from 'react-native';
+import { Router, Scene } from 'react-native-router-flux';
+import ViroEntry from "./js/ViroEntry";
+import LoginScreen from "./js/LoginScreen";
 
-import {
-  ViroVRSceneNavigator,
-  ViroARSceneNavigator
-} from 'react-viro';
+class App extends Component {
 
-const sharedProps = {
-  apiKey:"2960EB0C-18D5-49A0-9BE2-D418371F615D",
-};
-
-// Sets the default scene you want for AR and VR
-const InitialARScene = require('./js/KaizenBoardEntry');
-
-export default class ViroEntry extends Component {
-
-  constructor() {
-    super();
-    this.state = {
-      sharedProps : sharedProps
-    };
+  constructor(props){
+    super(props);
   }
 
   render() {
-    return (<ViroARSceneNavigator {...this.state.sharedProps}
-                                  initialScene={{scene: InitialARScene}} />);
+    return (
+      <Router>
+        <Scene key="root">
+          <Scene key="login"
+                 component={LoginScreen}
+                 title="Login"
+                 initial
+          />
+          <Scene
+            key="viro"
+            component={ViroEntry}
+            title="Kaizen AR"
+          />
+        </Scene>
+      </Router>
+    );
   }
 }
 
-module.exports = ViroEntry;
+export default App;
