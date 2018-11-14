@@ -1,4 +1,4 @@
-const url = "http://ec2-18-130-143-129.eu-west-2.compute.amazonaws.com:8080";
+const url = "http://ec2-35-177-195-223.eu-west-2.compute.amazonaws.com:8080";
 
 export function getLabels() {
   return fetch(`${url}/trello/getLabels/SkS6g4qa`)
