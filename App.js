@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Router, Scene } from 'react-native-router-flux';
 import ViroEntry from "./js/ViroEntry";
-import LoginScreen from "./js/LoginScreen";
+import LoginContainer from "./js/containers/LoginContainer";
 
 class App extends Component {
 
@@ -14,7 +14,7 @@ class App extends Component {
       <Router>
         <Scene key="root">
           <Scene key="login"
-                 component={LoginScreen}
+                 component={LoginContainer}
                  title="Login"
                  initial
           />

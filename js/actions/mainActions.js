@@ -4,3 +4,10 @@ export function checkTestAction(checkTest){
     checkTest
   };
 }
+
+export function setBoardId(boardId){
+  return {
+    type: "SET_BOARD_ID",
+    boardId
+  };
+}

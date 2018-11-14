@@ -1,11 +1,12 @@
 import { AppRegistry } from 'react-native';
 import React from 'react';
-import App from './App.js';
 import MainContainer from './js/containers/MainContainer';
 import configureStore from "./js/store/configureStore";
 import { Provider } from "react-redux";
 
-const store = configureStore();
+const store = configureStore({
+  mainReducer: {boardId: "SkS6g4qa"}
+});
 
 const ReduxApp = () => (
   <Provider store={store}>

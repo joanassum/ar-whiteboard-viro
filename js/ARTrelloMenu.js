@@ -49,9 +49,9 @@ class ARTrelloMenu extends Component {
         labelsLoaded: true});
     });
 
-    getPerformanceGraph().then((response) => {
-      this.setState({performanceGraph: response});
-    });
+    // getPerformanceGraph().then((response) => {
+    //   this.setState({performanceGraph: response});
+    // });
   }
 
   clickDisplayBoard(position, source)  {

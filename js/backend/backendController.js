@@ -1,7 +1,12 @@
 const url = "http://ec2-35-177-195-223.eu-west-2.compute.amazonaws.com:8080";
+let boardId = "SkS6g4qa";
+
+export function setBoardID(newBoardID){
+  boardId = newBoardID;
+}
 
 export function getLabels() {
-  return fetch(`${url}/trello/getLabels/SkS6g4qa`)
+  return fetch(`${url}/trello/getLabels/${boardId}`)
     .then((response) => response.json())
     .catch((error) => {
       console.error(error);
@@ -9,7 +14,7 @@ export function getLabels() {
 }
 
 export function getBoardName() {
-  return fetch(`${url}/trello/getBoardName/SkS6g4qa`)
+  return fetch(`${url}/trello/getBoardName/${boardId}`)
     .then((response) => response.json())
     .catch((error) => {
       console.error(error);
@@ -17,7 +22,7 @@ export function getBoardName() {
 }
 
 export function getListIds() {
-  return fetch(`${url}/trello/getListIds/SkS6g4qa`)
+  return fetch(`${url}/trello/getListIds/${boardId}`)
     .then((response) => response.json())
     .catch((error) => {
       console.error(error);
@@ -42,7 +47,7 @@ export function getListName(listId) {
 
 
 export function getFilteredList(labelId, listId) {
-  return fetch(`${url}/trello/getFilteredList/SkS6g4qa/${labelId}/${listId}`)
+  return fetch(`${url}/trello/getFilteredList/${boardId}/${labelId}/${listId}`)
     .then((response) => response.json())
     .catch((error) => {
       console.error(error);
@@ -51,7 +56,7 @@ export function getFilteredList(labelId, listId) {
 
 
 export function getPerformanceGraph(boardId){
-    return fetch(`${url}/trello/getPerformanceGraph/SkS6g4qa`)
+    return fetch(`${url}/trello/getPerformanceGraph/${boardId}`)
         .then((response) => response.text())
         .then((response) => `${url}/${response}`)
         .catch((error) => {
@@ -66,4 +71,14 @@ export function getTimeLineGraph(cardId){
         .catch((error) => {
             console.error(error);
         });
+}
+
+
+export function getBoardIdMapping(boardPin){
+  console.log("GET BoARD ID MAPPING");
+  return fetch(`${url}/queriesDB/getBoardMapping/${boardPin}`)
+    .then((response) => response.text())
+    .catch((error) => {
+      console.error(error);
+    });
 }

@@ -40,9 +40,7 @@ class ARTrelloBoard extends Component {
   }
 
   cascadeClick(){
-
     this.child.current.refresh();
-
   }
 
   componentDidUpdate(){

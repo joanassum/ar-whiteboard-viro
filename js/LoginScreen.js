@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {View, Text, TouchableOpacity, TextInput, StyleSheet, TouchableHighlight} from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import {getBoardIdMapping, setBoardID} from "./backend/backendController";
 
 class LoginScreen extends Component {
 
   constructor(props){
     super(props);
-
 
     this.state = {
       board_pin : "",
@@ -18,16 +18,23 @@ class LoginScreen extends Component {
   }
 
   handlePin(text) {
-    console.log(text);
     this.setState({ board_pin: text })
   }
 
   submitPin(){
-    console.log("SUBMIT PIN " + this.state.board_pin);
+    if(!isNaN(this.state.board_pin) && this.state.board_pin.length === 6){
+      //fetch call
+      getBoardIdMapping(this.state.board_pin).then((response) => {
+        //dispatch
+        setBoardID(response);
+        this.props.setBoardId(response);
+      });
+    }
   }
 
   onPress() {
-    console.log("Enter the APP: " + this.state.board_pin);
+   // console.log("Enter the APP: " + this.state.board_pin);
+    console.log("HMMMM");
     Actions.viro();
   }
 
