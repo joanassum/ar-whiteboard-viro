@@ -30,15 +30,16 @@ class ARTrelloList extends Component {
   }
 
   componentDidMount() {
-
     getFilteredListMap("boardId" ,"none").then((response) => {
       this.setState({lists: response, listLoaded: true});
     });
-
   }
 
   clickList(position, source, listObj) {
     this.setState({listClick: true, listObj: listObj});
+    if(this.state.listLoaded){
+      this.props.setMenuViewName(listObj.listName);
+    }
   }
 
   render() {

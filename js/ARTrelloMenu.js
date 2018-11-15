@@ -37,9 +37,16 @@ class ARTrelloMenu extends Component {
   }
 
   clickDisplayBoard(position, source)  {
+    let tempBool = !this.state.displayBoard;
     this.setState({
-      displayBoard: (!this.state.displayBoard)
+      displayBoard: tempBool
     });
+    if(this.state.boardNameLoaded){
+      this.props.setMenuViewName("Board");
+    }
+    if(!tempBool){
+      this.props.setCardId("None");
+    }
   }
 
 
@@ -47,26 +54,32 @@ class ARTrelloMenu extends Component {
 
     let board;
     const displacement = -1.5;
-    const viewArray = ["Board", "List", "Card"];
+    console.log(this.props.cardId);
+    let menuTitleOption = (this.props.cardId !== "None" && this.state.displayBoard) ? "Chosen " : "Search ";
 
-    board = (<ARTrelloBoard disArr={[0,displacement,0]} boardName={this.state.boardName}/>);
+    board = (<ARTrelloBoard
+      disArr={[0,displacement,0]}
+      boardName={this.state.boardName}
+      menuTitle={this.props.menuTitle}
+      setMenuViewName={(title) => this.props.setMenuViewName(title)}
+    />);
 
     return (
       <ViroNode
         position={[1.5,0,0]}
       >
-        <ViroFlexView position={[0, -0.5, 0]} style={styles.titleContainer} height={0.4} width={1.75}>
+        <ViroFlexView position={[0, -0.5, 0]} style={styles.titleContainer} height={0.4} width={2.5}>
           <ViroText
             style={styles.prodDescriptionText}
             text={`${
-              (this.state.boardNameLoaded && this.state.displayBoard) ? this.state.boardName : "Search Menu"}`
-            }
+              (this.state.boardNameLoaded && this.state.displayBoard) ? menuTitleOption + this.props.menuTitle : "Search Menu"}
+              `}
           />
         </ViroFlexView>
         <ViroFlexView position={[0, -1.0, 0]} style={styles.titleContainer} height={0.4} width={1.75}>
           <ViroText
             style={styles.prodDescriptionText}
-            text={`Search ${viewArray[this.state.index]}`}
+            text={`${ (this.state.displayBoard) ? "Clear" : "Search" }`}
             onClick={this.clickDisplayBoard}
           />
         </ViroFlexView >

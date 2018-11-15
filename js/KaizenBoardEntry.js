@@ -63,8 +63,16 @@ class KaizenBoardEntry extends Component {
         <ViroNode
            position={[0, 0, -5]} //rotation={[-45, 0, 0]}
         >
-          <ARTrelloMenu />
+          <ARTrelloMenu
+            menuTitle={this.props.menuTitle}
+            cardId={this.props.cardId}
+            setMenuViewName={(title) => this.props.setMenuViewName(title)}
+            setCardId={(cardId) => this.props.setCardId(cardId)}
+          />
         </ViroNode>
+
+
+        {/*TODO Card Detail View*/}
         <ViroNode
           position={[-1.5,-4,-5]}
         >
@@ -80,6 +88,8 @@ class KaizenBoardEntry extends Component {
             />
           </ViroFlexView>
         </ViroNode>
+
+        {/*TODO Card Timeline*/}
         <ViroNode
           position={[-5,0,-5]}
         >

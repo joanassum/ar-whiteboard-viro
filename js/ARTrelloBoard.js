@@ -29,6 +29,7 @@ class ARTrelloBoard extends Component {
 
   onClick(){
     this.setState({boardClick: true});
+    this.props.setMenuViewName(this.props.boardName);
   }
 
   render() {
@@ -42,7 +43,9 @@ class ARTrelloBoard extends Component {
         position={this.props.disArr}
       >
         {
-          this.state.boardClick ? <ARTrelloList /> :
+          this.state.boardClick ? <ARTrelloList
+              setMenuViewName={(title) => this.props.setMenuViewName(title)}
+            /> :
             (
               <ViroFlexView style={{flexDirection: 'column'}} height={0.4} width={listWidth}>
               <ViroText

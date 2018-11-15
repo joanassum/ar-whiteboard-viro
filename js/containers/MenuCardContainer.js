@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import ARTrelloCard from "../ARTrelloCard";
-import {setCardId} from "../actions/mainActions";
+import {setCardId, setMenuViewName} from "../actions/mainActions";
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -11,7 +11,8 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
   return {
     //funcName: () => dispatch(actionName(paramters))
-    setCardId: (cardId) => dispatch(setCardId(cardId))
+    setCardId: (cardId) => dispatch(setCardId(cardId)),
+    setMenuViewName: (menuTitle) => dispatch(setMenuViewName(menuTitle))
   };
 };
 

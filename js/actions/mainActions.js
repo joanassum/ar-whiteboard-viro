@@ -18,3 +18,10 @@ export function setCardId(cardId){
     cardId
   };
 }
+
+export function setMenuViewName(menuTitle){
+  return {
+    type: "SET_MENU_TITLE",
+    menuTitle
+  };
+}

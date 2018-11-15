@@ -35,8 +35,11 @@ class ARTrelloCard extends Component {
 
     onClick(position, source, cardObj){
       this.setState({cardClick: true, cardObj: cardObj});
-      //Dispatch action for cardId
-      this.props.setCardId(cardObj.cardId);
+      if(this.state.cardLoaded){
+        //Dispatch action for cardId
+        this.props.setCardId(cardObj.cardId);
+        this.props.setMenuViewName(cardObj.cardName);
+      }
     }
 
     render() {

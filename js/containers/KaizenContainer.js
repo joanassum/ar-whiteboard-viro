@@ -1,15 +1,18 @@
 import { connect } from "react-redux";
 import KaizenBoardEntry from "../KaizenBoardEntry";
+import {setCardId, setMenuViewName} from "../actions/mainActions";
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
+    menuTitle: state.mainReducer.menuTitle,
     cardId: state.mainReducer.cardId,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    //funcName: () => dispatch(actionName(paramters))
+    setCardId: (cardId) => dispatch(setCardId(cardId)),
+    setMenuViewName: (menuTitle) => dispatch(setMenuViewName(menuTitle))
   };
 };
 
