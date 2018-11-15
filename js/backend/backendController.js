@@ -54,6 +54,28 @@ export function getFilteredList(labelId, listId) {
     });
 }
 
+export function getFilteredListMap(localBoardId, labelId) {
+  return fetch(`${url}/trello/getFilteredListMap/${boardId}/${labelId}`)
+    .then((response) => {
+      return response.json();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+export function getFilteredCardMap(listId, labelId) {
+  return fetch(`${url}/trello/getFilteredCardMap/${listId}/${labelId}`)
+    .then((response) => {
+      return response.json();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+
+
 
 export function getPerformanceGraph(boardId){
     return fetch(`${url}/trello/getPerformanceGraph/${boardId}`)

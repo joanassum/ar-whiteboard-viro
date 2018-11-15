@@ -11,3 +11,10 @@ export function setBoardId(boardId){
     boardId
   };
 }
+
+export function setCardId(cardId){
+  return {
+    type: "SET_CARD_ID",
+    cardId
+  };
+}

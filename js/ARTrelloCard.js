@@ -7,113 +7,68 @@ import {
     ViroNode,
     ViroText,
     ViroFlexView,
-    ViroAnimations,
-    ViroImage
 } from 'react-viro';
-import {getTimeLineGraph} from "./backend/backendController";
+import {getFilteredCardMap} from "./backend/backendController";
 
 class ARTrelloCard extends Component {
 
     constructor() {
         super();
         this.state = {
-            cardPosition: [0, -0.5, 0],
-            cardInfo: {},
-            backCards: false,
-            runAnimation: false,
-            mainAnimation: "frontToBack",
-            timeLineGraph: ""
+          cardLoaded: false,
+          cardss: [{
+            cardName: "Loading....", cardId: "Loading...."
+          }],
+          cardClick: false,
+          cardObj: {
+            cardName: "Loading....", cardId: "Loading...."
+          },
         };
-        this._onClick = this._onClick.bind(this);
-        this._onStart = this._onStart.bind(this);
-        this._onAnimationFinished = this._onAnimationFinished.bind(this);
+        this.onClick = this.onClick.bind(this);
     }
 
     componentDidMount() {
-        this.setState({
-            cardPosition: this.props.cardPosition,
-            cardInfo: this.props.cardInfo,
-            backCards: false,
-            runAnimation: false,
-            mainAnimation: "frontToBack"
-        });
+      getFilteredCardMap(this.props.listId , "none").then((response) => {
+        this.setState({cards: response, cardLoaded: true});
+      });
+    }
 
-        getTimeLineGraph(this.props.cardInfo.id)
-            .then((response) => {
-                this.setState({timeLineGraph: response});
-            });
+    onClick(position, source, cardObj){
+      this.setState({cardClick: true, cardObj: cardObj});
+      //Dispatch action for cardId
+      this.props.setCardId(cardObj.cardId);
     }
 
     render() {
 
-
-        ViroAnimations.registerAnimations({
-            backToFront:{
-                properties:{rotateY:"+=180.0",
-                    positionX: this.state.cardPosition[0],
-                    positionY: this.state.cardPosition[1],
-                    positionZ: this.state.cardPosition[2],
-                    opacity: 1.0},
-                easing:"EaseInEaseOut",
-                duration: 1000}
-        });
         return (
             <ViroNode
-                position={this.state.cardPosition}
-                animation={{name : this.state.mainAnimation, run : this.state.runAnimation, loop : false,
-                            onFinish:this._onAnimationFinished, onStart: this._onStart}}
+                position={[0, 0, 0]}
             >
-                <ViroFlexView style={styles.titleContainer} height={0.4} width={1.5}
-                              onClick={this._onClick} ignoreEventHandling={this.state.backCards}  >
+              {
+                (this.state.cardLoaded && !this.state.cardClick)? (
+                  this.state.cards.map((n, i) => {
+                    return (
+                      <ViroFlexView
+                        position={[0, (-0.5 * (i)), 0]}
+                        style={styles.titleContainer}
+                        height={0.4}
+                        width={1.75}
+                        key={n.cardId}
+                        onClick={(pos, src, cardObj = n) => this.onClick(pos, src, cardObj)}>
                         <ViroText
-                            style={styles.prodDescriptionText}
-                            text={this.state.cardInfo.name}
+                          style={styles.prodDescriptionText}
+                          text={n.cardName}
+                          key={n.cardId}
                         />
-                </ViroFlexView>
-
-                <ViroFlexView style={styles.titleContainer} height={2.5} width={3}
-                              rotation={[0,180,0]} onClick={this._onClick} ignoreEventHandling={!this.state.backCards}>
-                    <ViroImage
-                        style={styles.prodDescriptionText}
-                        source={{uri: this.state.timeLineGraph}}
-                    />
-                </ViroFlexView>
-
+                      </ViroFlexView>);
+                  })
+                ) : null
+              }
             </ViroNode>
         );
     }
-
-    _onStart() {
-        this.setState({
-            backCards: !this.state.backCards,
-        });
-    }
-    _onAnimationFinished() {
-        this.setState({
-            runAnimation: false
-        });
-    }
-
-    _onClick() {
-        this.setState({
-            mainAnimation: this.state.backCards ? "backToFront" : "frontToBack",
-            // if current state is to hide cards, then we want to show them
-            runAnimation: true
-        });
-    }
 }
-
-ViroAnimations.registerAnimations({
-    frontToBack:{
-        properties:{rotateY:"+=180.0",
-                    positionZ: 1,
-                    positionX: -2,
-                    positionY: 2,
-                    opacity: 1.0},
-        easing:"EaseInEaseOut",
-        duration: 1000},
-
-});
 
 var styles = StyleSheet.create({
     prodDescriptionText: {
@@ -128,11 +83,6 @@ var styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: "#ffffffdd",
     },
-    cardBack: {
-        flexDirection: 'column',
-        backgroundColor: "#ffffffdd",
-        display: 'none',
-    }
 });
 
 module.exports = ARTrelloCard;

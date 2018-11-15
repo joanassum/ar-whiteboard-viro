@@ -8,7 +8,6 @@ import {
 } from 'react-viro';
 
 import ARTrelloList from "./ARTrelloList.js";
-import {getBoardName, getListIds} from './backend/backendController';
 import {StyleSheet} from "react-native";
 
 class ARTrelloBoard extends Component {
@@ -17,53 +16,44 @@ class ARTrelloBoard extends Component {
     super(props);
 
     this.state = {
-      boardName: "Loading...",
-      listIds: [],
-      listLoaded: false
+      boardId: "",
+      boardClick: false,
     };
 
-    this.cascadeClick = this.cascadeClick.bind(this);
-    this.child = React.createRef();
+    this.onClick = this.onClick.bind(this);
   }
 
   componentDidMount() {
-    getBoardName().then((response) => {
-      this.setState({boardName: response._value});
-    });
 
-    getListIds().then((response) => {
-      this.setState({
-        listIds: response,
-        listLoaded: true,
-      });
-    });
   }
 
-  cascadeClick(){
-    this.child.current.refresh();
-  }
-
-  componentDidUpdate(){
-
+  onClick(){
+    this.setState({boardClick: true});
   }
 
   render() {
 
     const listWidth = 1.75;
 
-
     return (
 
       <ViroNode
-        position={[2.5, -0.5, 0]}
+        //[1.5, -1.5, -5]
+        position={this.props.disArr}
       >
-        <ViroFlexView style={{flexDirection: 'column', backgroundColor: this.props.filter.color}} height={0.4} width={listWidth}>
-          <ViroText
-            style={styles.prodDescriptionText}
-            text={this.state.boardName}
-          />
-        </ViroFlexView>
-        {this.state.listLoaded ? (<ARTrelloList ref={this.child} listIds={this.state.listIds} filter={this.props.filter.id} updateFilter={this.props.filter.clicked}/>) : null}
+        {
+          this.state.boardClick ? <ARTrelloList /> :
+            (
+              <ViroFlexView style={{flexDirection: 'column'}} height={0.4} width={listWidth}>
+              <ViroText
+                style={styles.prodDescriptionText}
+                text={this.props.boardName}
+                onClick={this.onClick}
+              />
+            </ViroFlexView>
+            )
+        }
+
       </ViroNode>
     );
   }

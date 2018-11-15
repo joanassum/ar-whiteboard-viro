@@ -41,8 +41,6 @@ class KaizenBoardEntry extends Component {
 
   componentDidMount() {
 
-    //getPerformanceGraph();
-
   }
 
   _onInitialized(state, reason) {
@@ -66,6 +64,36 @@ class KaizenBoardEntry extends Component {
            position={[0, 0, -5]} //rotation={[-45, 0, 0]}
         >
           <ARTrelloMenu />
+        </ViroNode>
+        <ViroNode
+          position={[-1.5,-4,-5]}
+        >
+          <ViroFlexView
+            position={[0, 0, 0]}
+            style={styles.titleContainer}
+            height={0.4}
+            width={1.75}
+          >
+            <ViroText
+              style={styles.prodDescriptionText}
+              text={this.props.cardId}
+            />
+          </ViroFlexView>
+        </ViroNode>
+        <ViroNode
+          position={[-5,0,-5]}
+        >
+          <ViroFlexView
+            position={[0, 0, 0]}
+            style={styles.titleContainer}
+            height={0.4}
+            width={1.75}
+          >
+            <ViroText
+              style={styles.prodDescriptionText}
+              text={this.props.cardId}
+            />
+          </ViroFlexView>
         </ViroNode>
         {/*</ViroARImageMarker>*/}
       </ViroARScene>

@@ -6,8 +6,8 @@ import {
   ViroText,
   ViroFlexView
 } from 'react-viro';
-import ARTrelloCard from "./ARTrelloCard.js";
-import {getFilteredList, getListName} from './backend/backendController';
+import MenuCardContainer from "./containers/MenuCardContainer";
+import {getFilteredListMap} from './backend/backendController';
 import {StyleSheet} from "react-native";
 
 class ARTrelloList extends Component {
@@ -16,79 +16,58 @@ class ARTrelloList extends Component {
     super(props);
 
     this.state = {
-      cardArray: [],
-      listIds: this.props.listIds,
-      listIndex: 0,
-      listFilterLoad: true
+      listLoaded: false,
+      lists: [{
+        listName: "Loading....", listId: "Loading...."
+      }],
+      listClick: false,
+      listObj: {
+        listName: "Loading....", listId: "Loading...."
+      },
     };
 
     this.clickList = this.clickList.bind(this);
-    this.refresh = this.refresh.bind(this);
   }
 
   componentDidMount() {
-    Promise.all([
-      getFilteredList(this.props.filter, this.props.listIds[this.state.listIndex]),
-      getListName(this.props.listIds[this.state.listIndex])
-    ]).then(([listResponse, listNameResponse]) => {
-      this.setState({listName: listNameResponse.name, cardArray: listResponse, listLoaded: true});
-    }).catch((err) => {
-      console.log(err);
+
+    getFilteredListMap("boardId" ,"none").then((response) => {
+      this.setState({lists: response, listLoaded: true});
     });
+
   }
 
-  clickList(position, source) {
-    let curIndex = this.state.listIndex + 1;
-    if(curIndex >= this.state.listIds.length){
-      curIndex = 0;
-    }
-
-    this.setState({listLoaded: false, listIndex: curIndex});
-
-
-    Promise.all([
-      getFilteredList(this.props.filter, this.props.listIds[curIndex]),
-      getListName(this.props.listIds[curIndex])
-    ]).then(([listResponse, listNameResponse]) => {
-      this.setState({listName: listNameResponse.name, cardArray: listResponse, listLoaded: true});
-    }).catch((err) => {
-      console.log(err);
-    });
-  }
-
-  refresh(){
-    Promise.all([
-      getFilteredList(this.props.filter, this.props.listIds[this.state.listIndex]),
-      getListName(this.props.listIds[this.state.listIndex])
-    ]).then(([listResponse, listNameResponse]) => {
-      this.setState({listName: listNameResponse.name, cardArray: listResponse, listLoaded: true});
-    }).catch((err) => {
-      console.log(err);
-    });
-  }
-
-  componentDidUpdate(){
-
+  clickList(position, source, listObj) {
+    this.setState({listClick: true, listObj: listObj});
   }
 
   render() {
-
     return (
       <ViroNode
-        position={[0, -0.5, 0]}
+        position={[0, 0, 0]}
       >
-          <ViroFlexView style={styles.titleContainer} height={0.4} width={1.75} onClick={this.clickList}>
-            <ViroText
-              style={styles.prodDescriptionText}
-              text={this.state.listLoaded ? this.state.listName : "Loading..."}
-            />
-          </ViroFlexView>
         {
-          this.state.listLoaded ? (
-            this.state.cardArray.map((n, i) => {
-              return <ARTrelloCard cardPosition={[0, (-0.5 * (i + 1)), 0]} cardInfo={this.state.cardArray[i]}/>;
+          (this.state.listLoaded && !this.state.listClick)? (
+            this.state.lists.map((n, i) => {
+              return (
+                <ViroFlexView
+                  position={[0, (-0.5 * (i)), 0]}
+                  style={styles.titleContainer}
+                  height={0.4}
+                  width={1.75}
+                  key={n.listId}
+                  onClick={(pos, src, listObj = n) => this.clickList(pos, src, listObj)}>
+                  <ViroText
+                    style={styles.prodDescriptionText}
+                    text={n.listName}
+                    key={n.listId}
+                  />
+                </ViroFlexView>);
             })
           ) : null
+        }
+        {
+          this.state.listClick ? <MenuCardContainer listId={this.state.listObj.listId} /> : null
         }
       </ViroNode>
     );

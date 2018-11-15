@@ -18,7 +18,7 @@ const sharedProps = {
 };
 
 // Sets the default scene you want for AR and VR
-import KaizenBoardEntry from "./KaizenBoardEntry";
+import KaizenContainer from "./containers/KaizenContainer";
 
 export default class ViroEntry extends Component {
 
@@ -31,7 +31,7 @@ export default class ViroEntry extends Component {
 
   render() {
     return (<ViroARSceneNavigator {...this.state.sharedProps}
-                                  initialScene={{scene: KaizenBoardEntry}} />);
+                                  initialScene={{scene: KaizenContainer}} />);
   }
 }
 
