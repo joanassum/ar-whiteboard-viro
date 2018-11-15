@@ -24,18 +24,7 @@ class KaizenBoardEntry extends Component {
     this.state = {
       text: "Initializing AR...!"
     };
-    this.setMarker();
     this._onInitialized = this._onInitialized.bind(this);
-  }
-
-  setMarker() {
-    ViroARTrackingTargets.createTargets({
-      "poster": {
-        source: require('./res/trello.png'),
-        orientation: "Up",
-        physicalWidth: 0.3 // real world width in meters
-      }
-    });
   }
 
   componentDidMount() {
@@ -55,43 +44,50 @@ class KaizenBoardEntry extends Component {
     }
   }
 
+_onAnchorFound() {
+    this.setState({
+        pauseUpdates: true,
+    })
+}
+
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized}>
-        {/*<ViroARImageMarker target={"poster"}>*/}
-        <ViroNode
+        <ViroARImageMarker target={"menu marker"} onAnchorFound={this._onAnchorFound} pauseUpdates={this.state.pauseUpdates}>
+          <ViroNode
            position={[0, 0, -5]} //rotation={[-45, 0, 0]}
-        >
-          <ARTrelloMenu />
-        </ViroNode>
-        {/*</ViroARImageMarker>*/}
+          >
+            <ARTrelloMenu />
+          </ViroNode>
+        </ViroARImageMarker>
       </ViroARScene>
     );
   }
 }
 
-// ViroARTrackingTargets.createTargets({
-//     poster : {
-//         source : require('./res/trello.png'),
-//         orientation : "Up",
-//         physicalWidth : 0.3 // real world width in meters
-//     }
-// });
 
-module.exports = KaizenBoardEntry;
+ViroARTrackingTargets.createTargets({
+    "menu marker": {
+        source: require('./res/redsquare.png'),
+        orientation: "Up",
+        physicalWidth: 0.2 // real world width in meters
+    }
+});
 
 var styles = StyleSheet.create({
-  prodDescriptionText: {
-    fontFamily: 'sans-serif-light',
-    fontSize: 20,
-    color: '#000000',
-    textAlignVertical: 'center',
-    textAlign: 'center',
-    flex: 1,
-  },
-  titleContainer: {
-    flexDirection: 'column',
-    backgroundColor: "#ffff00",
-  }
+    prodDescriptionText: {
+        fontFamily: 'sans-serif-light',
+        fontSize: 20,
+        color: '#000000',
+        textAlignVertical: 'center',
+        textAlign: 'center',
+        flex: 1,
+    },
+    titleContainer: {
+        flexDirection: 'column',
+        backgroundColor: "#ffff00",
+    }
 });
+
+module.exports = KaizenBoardEntry;
 

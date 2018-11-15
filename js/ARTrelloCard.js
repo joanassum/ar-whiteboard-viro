@@ -8,7 +8,7 @@ import {
     ViroText,
     ViroFlexView,
     ViroAnimations,
-    ViroImage
+    ViroImage, ViroARTrackingTargets, ViroARImageMarker
 } from 'react-viro';
 import {getPerformanceGraph, getTimeLineGraph} from "./backend/backendController";
 
@@ -44,6 +44,13 @@ class ARTrelloCard extends Component {
             });
     }
 
+    _onAnchorFound() {
+        this.setState({
+            pauseUpdates: true,
+        })
+    }
+
+
     render() {
 
         ViroAnimations.registerAnimations({
@@ -62,6 +69,7 @@ class ARTrelloCard extends Component {
                 animation={{name : this.state.mainAnimation, run : this.state.runAnimation, loop : false,
                             onFinish:this._onAnimationFinished, onStart: this._onStart}}
             >
+                {/*<ViroARImageMarker target={"card detail marker"} onAnchorFound={this._onAnchorFound} pauseUpdates={this.state.pauseUpdates*/}
                 <ViroFlexView style={styles.titleContainer} height={0.4} width={1.5}
                               onClick={this._onClick} ignoreEventHandling={this.state.backCards}  >
                         <ViroText
@@ -69,15 +77,16 @@ class ARTrelloCard extends Component {
                             text={this.state.cardInfo.name}
                         />
                 </ViroFlexView>
-
-                <ViroFlexView style={styles.titleContainer} height={2.5} width={3}
+            {/*</ViroArImageMarker>*/}
+                {/*<ViroARImageMarker target={"timeline marker"} onAnchorFound={this._onAnchorFound} pauseUpdates={this.state.pauseUpdates}>*/}
+                    <ViroFlexView style={styles.titleContainer} height={2.5} width={3}
                               rotation={[0,180,0]} onClick={this._onClick} ignoreEventHandling={!this.state.backCards}>
-                    <ViroImage
-                        style={styles.prodDescriptionText}
-                        source={{uri: this.state.timeLineGraph}}
-                    />
-                </ViroFlexView>
-
+                        <ViroImage
+                            style={styles.prodDescriptionText}
+                            source={{uri: this.state.timeLineGraph}}
+                        />
+                    </ViroFlexView>
+                {/*</ViroARImageMarker>*/}
             </ViroNode>
         );
     }
@@ -112,6 +121,22 @@ ViroAnimations.registerAnimations({
         easing:"EaseInEaseOut",
         duration: 1000},
 
+});
+
+ViroARTrackingTargets.createTargets({
+    "timeline marker": {
+        source: require('./res/bluesquare.jpg'),
+        orientation: "Up",
+        physicalWidth: 0.2 // real world width in meters
+    }
+});
+
+ViroARTrackingTargets.createTargets({
+    "card detail marker": {
+        source: require('./res/greensquare.jpg'),
+        orientation: "Up",
+        physicalWidth: 0.2 // real world width in meters
+    }
 });
 
 var styles = StyleSheet.create({
