@@ -46,7 +46,7 @@ class ARTrelloCardTimeline extends Component {
         }));
     }
 
-    createGraph = (height, width) -> {
+    createGraph = (height, width) => {
         var graph = [];
         var actions = this.state.cardHistory;
         var columns = this.state.columns;
