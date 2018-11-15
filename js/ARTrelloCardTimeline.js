@@ -8,80 +8,109 @@ import {
     ViroText,
     ViroFlexView,
     ViroAnimations,
-    ViroImage
+    ViroImage,
+    ViroPolygon
 } from 'react-viro';
-import {getCardHistory,getBoard} from "./backend/backendController";
+import {getCardHistory, getBoardById} from "./backend/backendController";
 
 class ARTrelloCardTimeline extends Component {
 
     constructor() {
         super();
         this.state = {
+            historyLoaded : false,
+            columnsLoaded : false,
             timelinePosition: [-5, 0, 0],
             cardInfo: "",
             columns: [],
             cardHistory: []
         };
-        this._onClick = this._onClick.bind(this);
-        this._onStart = this._onStart.bind(this);
-        this._onAnimationFinished = this._onAnimationFinished.bind(this);
     }
 
     componentDidMount() {
         this.setState({
             timelinePosition: this.props.timelinePosition,
-            cardId: this.props.cardId,
+            cardId: "rfkPc9DA",//this.props.cardId,
             columns: [],
             cardHistory: []
         });
+        getCardHistory("rfkPc9DA")
+                .then((response) => {
+                    this.setState({
+                        cardHistory: response,
+                        historyLoaded: true
+                    });
 
-        getCardHistory(this.props.cardId)
-            .then((response) => {
-                this.setState({cardHistory : response});
-        });
-
-        getBoard(this.props)
-            .then((response => {
-                this.setState({columns : response.map(x => x["name"]).reverse()})
-        }));
+                });
+        getBoardById("1WQBI6bD")//this.props.boardId")
+                .then((response => {
+                    this.setState({
+                        columns: response.map(x => x["name"]).reverse(),
+                        columnsLoaded: true
+                    })
+                }));
     }
 
-    createGraph = (height, width) => {
+    createGraph = (h, w) => {
+        if (!this.state.historyLoaded || !this.state.columnsLoaded) {
+            return (<ViroFlexView style={styles.titleContainer} height={0.4} width={1.5}>
+                <ViroText
+                    text="loading graph"
+                />
+            </ViroFlexView>)
+        }
         var graph = [];
         var actions = this.state.cardHistory;
+        console.log(actions);
         var columns = this.state.columns;
-        var subHeight = height/columns.length;
+        console.log(columns);
+        var subHeight = h / columns.length;
         var widths = [];
         var firstDate = Date.parse(actions[0].date);
-        var finalDate = Date.parse(actions[actions - 1].date);
-        var datePadding = finalDate + 86400000; // one day padding time for graph niceness to indicate final column
+        var finalDate = Date.parse(actions[actions.length - 1].date);
+        var datePadding = finalDate + 100000; // one day padding time for graph niceness to indicate final column
         var totalTime = datePadding - firstDate;
 
-        for (var i = 0; i < actions.length; i++){
+
+        for (var i = 0; i < actions.length; i++) {
             var actionDate = Date.parse(actions[i].date);
             var nextDate;
-            if (i != actions.length - 1){
-                nextDate = Date.parse(actions[i+1].date);
+            if (i != actions.length - 1) {
+                nextDate = Date.parse(actions[i + 1].date);
             } else {
                 nextDate = datePadding;
             }
-            var timeFraction = (nextDate - actionDate)/totalTime;
-            widths.push(timeFraction * width);
+            var timeFraction = (nextDate - actionDate) / totalTime;
+            widths.push(timeFraction * w /2 + w /(actions.length* 2)); // to give width to very small values
         }
 
-
-        for (var i = 0; i < actions.length; i++){
-            for (var j = 0; j < columns.length; j++){
-                if (j == columns.indexOf(actions[i].name)) { // if column name is correct, draw bar
-                    graph.push(<ViroFlexView
-                        style={styles.barContainer} height={subHeight} width={widths[j]}>
-                    </ViroFlexView>);
+        for (var j = 0; j < columns.length; j++) {
+            var row = [];
+            for (var i = 0; i < actions.length; i++) {
+                console.log(i,j,actions[i].column,columns[j],actions[i].date);
+                if (j == columns.indexOf(actions[i].column)) { // if column name is correct, draw bar
+                    console.log("bar found");
+                    row.push(
+                        <ViroFlexView
+                            style={styles.barContainer}
+                            height = {subHeight}
+                            width = {widths[j]} />
+                    );
                 } else { // else empty container
-                    graph.push(<ViroFlexView
-                        style={styles.emptyContainer} height={subHeight} width={widths[j]}>
-                    </ViroFlexView>);
+                    row.push(
+                        <ViroFlexView
+                            style={styles.emptyContainer}
+                            height = {subHeight}
+                        width = {widths[j]}/>
+                    );
                 }
             }
+            graph.push(<ViroFlexView
+                style={styles.rowContainer}
+                height = {subHeight}
+                width = {w}>
+                {row}
+            </ViroFlexView>)
         }
 
         return graph
@@ -92,48 +121,36 @@ class ARTrelloCardTimeline extends Component {
             <ViroNode
                 position={this.state.cardPosition}
             >
-                {this.createGraph(5,20)}
+                <ViroFlexView
+                    style = {styles.graphContainer} height={4} width={8}>
+                    {this.createGraph(4, 8)}
+                </ViroFlexView>
+
             </ViroNode>
         );
-    }
-
-    _onStart() {
-
-    }
-    _onAnimationFinished() {
-        this.setState({
-            runAnimation: false
-        });
-    }
-
-    _onClick() {
-
     }
 }
 
 
 var styles = StyleSheet.create({
-    prodDescriptionText: {
-        fontFamily: 'sans-serif-light',
-        fontSize: 20,
-        color: '#222222',
-        textAlignVertical: 'center',
-        textAlign: 'left',
-        flex: 1,
+
+    rowContainer: {
+        flex : 1,
+        flexDirection: 'row',
+        alignContent: 'flex-start',
+        backgroundColor:"#440000"
+    },
+    graphContainer: {
+        flex : 1,
+        flexDirection: 'column',
+        alignContent: 'flex-start',
+        backgroundColor:"#444444"
     },
     barContainer: {
-        flexDirection: 'column',
-        backgroundColor: "#ff00ffdd",
+        backgroundColor: "#0000ff",
     },
-    emptyContainer:{
-        flexDirection: 'column',
-        backgroundColor: "#ffffffdd",
-        opacity: 0,
-    },
-    cardBack: {
-        flexDirection: 'column',
-        backgroundColor: "#ffffffdd",
-        display: 'none',
+    emptyContainer: {
+        backgroundColor: "#ffffdd"
     }
 });
 

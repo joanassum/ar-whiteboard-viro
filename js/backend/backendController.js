@@ -24,6 +24,14 @@ export function getBoard(){
         });
 }
 
+export function getBoardById(boardId){
+    return fetch(`${url}/trello/getBoard/${boardId}`)
+        .then((response) => response.json())
+        .catch((error) => {
+            console.error(error);
+        });
+}
+
 export function getListIds() {
   return fetch(`${url}/trello/getListIds/SkS6g4qa`)
     .then((response) => response.json())

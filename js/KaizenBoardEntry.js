@@ -71,12 +71,7 @@ class KaizenBoardEntry extends Component {
         <ViroNode
           position={[-1.5,-4,-5]}
         >
-          <ViroFlexView position={[0, 0, 0]} style={styles.titleContainer} height={0.4} width={1.5}>
-            <ViroText
-              style={styles.prodDescriptionText}
-              text={"Display Here"}
-            />
-          </ViroFlexView>
+          <ARTrelloCardTimeline></ARTrelloCardTimeline>
         </ViroNode>
         {/*</ViroARImageMarker>*/}
       </ViroARScene>
