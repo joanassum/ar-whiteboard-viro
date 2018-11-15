@@ -11,6 +11,26 @@ import {
 } from 'react-viro';
 import {getCardMembers, getCheckLists, getTimeLineGraph} from "./backend/backendController";
 
+function Checkbox(props) {
+  const state = props.state;
+  if (state == "complete") {
+    return (
+      <ViroImage
+        style={styles.prodDescriptionText}
+        source={require("./res/complete.jpg")}
+        scale= {[0.5, 0.5, 0.5]}
+      />
+    );
+  }
+  return (
+    <ViroImage
+      style={styles.prodDescriptionText}
+      source={require("./res/incomplete.jpg")}
+      scale= {[0.5, 0.5, 0.5]}
+    />
+  );
+}
+
 class ARTrelloCardDetail extends Component {
 
     constructor() {
@@ -49,17 +69,17 @@ class ARTrelloCardDetail extends Component {
         let checkLists = (
             this.state.checkLists.map ((n, i) => {
                 return(
-                    <ViroFlexView style={{flexDirection: 'column'}} height={1} width={3}>
-                        <ViroFlexView style={{flexDirection: 'column'}} height={1} width={3}>
+                    <ViroFlexView style={{flexDirection: 'column'}} height={4} width={3}>
+                        <ViroFlexView style={{flexDirection: 'column'}} height={0.7} width={3}>
                             <ViroText style={styles.prodDescriptionText} text={n.name + ": "}/>
                         </ViroFlexView>
                         {this.state.checkLists[i].checkItems.map((m, j) => {
                             return (
-                                <ViroFlexView style={{flexDirection: 'column'}} height={1} width={3}>
-                                     <ViroText style={styles.prodDescriptionText} text={
-                                         m.name + "(" +
-                                         m.state + ")"
-                                     }/>
+                                <ViroFlexView style={{flexDirection: 'row'}} height={0.7} width={3}>
+                                    <Checkbox state={m.state} />
+                                    <ViroText style={styles.prodDescriptionText} text={
+                                        m.name
+                                    }/>
                                 </ViroFlexView>
                             );
                         })}
@@ -79,7 +99,7 @@ class ARTrelloCardDetail extends Component {
                         />
                         </ViroFlexView>
                     <ViroFlexView style={{flexDirection: 'column'}} height={1} width={3}>
-                        <ViroFlexView style={{flexDirection: 'row'}} height={1} width={3}>
+                        <ViroFlexView style={{flexDirection: 'row'}} height={0.7} width={3}>
                             <ViroText
                                 style={styles.prodDescriptionText}
                                 text="Members: "
@@ -120,11 +140,11 @@ var styles = StyleSheet.create({
     },
     titleContainer: {
         flexDirection: 'row',
-        backgroundColor: "#ffffffdd",
+        backgroundColor: "#ffffdd",
     },
     cardBack: {
         flexDirection: 'column',
-        backgroundColor: "#ffffffdd",
+        backgroundColor: "#ffffdd",
         display: 'none',
     }
 });
