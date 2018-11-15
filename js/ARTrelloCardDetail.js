@@ -7,8 +7,9 @@ import {
     ViroNode,
     ViroText,
     ViroFlexView,
+    ViroImage,
 } from 'react-viro';
-import {getCardMembers, getCheckLists} from "./backend/backendController";
+import {getCardMembers, getCheckLists, getTimeLineGraph} from "./backend/backendController";
 
 class ARTrelloCardDetail extends Component {
 
@@ -35,6 +36,11 @@ class ARTrelloCardDetail extends Component {
             this.setState({
                 checkLists: response
             });
+        });
+
+        getTimeLineGraph(this.props.cardId).then((response) => {
+          console.log("fetched: " + response);
+            this.setState({timeLineGraph: response});
         });
     }
 
@@ -65,7 +71,13 @@ class ARTrelloCardDetail extends Component {
         console.log(checkLists);
         return (
             <ViroNode position={this.state.cardPosition}>
-                <ViroFlexView style={styles.titleContainer} height={5.5} width={3}>
+                <ViroFlexView style={styles.titleContainer} height={5.5} width={6}>
+                    <ViroFlexView style={{flexDirection: 'column'}} height={12} width={3}>
+                        <ViroImage
+                            style={styles.prodDescriptionText}
+                            source={{uri: this.state.timeLineGraph}}
+                        />
+                        </ViroFlexView>
                     <ViroFlexView style={{flexDirection: 'column'}} height={1} width={3}>
                         <ViroFlexView style={{flexDirection: 'row'}} height={1} width={3}>
                             <ViroText
