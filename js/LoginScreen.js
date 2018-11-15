@@ -34,7 +34,6 @@ class LoginScreen extends Component {
 
   onPress() {
    // console.log("Enter the APP: " + this.state.board_pin);
-    console.log("HMMMM");
     Actions.viro();
   }
 

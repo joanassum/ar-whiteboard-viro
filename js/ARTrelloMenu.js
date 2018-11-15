@@ -54,7 +54,6 @@ class ARTrelloMenu extends Component {
 
     let board;
     const displacement = -1.5;
-    console.log(this.props.cardId);
     let menuTitleOption = (this.props.cardId !== "None" && this.state.displayBoard) ? "Chosen " : "Search ";
 
     board = (<ARTrelloBoard
