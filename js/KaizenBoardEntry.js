@@ -58,8 +58,13 @@ class KaizenBoardEntry extends Component {
   }
 
   render() {
+
+    console.log(this.props.viewCard);
+
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized}>
+
+
         {/*<ViroARImageMarker target={"poster"}>*/}
         <ViroNode
            position={[0, 0, -5]} //rotation={[-45, 0, 0]}
@@ -75,7 +80,7 @@ class KaizenBoardEntry extends Component {
 
         {/*TODO Card Detail View*/}
         <ViroNode
-          position={[-1.5,-4,-5]}
+          position={[-5, 0,-5]}
         >
           <ViroFlexView
             position={[0, 0, 0]}
@@ -92,29 +97,9 @@ class KaizenBoardEntry extends Component {
 
         {/*TODO Card Timeline*/}
         <ViroNode
-          position={[-5,0,-5]}
-        >
-          <ViroFlexView
-            position={[0, 0, 0]}
-            style={styles.titleContainer}
-            height={0.4}
-            width={1.75}
-          >
-            <ViroText
-              style={styles.prodDescriptionText}
-              text={this.props.cardId}
-            />
-          </ViroFlexView>
-        </ViroNode>
-        <ViroNode
           position={[-1.5,-4,-5]}
         >
-          <ViroFlexView position={[0, 0, 0]} style={styles.titleContainer} height={0.4} width={1.5}>
-            <ViroText
-              style={styles.prodDescriptionText}
-              text={"Display Here"}
-            />
-          </ViroFlexView>
+          {this.props.viewCard ? <ARTrelloCardTimeline timelinePosition={[0, 0, 0]} cardId={this.props.cardId}/> : null}
         </ViroNode>
         {/*</ViroARImageMarker>*/}
       </ViroARScene>

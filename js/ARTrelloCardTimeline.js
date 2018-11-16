@@ -10,6 +10,7 @@ import {
     ViroAnimations,
     ViroImage
 } from 'react-viro';
+
 import {getCardHistory,getBoard} from "./backend/backendController";
 
 class ARTrelloCardTimeline extends Component {
@@ -20,7 +21,9 @@ class ARTrelloCardTimeline extends Component {
             timelinePosition: [-5, 0, 0],
             cardInfo: "",
             columns: [],
-            cardHistory: []
+            cardHistory: [],
+            isBoardLoaded: false,
+            isCardHistory: false,
         };
         this._onClick = this._onClick.bind(this);
         this._onStart = this._onStart.bind(this);
@@ -37,16 +40,18 @@ class ARTrelloCardTimeline extends Component {
 
         getCardHistory(this.props.cardId)
             .then((response) => {
-                this.setState({cardHistory : response});
+                this.setState({cardHistory : response, isCardHistory: true});
         });
 
         getBoard(this.props)
             .then((response => {
-                this.setState({columns : response.map(x => x["name"]).reverse()})
+                this.setState({columns : response.map(x => x["name"]).reverse(), isBoardLoaded: true})
         }));
     }
 
     createGraph = (height, width) => {
+
+
         var graph = [];
         var actions = this.state.cardHistory;
         var columns = this.state.columns;
@@ -90,9 +95,9 @@ class ARTrelloCardTimeline extends Component {
     render() {
         return (
             <ViroNode
-                position={this.state.cardPosition}
+                position={this.props.timelinePosition}
             >
-                {this.createGraph(5,20)}
+                {(this.state.isBoardLoaded && this.state.isCardHistory) ? this.createGraph(5,20) : null}
             </ViroNode>
         );
     }

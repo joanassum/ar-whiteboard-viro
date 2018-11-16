@@ -6,6 +6,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     menuTitle: state.mainReducer.menuTitle,
     cardId: state.mainReducer.cardId,
+    viewCard: state.mainReducer.viewCard,
   };
 };
 
