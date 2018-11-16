@@ -81,39 +81,39 @@ class ARTrelloCardTimeline extends Component {
                 nextDate = datePadding;
             }
             var timeFraction = (nextDate - actionDate) / totalTime;
-            widths.push(timeFraction * w /2 + w /(actions.length* 2)); // to give width to very small values
+            widths.push(timeFraction * (w-2) + 2/actions.length); // to give width to very small values
         }
 
         for (var j = 0; j < columns.length; j++) {
             var row = [];
             for (var i = 0; i < actions.length; i++) {
-                console.log(i,j,actions[i].column,columns[j],actions[i].date);
+                console.log()
                 if (j == columns.indexOf(actions[i].column)) { // if column name is correct, draw bar
-                    console.log("bar found");
                     row.push(
                         <ViroFlexView
                             style={styles.barContainer}
                             height = {subHeight}
-                            width = {widths[j]} />
+                            width = {widths[i]} />
                     );
                 } else { // else empty container
                     row.push(
                         <ViroFlexView
                             style={styles.emptyContainer}
                             height = {subHeight}
-                        width = {widths[j]}/>
+                        width = {widths[i]}/>
                     );
                 }
             }
             graph.push(<ViroFlexView
                 style={styles.rowContainer}
                 height = {subHeight}
-                width = {w}>
-                {row}
-            </ViroFlexView>)
+                width = {w}>{row}</ViroFlexView>)
         }
 
-        return graph
+        return <ViroFlexView
+            style = {styles.graphContainer} height={h} width={w}>
+            {graph}
+        </ViroFlexView>
     };
 
     render() {
@@ -121,10 +121,7 @@ class ARTrelloCardTimeline extends Component {
             <ViroNode
                 position={this.state.cardPosition}
             >
-                <ViroFlexView
-                    style = {styles.graphContainer} height={4} width={8}>
-                    {this.createGraph(4, 8)}
-                </ViroFlexView>
+                {this.createGraph(4, 8)}
 
             </ViroNode>
         );
@@ -133,24 +130,21 @@ class ARTrelloCardTimeline extends Component {
 
 
 var styles = StyleSheet.create({
-
     rowContainer: {
-        flex : 1,
         flexDirection: 'row',
-        alignContent: 'flex-start',
-        backgroundColor:"#440000"
+        alignItems: 'flex-start'
     },
     graphContainer: {
-        flex : 1,
         flexDirection: 'column',
-        alignContent: 'flex-start',
-        backgroundColor:"#444444"
+        alignItems: 'flex-start',
+        flexWrap: 'wrap',
+        backgroundColor:"#ffffff00"
     },
     barContainer: {
-        backgroundColor: "#0000ff",
+        backgroundColor: "#990022",
     },
     emptyContainer: {
-        backgroundColor: "#ffffdd"
+        backgroundColor: "#00000000"
     }
 });
 
