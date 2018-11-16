@@ -69,7 +69,7 @@ class ARTrelloCard extends Component {
                 animation={{name : this.state.mainAnimation, run : this.state.runAnimation, loop : false,
                             onFinish:this._onAnimationFinished, onStart: this._onStart}}
             >
-                {/*<ViroARImageMarker target={"card detail marker"} onAnchorFound={this._onAnchorFound} pauseUpdates={this.state.pauseUpdates*/}
+                {/*<ViroARImageMarker target={"carddetailmarker"} onAnchorFound={this._onAnchorFound} pauseUpdates={this.state.pauseUpdates*/}
                 <ViroFlexView style={styles.titleContainer} height={0.4} width={1.5}
                               onClick={this._onClick} ignoreEventHandling={this.state.backCards}  >
                         <ViroText
@@ -78,7 +78,7 @@ class ARTrelloCard extends Component {
                         />
                 </ViroFlexView>
             {/*</ViroArImageMarker>*/}
-                {/*<ViroARImageMarker target={"timeline marker"} onAnchorFound={this._onAnchorFound} pauseUpdates={this.state.pauseUpdates}>*/}
+                {/*<ViroARImageMarker target={"timelinemarker"} onAnchorFound={this._onAnchorFound} pauseUpdates={this.state.pauseUpdates}>*/}
                     <ViroFlexView style={styles.titleContainer} height={2.5} width={3}
                               rotation={[0,180,0]} onClick={this._onClick} ignoreEventHandling={!this.state.backCards}>
                         <ViroImage
@@ -124,7 +124,7 @@ ViroAnimations.registerAnimations({
 });
 
 ViroARTrackingTargets.createTargets({
-    "timeline marker": {
+    timelinemarker: {
         source: require('./res/bluesquare.jpg'),
         orientation: "Up",
         physicalWidth: 0.2 // real world width in meters
@@ -132,7 +132,7 @@ ViroARTrackingTargets.createTargets({
 });
 
 ViroARTrackingTargets.createTargets({
-    "card detail marker": {
+    carddetailmarker: {
         source: require('./res/greensquare.png'),
         orientation: "Up",
         physicalWidth: 0.2 // real world width in meters

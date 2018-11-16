@@ -47,7 +47,7 @@ class KaizenBoardEntry extends Component {
 
   _setMarker(){
         ViroARTrackingTargets.createTargets({
-            "menu marker": {
+            menumarker: {
                 source: require('./res/redsquare.png'),
                 orientation: "Up",
                 physicalWidth: 0.2 // real world width in meters
@@ -64,7 +64,7 @@ _onAnchorFound() {
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized}>
-        <ViroARImageMarker target={"menu marker"} onAnchorFound={this._onAnchorFound} pauseUpdates={this.state.pauseUpdates}>
+        <ViroARImageMarker target={"menumarker"} onAnchorFound={this._onAnchorFound} pauseUpdates={this.state.pauseUpdates}>
           <ViroNode
            position={[0, 0, -5]} //rotation={[-45, 0, 0]}
           >
