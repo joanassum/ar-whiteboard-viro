@@ -2,6 +2,7 @@
 
 import React, {Component} from 'react';
 import ARTrelloMenu from "./ARTrelloMenu.js";
+import ARTrelloCardTimeline from "./ARTrelloCardTimeline.js";
 import {getPerformanceGraph} from './backend/backendController';
 
 import {
@@ -105,6 +106,16 @@ class KaizenBoardEntry extends Component {
             />
           </ViroFlexView>
         </ViroNode>
+        <ViroNode
+          position={[-1.5,-4,-5]}
+        >
+          <ViroFlexView position={[0, 0, 0]} style={styles.titleContainer} height={0.4} width={1.5}>
+            <ViroText
+              style={styles.prodDescriptionText}
+              text={"Display Here"}
+            />
+          </ViroFlexView>
+        </ViroNode>
         {/*</ViroARImageMarker>*/}
       </ViroARScene>
     );
@@ -125,14 +136,14 @@ var styles = StyleSheet.create({
   prodDescriptionText: {
     fontFamily: 'sans-serif-light',
     fontSize: 20,
-    color: '#000000',
+    color: '#222222',
     textAlignVertical: 'center',
-    textAlign: 'center',
+    textAlign: 'left',
     flex: 1,
   },
   titleContainer: {
     flexDirection: 'column',
-    backgroundColor: "#ffff00",
-  }
+    backgroundColor: "#ffffdd",
+  },
 });
 
