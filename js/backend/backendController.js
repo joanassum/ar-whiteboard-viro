@@ -21,6 +21,22 @@ export function getBoardName() {
     });
 }
 
+export function getBoard(){
+    return fetch(`${url}/trello/getBoard/SkS6g4qa`)
+        .then((response) => response.json())
+        .catch((error) => {
+            console.error(error);
+        });
+}
+
+export function getBoardById(boardId){
+    return fetch(`${url}/trello/getBoard/${boardId}`)
+        .then((response) => response.json())
+        .catch((error) => {
+            console.error(error);
+        });
+}
+
 export function getListIds() {
   return fetch(`${url}/trello/getListIds/${boardId}`)
     .then((response) => response.json())
@@ -76,6 +92,14 @@ export function getFilteredCardMap(listId, labelId) {
 
 
 
+
+export function getCardHistory(cardId){
+    return fetch(`${url}/trello/getCardHistory/${cardId}`)
+        .then((response) => response.json())
+        .catch((error) => {
+            console.error(error);
+        });
+}
 
 export function getPerformanceGraph(boardId){
     return fetch(`${url}/trello/getPerformanceGraph/${boardId}`)
