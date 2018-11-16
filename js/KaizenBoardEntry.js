@@ -24,6 +24,7 @@ class KaizenBoardEntry extends Component {
     this.state = {
       text: "Initializing AR...!"
     };
+    this._setMarker();
     this._onInitialized = this._onInitialized.bind(this);
   }
 
@@ -42,6 +43,16 @@ class KaizenBoardEntry extends Component {
       });
       // Handle loss of tracking
     }
+  }
+
+  _setMarker(){
+        ViroARTrackingTargets.createTargets({
+            "menu marker": {
+                source: require('./res/redsquare.png'),
+                orientation: "Up",
+                physicalWidth: 0.2 // real world width in meters
+            }
+        });
   }
 
 _onAnchorFound() {
@@ -64,15 +75,6 @@ _onAnchorFound() {
     );
   }
 }
-
-
-ViroARTrackingTargets.createTargets({
-    "menu marker": {
-        source: require('./res/redsquare.png'),
-        orientation: "Up",
-        physicalWidth: 0.2 // real world width in meters
-    }
-});
 
 var styles = StyleSheet.create({
     prodDescriptionText: {

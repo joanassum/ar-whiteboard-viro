@@ -133,7 +133,7 @@ ViroARTrackingTargets.createTargets({
 
 ViroARTrackingTargets.createTargets({
     "card detail marker": {
-        source: require('./res/greensquare.jpg'),
+        source: require('./res/greensquare.png'),
         orientation: "Up",
         physicalWidth: 0.2 // real world width in meters
     }
