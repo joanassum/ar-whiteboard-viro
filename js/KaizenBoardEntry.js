@@ -69,28 +69,11 @@ class KaizenBoardEntry extends Component {
             cardId={this.props.cardId}
             setMenuViewName={(title) => this.props.setMenuViewName(title)}
             setCardId={(cardId) => this.props.setCardId(cardId)}
+            unsetCardId={() => this.props.unsetCardId()}
           />
         </ViroNode>
 
-
-        {/*TODO Card Detail View*/}
-        <ViroNode
-          position={[-1.5,-4,-5]}
-        >
-          <ViroFlexView
-            position={[0, 0, 0]}
-            style={styles.titleContainer}
-            height={0.4}
-            width={1.75}
-          >
-            <ViroText
-              style={styles.prodDescriptionText}
-              text={this.props.cardId}
-            />
-          </ViroFlexView>
-        </ViroNode>
-
-        {/*TODO Card Timeline*/}
+        {/*TODO Card Detail*/}
         <ViroNode
           position={[-5,0,-5]}
         >
@@ -109,7 +92,7 @@ class KaizenBoardEntry extends Component {
         <ViroNode
           position={[-1.5,-4,-5]}
         >
-          <ARTrelloCardTimeline/>
+          {this.props.cardChosen ? <ARTrelloCardTimeline timelinePosition={[0,0,0]} cardId={this.props.cardId} boardId={this.props.boardId}/> : null}
         </ViroNode>
         {/*</ViroARImageMarker>*/}
       </ViroARScene>

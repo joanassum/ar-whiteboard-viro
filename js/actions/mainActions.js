@@ -19,6 +19,12 @@ export function setCardId(cardId){
   };
 }
 
+export function unsetCardId(){
+  return {
+    type: "UNSET_CARD_ID",
+  };
+}
+
 export function setMenuViewName(menuTitle){
   return {
     type: "SET_MENU_TITLE",

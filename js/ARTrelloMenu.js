@@ -45,7 +45,7 @@ class ARTrelloMenu extends Component {
       this.props.setMenuViewName("Board");
     }
     if(!tempBool){
-      this.props.setCardId("None");
+      this.props.unsetCardId();
     }
   }
 

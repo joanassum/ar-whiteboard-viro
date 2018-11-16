@@ -30,11 +30,11 @@ class ARTrelloCardTimeline extends Component {
     componentDidMount() {
         this.setState({
             timelinePosition: this.props.timelinePosition,
-            cardId: "rfkPc9DA",//this.props.cardId,
+            cardId: this.props.cardId,
             columns: [],
             cardHistory: []
         });
-        getCardHistory("rfkPc9DA")
+        getCardHistory(this.props.cardId)
             .then((response) => {
                 this.setState({
                     cardHistory: response,
@@ -42,7 +42,7 @@ class ARTrelloCardTimeline extends Component {
                 });
 
             });
-        getBoardById("1WQBI6bD")//this.props.boardId")
+        getBoardById(this.props.boardId)//this.props.boardId")
             .then((response => {
                 this.setState({
                     columns: response.map(x => x["name"]).reverse(),
