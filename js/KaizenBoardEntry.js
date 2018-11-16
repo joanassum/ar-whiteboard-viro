@@ -71,7 +71,7 @@ class KaizenBoardEntry extends Component {
         <ViroNode
           position={[-1.5,-4,-5]}
         >
-          <ARTrelloCardTimeline></ARTrelloCardTimeline>
+          <ARTrelloCardTimeline/>
         </ViroNode>
         {/*</ViroARImageMarker>*/}
       </ViroARScene>

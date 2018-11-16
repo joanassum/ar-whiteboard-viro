@@ -18,8 +18,8 @@ class ARTrelloCardTimeline extends Component {
     constructor() {
         super();
         this.state = {
-            historyLoaded : false,
-            columnsLoaded : false,
+            historyLoaded: false,
+            columnsLoaded: false,
             timelinePosition: [-5, 0, 0],
             cardInfo: "",
             columns: [],
@@ -35,85 +35,180 @@ class ARTrelloCardTimeline extends Component {
             cardHistory: []
         });
         getCardHistory("rfkPc9DA")
-                .then((response) => {
-                    this.setState({
-                        cardHistory: response,
-                        historyLoaded: true
-                    });
-
+            .then((response) => {
+                this.setState({
+                    cardHistory: response,
+                    historyLoaded: true
                 });
+
+            });
         getBoardById("1WQBI6bD")//this.props.boardId")
-                .then((response => {
-                    this.setState({
-                        columns: response.map(x => x["name"]).reverse(),
-                        columnsLoaded: true
-                    })
-                }));
+            .then((response => {
+                this.setState({
+                    columns: response.map(x => x["name"]).reverse(),
+                    columnsLoaded: true
+                })
+            }));
     }
 
-    createGraph = (h, w) => {
+    createDiagram = (h, w) => {
         if (!this.state.historyLoaded || !this.state.columnsLoaded) {
             return (<ViroFlexView style={styles.titleContainer} height={0.4} width={1.5}>
                 <ViroText
-                    text="loading graph"
+                    text="Loading diagram..."
                 />
             </ViroFlexView>)
         }
-        var graph = [];
-        var actions = this.state.cardHistory;
-        console.log(actions);
-        var columns = this.state.columns;
-        console.log(columns);
-        var subHeight = h / columns.length;
-        var widths = [];
-        var firstDate = Date.parse(actions[0].date);
-        var finalDate = Date.parse(actions[actions.length - 1].date);
-        var datePadding = finalDate + 100000; // one day padding time for graph niceness to indicate final column
-        var totalTime = datePadding - firstDate;
 
+        let actions = this.state.cardHistory;
+        let columns = this.state.columns;
 
-        for (var i = 0; i < actions.length; i++) {
-            var actionDate = Date.parse(actions[i].date);
-            var nextDate;
+        let graphHeight = h * 3 / 4;
+        let graphWidth = w * 2 / 3;
+
+        let graph = this.createGraph(graphHeight, graphWidth, actions, columns);
+        let xAxisWidth = w * 1 / 3;
+
+        let xAxis = this.createXAxis(graphHeight, xAxisWidth, columns);
+        let yAxisHeight = h * 1 / 8;
+        let yAxis = this.createYAxis(yAxisHeight, graphWidth, w, xAxisWidth);
+
+        let titleHeight = h * 1 / 8;
+        let titlePadding = <ViroFlexView
+                style = {styles.emptyContainer}
+                height = {titleHeight}
+                width = {xAxisWidth}
+        />;
+        let title = <ViroText
+                style = {styles.titleStyle}
+                height = {titleHeight}
+                width = {w-xAxisWidth}
+                text = "Timeline of column movement"
+        />;
+
+        return <ViroFlexView style={styles.diagramContainer} height={h} width={w}>
+            {titlePadding}
+            {title}
+            {xAxis}
+            {graph}
+            {yAxis}
+        </ViroFlexView>
+
+    };
+
+    createXAxis = (graphHeight, xAxisWidth, columns) => {
+        let halfWidth = xAxisWidth / 2;
+        let labels = [];
+        labels.push(
+            <ViroText
+                text="Columns"
+                height={graphHeight}
+                width={halfWidth}
+                textAlignVertical='center'
+            />
+        );
+        let lineWidth = halfWidth / 10;
+        for (let i = 0; i < columns.length; i++) {
+            labels.push(
+                <ViroText
+                    text={columns[i]}
+                    height={graphHeight/columns.length}
+                    width={halfWidth - lineWidth}
+
+                />)
+        }
+        let line =
+            <ViroFlexView
+                style={styles.lineStyle}
+                height={graphHeight}
+                width={lineWidth}
+            />;
+        return <ViroFlexView style={styles.xAxisContainer} height={graphHeight} width={xAxisWidth}>
+            {labels}
+            {line}
+        </ViroFlexView>;
+    };
+
+    createYAxis = (yAxisHeight, graphWidth, w, xAxisWidth) => {
+        let lineHeight = xAxisWidth / 20;
+        let lineWidth = graphWidth + lineHeight;
+        let children = [];
+        let linePadding = <ViroFlexView
+            style={styles.emptyContainer}
+            height={lineHeight}
+            width={w-lineWidth}
+        />;
+        let line = <ViroFlexView
+            style={styles.lineStyle}
+            height={lineHeight}
+            width={lineWidth}
+        />;
+        children.push(linePadding);
+        children.push(line);
+        let textHeight = yAxisHeight-lineHeight;
+        let textPadding = <ViroFlexView
+            style={styles.emptyContainer}
+            height={textHeight}
+            width={xAxisWidth}
+        />;
+        let label = <ViroText
+            text = "Time spent"
+            height={textHeight}
+            width={graphWidth}
+        />;
+        children.push(textPadding);
+        children.push(label);
+
+        return <ViroFlexView style={styles.yAxisContainer} height={yAxisHeight} width={w}>
+            {children}
+        </ViroFlexView>;
+    };
+
+    createGraph = (graphHeight, graphWidth, actions, columns) => {
+
+        let firstDate = Date.parse(actions[0].date);
+        let finalDate = Date.parse(actions[actions.length - 1].date);
+        let datePadding = finalDate + 3600000; // 1 hour padding time at the end for visual niceness
+        let totalTime = datePadding - firstDate;
+
+        let graph = [];
+        let widths = [];
+        for (let i = 0; i < actions.length; i++) {
+            let actionDate = Date.parse(actions[i].date);
+            let nextDate;
             if (i != actions.length - 1) {
                 nextDate = Date.parse(actions[i + 1].date);
             } else {
                 nextDate = datePadding;
             }
-            var timeFraction = (nextDate - actionDate) / totalTime;
-            widths.push(timeFraction * (w-2) + 2/actions.length); // to give width to very small values
+            let timeFraction = (nextDate - actionDate) / totalTime;
+            widths.push(timeFraction * (graphWidth - 2) + 2 / actions.length); // to give width to very small values
         }
 
-        for (var j = 0; j < columns.length; j++) {
-            var row = [];
-            for (var i = 0; i < actions.length; i++) {
-                console.log()
+        let barHeight = graphHeight / columns.length;
+        for (let j = 0; j < columns.length; j++) {
+            for (let i = 0; i < actions.length; i++) {
                 if (j == columns.indexOf(actions[i].column)) { // if column name is correct, draw bar
-                    row.push(
+                    graph.push(
                         <ViroFlexView
                             style={styles.barContainer}
-                            height = {subHeight}
-                            width = {widths[i]} />
+                            height={barHeight}
+                            width={widths[i]}/>
                     );
                 } else { // else empty container
-                    row.push(
+                    graph.push(
                         <ViroFlexView
                             style={styles.emptyContainer}
-                            height = {subHeight}
-                        width = {widths[i]}/>
+                            height={barHeight}
+                            width={widths[i]}/>
                     );
                 }
             }
-            graph.push(<ViroFlexView
-                style={styles.rowContainer}
-                height = {subHeight}
-                width = {w}>{row}</ViroFlexView>)
         }
-
-        return <ViroFlexView
-            style = {styles.graphContainer} height={h} width={w}>
+        return <ViroFlexView style={styles.graphContainer} height={graphHeight} width={graphWidth}>
             {graph}
-        </ViroFlexView>
+        </ViroFlexView>;
+
     };
 
     render() {
@@ -121,8 +216,7 @@ class ARTrelloCardTimeline extends Component {
             <ViroNode
                 position={this.state.cardPosition}
             >
-                {this.createGraph(4, 8)}
-
+                {this.createDiagram(3, 5)}
             </ViroNode>
         );
     }
@@ -130,15 +224,47 @@ class ARTrelloCardTimeline extends Component {
 
 
 var styles = StyleSheet.create({
-    rowContainer: {
-        flexDirection: 'row',
-        alignItems: 'flex-start'
+    lineStyle: {
+        backgroundColor: "#ffffff",
     },
-    graphContainer: {
+
+    titleStyle: {
+        fontSize: 14,
+        color: "#ffffff",
+        textAlign: "center"
+    },
+
+    yAxisContainer: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        flexWrap: 'wrap',
+        backgroundColor: "#ffffff00",
+        fontSize: 8,
+        color: "#ffffff",
+        textAlign: "center"
+    },
+
+    xAxisContainer: {
         flexDirection: 'column',
         alignItems: 'flex-start',
         flexWrap: 'wrap',
-        backgroundColor:"#ffffff00"
+        backgroundColor: "#ffffff00",
+        fontSize: 7,
+        color: "#ffffff"
+    },
+
+    diagramContainer: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        flexWrap: 'wrap',
+        backgroundColor: "#ffffff00"
+    },
+
+    graphContainer: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        flexWrap: 'wrap',
+        backgroundColor: "#ffffff00"
     },
     barContainer: {
         backgroundColor: "#990022",
