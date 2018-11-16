@@ -16,7 +16,7 @@ function Checkbox(props) {
   if (state == "complete") {
     return (
       <ViroImage
-        style={styles.prodDescriptionText}
+        style={styles.prodDescriptionImage}
         source={require("./res/complete.jpg")}
         scale= {[0.5, 0.5, 0.5]}
       />
@@ -24,7 +24,7 @@ function Checkbox(props) {
   }
   return (
     <ViroImage
-      style={styles.prodDescriptionText}
+      style={styles.prodDescriptionImage}
       source={require("./res/incomplete.jpg")}
       scale= {[0.5, 0.5, 0.5]}
     />
@@ -94,7 +94,7 @@ class ARTrelloCardDetail extends Component {
                 <ViroFlexView style={styles.titleContainer} height={5.5} width={6}>
                     <ViroFlexView style={{flexDirection: 'column'}} height={12} width={3}>
                         <ViroImage
-                            style={styles.prodDescriptionText}
+                            style={styles.prodDescriptionImage}
                             source={{uri: this.state.timeLineGraph}}
                         />
                         </ViroFlexView>
@@ -128,6 +128,9 @@ var styles = StyleSheet.create({
         color: '#222222',
         textAlignVertical: 'center',
         textAlign: 'left',
+        flex: 0.35,
+    },
+    prodDescriptionImage: {
         flex: 0.35,
     },
     memberNameText: {
