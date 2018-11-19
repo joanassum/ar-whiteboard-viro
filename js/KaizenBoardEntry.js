@@ -3,6 +3,7 @@
 import React, {Component} from 'react';
 import ARTrelloMenu from "./ARTrelloMenu.js";
 import ARTrelloCardTimeline from "./ARTrelloCardTimeline.js";
+import ARTrelloCardDetail from "./ARTrelloCardDetail.js";
 import {getPerformanceGraph} from './backend/backendController';
 
 import {
@@ -27,18 +28,33 @@ class KaizenBoardEntry extends Component {
       text: "Initializing AR...!"
     };
     this.setMarker();
+    this.setMarker2();
     this._onInitialized = this._onInitialized.bind(this);
   }
 
   setMarker() {
     ViroARTrackingTargets.createTargets({
-      "poster": {
+      menumarker: {
         source: require('./res/trello.png'),
         orientation: "Up",
-        physicalWidth: 0.3 // real world width in meters
+        physicalWidth: 0.26 // real world width in meters
       }
     });
   }
+
+  setMarker2() {
+    ViroARTrackingTargets.createTargets({
+      carddetailmarker: {
+        source: require('./res/viro-logo.jpeg'),
+        orientation: "Up",
+        physicalWidth: 0.1 // real world width in meters
+      }
+    });
+  }
+
+
+
+
 
   componentDidMount() {
 
@@ -60,9 +76,9 @@ class KaizenBoardEntry extends Component {
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized}>
-        {/*<ViroARImageMarker target={"poster"}>*/}
+        {/*<ViroARImageMarker target={"menumarker"}>*/}
         <ViroNode
-           position={[0, 0, -5]} //rotation={[-45, 0, 0]}
+           position={[1.5, 0, -5]} //rotation={[-90, 0, 0]}
         >
           <ARTrelloMenu
             menuTitle={this.props.menuTitle}
@@ -74,39 +90,25 @@ class KaizenBoardEntry extends Component {
         </ViroNode>
 
         {/*TODO Card Detail*/}
+        {/*<ViroNode*/}
+          {/*position={[-5,0,-5]}*/}
+        {/*>*/}
+          {/*/!*{this.props.cardChosen ? <ARTrelloCardDetail timelinePosition={[0,0,0]} cardId={this.props.cardId} boardId={this.props.boardId}/> : null}*!/*/}
+        {/*</ViroNode>*/}
+
         <ViroNode
-          position={[-5,0,-5]}
-        >
-          <ViroFlexView
-            position={[0, 0, 0]}
-            style={styles.titleContainer}
-            height={0.4}
-            width={1.75}
-          >
-            <ViroText
-              style={styles.prodDescriptionText}
-              text={this.props.cardId}
-            />
-          </ViroFlexView>
-        </ViroNode>
-        <ViroNode
-          position={[-1.5,-4,-5]}
+          position={[-5, 0, -5]} //rotation={[-90, 0, 0]}
         >
           {this.props.cardChosen ? <ARTrelloCardTimeline timelinePosition={[0,0,0]} cardId={this.props.cardId} boardId={this.props.boardId}/> : null}
         </ViroNode>
         {/*</ViroARImageMarker>*/}
+
+
       </ViroARScene>
     );
   }
 }
 
-// ViroARTrackingTargets.createTargets({
-//     poster : {
-//         source : require('./res/trello.png'),
-//         orientation : "Up",
-//         physicalWidth : 0.3 // real world width in meters
-//     }
-// });
 
 module.exports = KaizenBoardEntry;
 

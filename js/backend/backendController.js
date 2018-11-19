@@ -128,3 +128,19 @@ export function getBoardIdMapping(boardPin){
       console.error(error);
     });
 }
+
+export function getCardMembers(cardId) {
+  return fetch(`${url}/trello/getCardMembers/${cardId}`)
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+export function getCheckLists(cardId) {
+  return fetch(`${url}/trello/getCardChecklists/${cardId}`)
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error(error);
+    });
+}
