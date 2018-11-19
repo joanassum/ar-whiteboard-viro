@@ -3,6 +3,7 @@
 import React, {Component} from 'react';
 import ARTrelloMenu from "./ARTrelloMenu.js";
 import ARTrelloCardTimeline from "./ARTrelloCardTimeline.js";
+import ARTrelloCardDetail from "./ARTrelloCardDetail.js";
 import {getPerformanceGraph} from './backend/backendController';
 
 import {
@@ -71,23 +72,14 @@ class KaizenBoardEntry extends Component {
             setCardId={(cardId) => this.props.setCardId(cardId)}
             unsetCardId={() => this.props.unsetCardId()}
           />
+
         </ViroNode>
 
         {/*TODO Card Detail*/}
         <ViroNode
-          position={[-5,0,-5]}
+          position={[-3,0,-5]}
         >
-          <ViroFlexView
-            position={[0, 0, 0]}
-            style={styles.titleContainer}
-            height={0.4}
-            width={1.75}
-          >
-            <ViroText
-              style={styles.prodDescriptionText}
-              text={this.props.cardId}
-            />
-          </ViroFlexView>
+            {this.props.cardChosen ? <ARTrelloCardDetail cardId={this.props.cardId} boardId={this.props.boardId}/> : null}
         </ViroNode>
         <ViroNode
           position={[-1.5,-4,-5]}
@@ -124,4 +116,3 @@ var styles = StyleSheet.create({
     backgroundColor: "#ffffdd",
   },
 });
-
