@@ -41,6 +41,12 @@ class LoginScreen extends Component {
     return (
       <View style = {styles.container}>
 
+      <TouchableHighlight style={styles.submitButton}
+      onPress={this.onPress}
+      underlayColor={'#68a0ff'} >
+
+      <Text style={styles.submitButtonText}>Enter AR</Text>
+      </TouchableHighlight>
         <TextInput style = {styles.input}
                    placeholder = "Board Pin"
                    autoCapitalize = "none"
@@ -52,12 +58,6 @@ class LoginScreen extends Component {
           <Text style = {styles.submitButtonText}> Submit </Text>
         </TouchableOpacity>
 
-        <TouchableHighlight style={styles.submitButton}
-                            onPress={this.onPress}
-                            underlayColor={'#68a0ff'} >
-
-          <Text style={styles.submitButtonText}>Enter AR</Text>
-        </TouchableHighlight>
       </View>
     );
   }
@@ -85,4 +85,3 @@ const styles = StyleSheet.create({
     color: 'white'
   }
 });
-
