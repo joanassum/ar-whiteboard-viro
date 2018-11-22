@@ -28,7 +28,7 @@ class ARTrelloCard extends Component {
     }
 
     componentDidMount() {
-      getFilteredCardMap(this.props.listId , "none").then((response) => {
+      getFilteredCardMap(this.props.listID , "none").then((response) => {
         this.setState({cards: response, cardLoaded: true});
       });
     }
@@ -39,6 +39,7 @@ class ARTrelloCard extends Component {
         //Dispatch action for cardId
         this.props.setCardId(cardObj.cardId);
         this.props.setMenuViewName(cardObj.cardName);
+        this.props.setMenuOption("Main Menu");
       }
     }
 
@@ -46,10 +47,10 @@ class ARTrelloCard extends Component {
 
         return (
             <ViroNode
-                position={[0, 0, 0]}
+                position={this.props.disArr}
             >
               {
-                (this.state.cardLoaded && !this.state.cardClick)? (
+                (this.state.cardLoaded && this.props.listSet)? (
                   this.state.cards.map((n, i) => {
                     return (
                       <ViroFlexView

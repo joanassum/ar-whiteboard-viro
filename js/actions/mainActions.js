@@ -31,3 +31,17 @@ export function setMenuViewName(menuTitle){
     menuTitle
   };
 }
+
+export function setListID(listID){
+  return {
+    type: "SET_LIST_ID",
+    listID,
+  };
+}
+
+export function setMenuOption(option){
+  return {
+    type: "SET_MENU_OPTION",
+    option
+  };
+}

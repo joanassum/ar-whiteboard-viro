@@ -17,6 +17,7 @@ import {
   ViroNode,
 } from 'react-viro';
 import {StyleSheet} from "react-native";
+import {setMenuOption} from "./actions/mainActions";
 
 
 class KaizenBoardEntry extends Component {
@@ -82,9 +83,17 @@ class KaizenBoardEntry extends Component {
         >
           <ARTrelloMenu
             menuTitle={this.props.menuTitle}
+            option={this.props.option}
             cardId={this.props.cardId}
+            boardId={this.props.boardId}
+            listID={this.props.listID}
+            listSet={this.props.listSet}
+            cardChosen={this.props.cardChosen}
+            titlePicked={this.props.titlePicked}
             setMenuViewName={(title) => this.props.setMenuViewName(title)}
+            setMenuOption={(option) => this.props.setMenuOption(option)}
             setCardId={(cardId) => this.props.setCardId(cardId)}
+            setListID={(listID) => this.props.setListID(listID)}
             unsetCardId={() => this.props.unsetCardId()}
           />
         </ViroNode>

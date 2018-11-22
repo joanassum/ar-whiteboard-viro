@@ -1,8 +1,9 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {getBoardName} from './backend/backendController';
 import ARTrelloBoard from "./ARTrelloBoard.js";
+import MenuCardContainer from "./containers/MenuCardContainer.js";
+import ARTrelloList from "./ARTrelloList.js";
 
 import {
     ViroText,
@@ -17,72 +18,108 @@ class ARTrelloMenu extends Component {
   constructor(props) {
     super(props);
 
-    this.clickDisplayBoard = this.clickDisplayBoard.bind(this);
+    this.onClick = this.onClick.bind(this);
 
     this.state = {
       index: 0,
       displayBoard : false,
-      boardName: "Loading...",
-      boardNameLoaded: false,
     };
 }
 
   componentDidMount() {
-    getBoardName().then((response) => {
-      this.setState({
-        boardName: response._value,
-        boardNameLoaded: true,
-      });
-    });
+
   }
 
-  clickDisplayBoard(position, source)  {
-    let tempBool = !this.state.displayBoard;
-    this.setState({
-      displayBoard: tempBool
-    });
-    if(this.state.boardNameLoaded){
-      this.props.setMenuViewName("Board");
-    }
-    if(!tempBool){
-      this.props.unsetCardId();
-    }
+  onClick(option){
+    this.props.setMenuOption(option);
   }
 
 
   render() {
 
-    let board;
-    const displacement = -1.5;
-    let menuTitleOption = (this.props.cardId !== "None" && this.state.displayBoard) ? "Chosen " : "Search ";
 
-    board = (<ARTrelloBoard
-      disArr={[0,displacement,0]}
-      boardName={this.state.boardName}
-      menuTitle={this.props.menuTitle}
-      setMenuViewName={(title) => this.props.setMenuViewName(title)}
-    />);
+    let mainMenu = (
+      <ViroNode
+        position={[0,0,0]}
+      >
+        <ViroFlexView
+          position={[0, -0.5, 0]} style={styles.titleContainer} height={0.4} width={2.5}
+          onClick={() => this.onClick("Filter Menu")}
+        >
+          <ViroText
+            style={styles.prodDescriptionText}
+            text={"Filter Options"}
+          />
+        </ViroFlexView>
+        <ViroFlexView
+          position={[0, -1.0, 0]} style={styles.titleContainer} height={0.4} width={2.5}
+          onClick={() => this.onClick("Board Menu")}
+        >
+          <ViroText
+            style={styles.prodDescriptionText}
+            text={`${(this.props.titlePicked) ? "Search: " + this.props.menuTitle : "Search Options"}`}
+          />
+        </ViroFlexView>
+      </ViroNode>
+    );
+
+    const mainComponent = (component => {
+      console.log(component);
+      console.log("MAIN COMPONENET: " + this.props.menuTitle);
+      switch (component) {
+        case "Board Menu":
+          return <ARTrelloBoard
+            disArr={[0,-0.5,0]}
+            boardId={this.props.boardId}
+            setMenuViewName={(title) => this.props.setMenuViewName(title)}
+            setMenuOption={(option) => this.props.setMenuOption(option)}
+          />;
+        case "List Menu":
+          return <ARTrelloList
+            disArr={[0,-0.5,0]}
+            boardId={this.props.boardId}
+            setListID={(listID) => this.props.setListID(listID)}
+            setMenuViewName={(title) => this.props.setMenuViewName(title)}
+            setMenuOption={(option) => this.props.setMenuOption(option)}
+          />;
+        case "Card Menu":
+          return <MenuCardContainer
+            listSet={this.props.listSet}
+            disArr={[0,-0.5,0]}
+            listID={this.props.listID}
+          />;
+        case "Filter Menu":
+          console.log("Filter Menu");
+        //   return <ARTrelloCard />;
+        case "Main Menu":
+          //Fall Through
+        default:
+          return mainMenu;
+      }
+    })(this.props.option);
+
 
     return (
       <ViroNode
         position={[1.5,0,0]}
       >
-        <ViroFlexView position={[0, -0.5, 0]} style={styles.titleContainer} height={0.4} width={2.5}>
+
+        <ViroFlexView position={[0, 0, 0]} style={styles.titleContainer} height={0.4} width={2.5}>
           <ViroText
             style={styles.prodDescriptionText}
-            text={`${
-              (this.state.boardNameLoaded && this.state.displayBoard) ? menuTitleOption + this.props.menuTitle : "Search Menu"}
-              `}
+            text={(this.props.option === "Main Menu") ? "Menu" : "Back"}
+            onClick={() => this.onClick("Main Menu")}
           />
         </ViroFlexView>
-        <ViroFlexView position={[0, -1.0, 0]} style={styles.titleContainer} height={0.4} width={1.75}>
-          <ViroText
-            style={styles.prodDescriptionText}
-            text={`${ (this.state.displayBoard) ? "Clear" : "Search" }`}
-            onClick={this.clickDisplayBoard}
-          />
-        </ViroFlexView >
-          {this.state.displayBoard ? board : null}
+        {mainComponent}
+        {/*<ViroFlexView position={[0, -1.0, 0]} style={styles.titleContainer} height={0.4} width={1.75}>*/}
+          {/*<ViroText*/}
+            {/*style={styles.prodDescriptionText}*/}
+            {/*text={`${ (this.state.displayBoard) ? "Clear" : "Search" }`}*/}
+            {/*onClick={this.clickDisplayBoard}*/}
+          {/*/>*/}
+        {/*</ViroFlexView >*/}
+          {/*{this.state.displayBoard ? board : null}*/}
       </ViroNode>
     );
   }

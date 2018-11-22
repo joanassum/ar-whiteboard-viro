@@ -6,7 +6,6 @@ import {
   ViroText,
   ViroFlexView
 } from 'react-viro';
-import MenuCardContainer from "./containers/MenuCardContainer";
 import {getFilteredListMap} from './backend/backendController';
 import {StyleSheet} from "react-native";
 
@@ -30,7 +29,9 @@ class ARTrelloList extends Component {
   }
 
   componentDidMount() {
-    getFilteredListMap("boardId" ,"none").then((response) => {
+    console.log("GET LIST BOARD ID: " + this.props.boardId);
+    getFilteredListMap(this.props.boardId, "none").then((response) => {
+      console.log(response);
       this.setState({lists: response, listLoaded: true});
     });
   }
@@ -38,6 +39,8 @@ class ARTrelloList extends Component {
   clickList(position, source, listObj) {
     this.setState({listClick: true, listObj: listObj});
     if(this.state.listLoaded){
+      this.props.setListID(listObj.listId);
+      this.props.setMenuOption("Card Menu");
       this.props.setMenuViewName(listObj.listName);
     }
   }
@@ -45,10 +48,10 @@ class ARTrelloList extends Component {
   render() {
     return (
       <ViroNode
-        position={[0, 0, 0]}
+        position={this.props.disArr}
       >
         {
-          (this.state.listLoaded && !this.state.listClick)? (
+          (this.state.listLoaded) ? (
             this.state.lists.map((n, i) => {
               return (
                 <ViroFlexView
@@ -66,9 +69,6 @@ class ARTrelloList extends Component {
                 </ViroFlexView>);
             })
           ) : null
-        }
-        {
-          this.state.listClick ? <MenuCardContainer listId={this.state.listObj.listId} /> : null
         }
       </ViroNode>
     );

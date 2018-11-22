@@ -16,13 +16,14 @@ class App extends Component {
           <Scene key="login"
                  component={LoginContainer}
                  title="Login"
-                 initial
+
 
           />
           <Scene
             key="viro"
             component={ViroEntry}
             title="Kaizen AR"
+            initial
           />
         </Scene>
       </Router>

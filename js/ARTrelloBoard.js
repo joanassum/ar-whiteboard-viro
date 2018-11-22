@@ -7,8 +7,8 @@ import {
   ViroFlexView
 } from 'react-viro';
 
-import ARTrelloList from "./ARTrelloList.js";
 import {StyleSheet} from "react-native";
+import {getBoardName} from "./backend/backendController";
 
 class ARTrelloBoard extends Component {
 
@@ -16,47 +16,44 @@ class ARTrelloBoard extends Component {
     super(props);
 
     this.state = {
-      boardId: "",
-      boardClick: false,
+      boardName: "Loading...",
+      boardNameLoaded: false,
     };
 
     this.onClick = this.onClick.bind(this);
   }
 
   componentDidMount() {
-
+    console.log("GET BOARD ID");
+    getBoardName(this.props.boardId).then((response) => {
+      this.setState({
+        boardName: response._value,
+        boardNameLoaded: true,
+      });
+    });
   }
 
   onClick(){
-    this.setState({boardClick: true});
-    this.props.setMenuViewName(this.props.boardName);
+    if(this.state.boardNameLoaded){
+      this.props.setMenuViewName(this.state.boardName);
+      this.props.setMenuOption("List Menu");
+    }
   }
 
   render() {
-
-    const listWidth = 1.75;
-
     return (
-
       <ViroNode
-        //[1.5, -1.5, -5]
         position={this.props.disArr}
       >
-        {
-          this.state.boardClick ? <ARTrelloList
-              setMenuViewName={(title) => this.props.setMenuViewName(title)}
-            /> :
-            (
-              <ViroFlexView style={{flexDirection: 'column'}} height={0.4} width={listWidth}>
-              <ViroText
-                style={styles.prodDescriptionText}
-                text={this.props.boardName}
-                onClick={this.onClick}
-              />
-            </ViroFlexView>
-            )
-        }
-
+        <ViroFlexView
+          style={styles.titleContainer} height={0.4} width={1.75}
+          onClick={this.onClick}
+        >
+          <ViroText
+            style={styles.prodDescriptionText}
+            text={(this.state.boardNameLoaded) ? this.state.boardName : "Loading..."}
+          />
+        </ViroFlexView>
       </ViroNode>
     );
   }
@@ -64,15 +61,14 @@ class ARTrelloBoard extends Component {
 
 module.exports = ARTrelloBoard;
 
-
 var styles = StyleSheet.create({
   prodDescriptionText: {
     fontFamily: 'sans-serif-light',
     fontSize: 20,
+    flex: 1,
     color: '#000000',
     textAlignVertical: 'center',
     textAlign: 'left',
-    flex: 1,
   },
   titleContainer: {
     flexDirection: 'column',

@@ -6,6 +6,7 @@ export function setBoardID(newBoardID){
 }
 
 export function getLabels() {
+  console.log("getLabels");
   return fetch(`${url}/trello/getLabels/${boardId}`)
     .then((response) => response.json())
     .catch((error) => {
@@ -13,8 +14,9 @@ export function getLabels() {
     });
 }
 
-export function getBoardName() {
-  return fetch(`${url}/trello/getBoardName/${boardId}`)
+export function getBoardName(boardIdParam) {
+  console.log("getBoardName");
+  return fetch(`${url}/trello/getBoardName/${boardIdParam}`)
     .then((response) => response.json())
     .catch((error) => {
       console.error(error);
@@ -22,6 +24,7 @@ export function getBoardName() {
 }
 
 export function getBoard(){
+  console.log("getBoard");
     return fetch(`${url}/trello/getBoard/SkS6g4qa`)
         .then((response) => response.json())
         .catch((error) => {
@@ -30,6 +33,7 @@ export function getBoard(){
 }
 
 export function getBoardById(boardId){
+  console.log("getBoardById: " + boardId);
     return fetch(`${url}/trello/getBoard/${boardId}`)
         .then((response) => response.json())
         .catch((error) => {
@@ -38,6 +42,7 @@ export function getBoardById(boardId){
 }
 
 export function getListIds() {
+  console.log("getListIds");
   return fetch(`${url}/trello/getListIds/${boardId}`)
     .then((response) => response.json())
     .catch((error) => {
@@ -46,6 +51,7 @@ export function getListIds() {
 }
 
 export function getList(listId) {
+  console.log("getList");
   return fetch(`${url}/trello/getList/${listId}`)
     .then((response) => response.json())
     .catch((error) => {
@@ -54,6 +60,7 @@ export function getList(listId) {
 }
 
 export function getListName(listId) {
+  console.log("getListName");
   return fetch(`${url}/trello/getListName/${listId}`)
     .then((response) => response.json())
     .catch((error) => {
@@ -63,6 +70,7 @@ export function getListName(listId) {
 
 
 export function getFilteredList(labelId, listId) {
+  console.log("getFilteredList");
   return fetch(`${url}/trello/getFilteredList/${boardId}/${labelId}/${listId}`)
     .then((response) => response.json())
     .catch((error) => {
@@ -71,6 +79,7 @@ export function getFilteredList(labelId, listId) {
 }
 
 export function getFilteredListMap(localBoardId, labelId) {
+  console.log("getFilteredListMap: " + localBoardId);
   return fetch(`${url}/trello/getFilteredListMap/${boardId}/${labelId}`)
     .then((response) => {
       return response.json();
@@ -81,6 +90,7 @@ export function getFilteredListMap(localBoardId, labelId) {
 }
 
 export function getFilteredCardMap(listId, labelId) {
+  console.log("getFilteredCardMap");
   return fetch(`${url}/trello/getFilteredCardMap/${listId}/${labelId}`)
     .then((response) => {
       return response.json();
@@ -90,10 +100,8 @@ export function getFilteredCardMap(listId, labelId) {
     });
 }
 
-
-
-
 export function getCardHistory(cardId){
+  console.log("getCardHistory: " + cardId);
     return fetch(`${url}/trello/getCardHistory/${cardId}`)
         .then((response) => response.json())
         .catch((error) => {
@@ -102,6 +110,7 @@ export function getCardHistory(cardId){
 }
 
 export function getPerformanceGraph(boardId){
+  console.log("getPerformanceGraph");
     return fetch(`${url}/trello/getPerformanceGraph/${boardId}`)
         .then((response) => response.text())
         .then((response) => `${url}/${response}`)
@@ -111,6 +120,7 @@ export function getPerformanceGraph(boardId){
 }
 
 export function getTimeLineGraph(cardId){
+  console.log("getTimeLineGraph");
     return fetch(`${url}/trello/getTimelineGraph/${cardId}`)
         .then((response) => response.text())
         .then((response) => `${url}/${response}`)
@@ -121,7 +131,7 @@ export function getTimeLineGraph(cardId){
 
 
 export function getBoardIdMapping(boardPin){
-  console.log("GET BoARD ID MAPPING");
+  console.log("getBoardIdMapping");
   return fetch(`${url}/queriesDB/getBoardMapping/${boardPin}`)
     .then((response) => response.text())
     .catch((error) => {
@@ -130,6 +140,7 @@ export function getBoardIdMapping(boardPin){
 }
 
 export function getCardMembers(cardId) {
+  console.log("getCardMembers");
   return fetch(`${url}/trello/getCardMembers/${cardId}`)
     .then((response) => response.json())
     .catch((error) => {
@@ -138,6 +149,7 @@ export function getCardMembers(cardId) {
 }
 
 export function getCheckLists(cardId) {
+  console.log("getCheckLists");
   return fetch(`${url}/trello/getCardChecklists/${cardId}`)
     .then((response) => response.json())
     .catch((error) => {
