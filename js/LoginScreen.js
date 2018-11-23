@@ -49,7 +49,7 @@ class LoginScreen extends Component {
 
           <TouchableHighlight style={styles.title}
       underlayColor={'#68a0ff'} >
-          <Text style={styles.titleText}>Augment Efficiency</Text>
+          <Text style={styles.NontitleText}>Augment Efficiency</Text>
       </TouchableHighlight>
 
       <TouchableHighlight style={styles.submitButton}
@@ -78,7 +78,7 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 200
+    paddingTop: 0
   },
   input: {
     margin: 15,
@@ -99,7 +99,14 @@ const styles = StyleSheet.create({
         height: 40,
     },
     titleText: {
-      color: 'white'
+      color: 'white',
+      fontSize: 20,
+        textAlign: 'center',
+    },
+    NontitleText: {
+        color: 'white',
+        fontSize: 16,
+        textAlign: 'center',
     },
   submitButtonText: {
     color: 'white'
