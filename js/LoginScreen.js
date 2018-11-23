@@ -30,10 +30,10 @@ class LoginScreen extends Component {
         this.props.setBoardId(response);
       });
     }
+    Actions.commentModal();
   }
 
   onPress() {
-   // console.log("Enter the APP: " + this.state.board_pin);
     Actions.viro();
   }
 

@@ -32,6 +32,10 @@ class ARTrelloMenu extends Component {
   }
 
   onClick(option){
+
+    if(option === "Board Menu"){
+      this.props.unsetCardId();
+    }
     this.props.setMenuOption(option);
   }
 
@@ -65,8 +69,6 @@ class ARTrelloMenu extends Component {
     );
 
     const mainComponent = (component => {
-      console.log(this.props.option);
-      console.log("MAIN COMPONENET: " + this.props.menuTitle);
       switch (component) {
         case "Board Menu":
           return <ARTrelloBoard
@@ -118,14 +120,6 @@ class ARTrelloMenu extends Component {
           />
         </ViroFlexView>
         {mainComponent}
-        {/*<ViroFlexView position={[0, -1.0, 0]} style={styles.titleContainer} height={0.4} width={1.75}>*/}
-          {/*<ViroText*/}
-            {/*style={styles.prodDescriptionText}*/}
-            {/*text={`${ (this.state.displayBoard) ? "Clear" : "Search" }`}*/}
-            {/*onClick={this.clickDisplayBoard}*/}
-          {/*/>*/}
-        {/*</ViroFlexView >*/}
-          {/*{this.state.displayBoard ? board : null}*/}
       </ViroNode>
     );
   }

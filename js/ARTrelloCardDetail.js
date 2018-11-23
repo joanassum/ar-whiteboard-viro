@@ -11,24 +11,40 @@ import {
 } from 'react-viro';
 import {getCardMembers, getCheckLists, getTimeLineGraph} from "./backend/backendController";
 
-function Checkbox(props) {
-  const state = props.state;
-  if (state == "complete") {
-    return (
-      <ViroImage
-        style={styles.prodDescriptionText}
-        source={require("./res/complete.jpg")}
-        scale= {[0.5, 0.5, 0.5]}
-      />
-    );
+class Checkbox extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.onClick = this.onClick.bind(this);
   }
-  return (
-    <ViroImage
-      style={styles.prodDescriptionText}
-      source={require("./res/incomplete.jpg")}
-      scale= {[0.5, 0.5, 0.5]}
-    />
-  );
+
+  onClick(){
+
+  }
+
+  render(){
+
+    let ret = null;
+    if(this.props.state === "complete"){
+      ret =  (
+        <ViroImage
+          style={styles.prodDescriptionText}
+          source={require("./res/complete.jpg")}
+          onClick={this.onClick}
+          scale= {[0.5, 0.5, 0.5]}
+        />);
+    } else {
+      ret = ((
+        <ViroImage
+          style={styles.prodDescriptionText}
+          source={require("./res/incomplete.jpg")}
+          onClick
+          scale= {[0.5, 0.5, 0.5]}
+        />));
+    }
+    return ({ret});
+  }
 }
 
 class ARTrelloCardDetail extends Component {
@@ -55,8 +71,6 @@ class ARTrelloCardDetail extends Component {
     });
 
     getCheckLists(this.props.cardId).then((response) => {
-      console.log("Checklist");
-      console.log(response);
       this.setState({
         checkLists: response,
         checkListsLoaded: true
@@ -112,7 +126,6 @@ class ARTrelloCardDetail extends Component {
                 style={styles.prodDescriptionText}
                 text="Members: "
               />
-
               {
                 (this.state.membersLoaded) ? (
                   this.state.members.map((n, i) => {
@@ -124,7 +137,6 @@ class ARTrelloCardDetail extends Component {
             {(this.state.checkListsLoaded) ? checkLists : null}
           </ViroFlexView>
         </ViroFlexView>
-
       </ViroNode>
     );
   }

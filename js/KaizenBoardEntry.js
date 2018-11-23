@@ -75,6 +75,8 @@ class KaizenBoardEntry extends Component {
   }
 
   render() {
+
+    console.log("Update card ID: " + this.props.cardId);
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized}>
         {/*<ViroARImageMarker target={"menumarker"}>*/}

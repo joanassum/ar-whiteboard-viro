@@ -18,7 +18,7 @@ const mainReducer = (state = {
     case "SET_BOARD_ID":
       return { ...state, boardId: action.boardId};
     case "UNSET_CARD_ID":
-      return { ...state, cardId: "none", cardChosen: false};
+      return { ...state, cardChosen: false};
     case "SET_CARD_ID":
       return { ...state, cardId: action.cardId, cardChosen: true};
     case "SET_MENU_TITLE":

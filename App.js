@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Router, Scene } from 'react-native-router-flux';
+import { Router, Scene, Modal } from 'react-native-router-flux';
 import ViroEntry from "./js/ViroEntry";
 import LoginContainer from "./js/containers/LoginContainer";
+import CommentModal from "./js/CommentModal";
 
 class App extends Component {
 
@@ -12,20 +13,23 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <Scene key="root">
-          <Scene key="login"
-                 component={LoginContainer}
-                 title="Login"
+        <Modal hideNavBar >
+          <Scene key="root">
+            <Scene
+              key="login"
+              component={LoginContainer}
+              title="Login"
+              initial
+            />
+            <Scene
+              key="viro"
+              component={ViroEntry}
+              title="Kaizen AR"
 
-
-          />
-          <Scene
-            key="viro"
-            component={ViroEntry}
-            title="Kaizen AR"
-            initial
-          />
-        </Scene>
+            />
+          </Scene>
+          <Scene key="commentModal" component={CommentModal} />
+        </Modal>
       </Router>
     );
   }
