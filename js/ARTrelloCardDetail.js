@@ -107,12 +107,12 @@ class ARTrelloCardDetail extends Component {
             />
           </ViroFlexView>
           <ViroFlexView style={{flexDirection: 'column'}} height={1} width={3}>
-            <ViroFlexView style={{flexDirection: 'row'}} height={0.7} width={1.75}>
+            <ViroFlexView style={{flexDirection: 'row'}} height={0.7} width={3}>
               <ViroText
                 style={styles.prodDescriptionText}
                 text="Members: "
               />
-
+              <ViroFlexView style={{flexDirection: 'row'}} height={0.7} width={2}>
               {
                 (this.state.membersLoaded) ? (
                   this.state.members.map((n, i) => {
@@ -120,6 +120,7 @@ class ARTrelloCardDetail extends Component {
                   })
                 ) : null
               }
+              </ViroFlexView>
             </ViroFlexView>
             {(this.state.checkListsLoaded) ? checkLists : null}
           </ViroFlexView>
