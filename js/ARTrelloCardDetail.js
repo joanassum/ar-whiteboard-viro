@@ -43,7 +43,7 @@ class Checkbox extends Component {
           scale= {[0.5, 0.5, 0.5]}
         />));
     }
-    return ({ret});
+    return (ret);
   }
 }
 
