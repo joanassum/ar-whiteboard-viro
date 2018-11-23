@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, Text, TouchableOpacity, TextInput, StyleSheet, TouchableHighlight} from 'react-native';
+import {View, Text, TouchableOpacity, TextInput, StyleSheet, TouchableHighlight, Image} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import {getBoardIdMapping, setBoardID} from "./backend/backendController";
 
@@ -51,6 +51,10 @@ class LoginScreen extends Component {
       underlayColor={'#68a0ff'} >
           <Text style={styles.NontitleText}>Augment Efficiency</Text>
       </TouchableHighlight>
+
+      <Image style={styles.stretch}
+      source={require('./res/Logo.png')}
+      />
 
       <TouchableHighlight style={styles.submitButton}
       onPress={this.onPress}
@@ -107,6 +111,8 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 16,
         textAlign: 'center',
+    },
+    stretch: {
     },
   submitButtonText: {
     color: 'white'
