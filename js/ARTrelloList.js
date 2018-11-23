@@ -29,9 +29,7 @@ class ARTrelloList extends Component {
   }
 
   componentDidMount() {
-    console.log("GET LIST BOARD ID: " + this.props.boardId);
     getFilteredListMap(this.props.boardId, "none").then((response) => {
-      console.log(response);
       this.setState({lists: response, listLoaded: true});
     });
   }

@@ -1,63 +1,87 @@
 'use strict';
 
-import React, { Component } from 'react';
-import {ViroFlexView, ViroText} from 'react-viro';
+import React, {Component} from 'react';
+import {
+  ViroNode,
+  ViroText,
+  ViroFlexView
+} from 'react-viro';
+import {getLabels} from './backend/backendController';
 import {StyleSheet} from "react-native";
 
-
-class ARTrelloLabel extends Component {
+class ARTrelloList extends Component {
 
   constructor(props) {
     super(props);
 
-    this.labelClick = this.labelClick.bind(this);
-
     this.state = {
-      id: ""
+      labels: [{id: "Loading..", name: "Loading..", color: "Loading.."}],
+      labelsLoaded: false,
+      labelClick: false,
+      labelObj: {id: "Loading..", name: "Loading..", color: "Loading.."}
     };
+
+    this.clickList = this.clickList.bind(this);
   }
 
   componentDidMount() {
-    this.setState({
-      id: this.props.n.id
+    getLabels().then((response) => {
+      console.log(response);
+      this.setState({
+        labels: response,
+        labelsLoaded: true});
     });
-
   }
 
-
-  labelClick(){
-    this.props.labelClick(this.props.n.id);
+  clickList(position, source, labelObj) {
+    this.setState({listClick: true, labelObj: labelObj});
+    if(this.state.labelsLoaded){
+      this.props.setLabelID(labelObj.id);
+      this.props.setMenuOption("Main Menu");
+      this.props.setLabelName(labelObj.name);
+    }
   }
 
   render() {
-
     return (
-      <ViroFlexView
-        position={[0, -this.props.i * 0.5, 0]}
-        style={{flexDirection: "column", backgroundColor: this.props.n.color === "sky" ? "lightblue" : this.props.n.color}}
-        height={0.4}
-        width={1.5}
-        onClick={this.labelClick}
+      <ViroNode
+        position={this.props.disArr}
       >
-        <ViroText
-          style={styles.prodDescriptionText}
-          text={this.props.n.name}
-        />
-      </ViroFlexView>
+        {
+          (this.state.labelsLoaded) ? (
+            this.state.labels.map((n, i) => {
+              return (
+                <ViroFlexView
+                  position={[0, (-0.5 * (i)), 0]}
+                  style={{flexDirection: "column", backgroundColor: n.color === "sky" ? "lightblue" : n.color}}
+                  height={0.4}
+                  width={1.75}
+                  key={n.id}
+                  onClick={(pos, src, labelObj = n) => this.clickList(pos, src, labelObj)}>
+                  <ViroText
+                    style={styles.prodDescriptionText}
+                    text={n.name}
+                    key={n.id}
+                  />
+                </ViroFlexView>);
+            })
+          ) : null
+        }
+      </ViroNode>
     );
   }
 }
 
-module.exports = ARTrelloLabel;
+module.exports = ARTrelloList;
 
 var styles = StyleSheet.create({
   prodDescriptionText: {
     fontFamily: 'sans-serif-light',
     fontSize: 20,
-    flex: 1,
     color: '#000000',
     textAlignVertical: 'center',
     textAlign: 'left',
+    flex: 1,
   },
   titleContainer: {
     flexDirection: 'column',

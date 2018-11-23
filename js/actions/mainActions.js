@@ -45,3 +45,17 @@ export function setMenuOption(option){
     option
   };
 }
+
+export function setLabelID(labelID){
+  return {
+    type: "SET_LABEL_ID",
+    labelID
+  };
+}
+
+export function setLabelName(labelName){
+  return {
+    type: "SET_LABEL_NAME",
+    labelName
+  };
+}

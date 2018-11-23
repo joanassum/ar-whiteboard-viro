@@ -88,12 +88,17 @@ class KaizenBoardEntry extends Component {
             boardId={this.props.boardId}
             listID={this.props.listID}
             listSet={this.props.listSet}
+            labelName={this.props.labelName}
+            labelID={this.props.labelID}
+            labelSet={this.props.labelSet}
             cardChosen={this.props.cardChosen}
             titlePicked={this.props.titlePicked}
             setMenuViewName={(title) => this.props.setMenuViewName(title)}
             setMenuOption={(option) => this.props.setMenuOption(option)}
             setCardId={(cardId) => this.props.setCardId(cardId)}
             setListID={(listID) => this.props.setListID(listID)}
+            setLabelID={(labelID) => this.props.setLabelID(labelID)}
+            setLabelName={(labelName) => this.props.setLabelName(labelName)}
             unsetCardId={() => this.props.unsetCardId()}
           />
         </ViroNode>

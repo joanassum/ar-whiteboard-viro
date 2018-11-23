@@ -7,6 +7,8 @@ const mapStateToProps = (state, ownProps) => {
     listID: ownProps.listID,
     disArr: ownProps.disArr,
     listSet: ownProps.listSet,
+    labelID: state.mainReducer.labelID,
+
   };
 };
 

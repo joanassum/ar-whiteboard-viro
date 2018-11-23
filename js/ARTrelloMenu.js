@@ -2,6 +2,7 @@
 
 import React, {Component} from 'react';
 import ARTrelloBoard from "./ARTrelloBoard.js";
+import ARTrelloLabel from "./ARTrelloLabel.js";
 import MenuCardContainer from "./containers/MenuCardContainer.js";
 import ARTrelloList from "./ARTrelloList.js";
 
@@ -48,7 +49,7 @@ class ARTrelloMenu extends Component {
         >
           <ViroText
             style={styles.prodDescriptionText}
-            text={"Filter Options"}
+            text={`${(this.props.labelSet) ? "Filter: " + this.props.labelName : "Filter Options"}`}
           />
         </ViroFlexView>
         <ViroFlexView
@@ -64,7 +65,7 @@ class ARTrelloMenu extends Component {
     );
 
     const mainComponent = (component => {
-      console.log(component);
+      console.log(this.props.option);
       console.log("MAIN COMPONENET: " + this.props.menuTitle);
       switch (component) {
         case "Board Menu":
@@ -90,7 +91,12 @@ class ARTrelloMenu extends Component {
           />;
         case "Filter Menu":
           console.log("Filter Menu");
-        //   return <ARTrelloCard />;
+          return <ARTrelloLabel
+            disArr={[0,-0.5,0]}
+            setLabelID={(labelID) => this.props.setLabelID(labelID)}
+            setLabelName={(labelName) => this.props.setLabelName(labelName)}
+            setMenuOption={(option) => this.props.setMenuOption(option)}
+          />;
         case "Main Menu":
           //Fall Through
         default:

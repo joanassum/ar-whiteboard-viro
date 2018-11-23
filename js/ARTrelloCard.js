@@ -28,7 +28,7 @@ class ARTrelloCard extends Component {
     }
 
     componentDidMount() {
-      getFilteredCardMap(this.props.listID , "none").then((response) => {
+      getFilteredCardMap(this.props.listID , this.props.labelID).then((response) => {
         this.setState({cards: response, cardLoaded: true});
       });
     }
