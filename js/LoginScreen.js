@@ -41,6 +41,17 @@ class LoginScreen extends Component {
     return (
       <View style = {styles.container}>
 
+     <TouchableHighlight style={styles.title}
+      underlayColor={'#68a0ff'} >
+
+          <Text style={styles.titleText}>Kaizen AR</Text>
+      </TouchableHighlight>
+
+          <TouchableHighlight style={styles.title}
+      underlayColor={'#68a0ff'} >
+          <Text style={styles.titleText}>Augment Efficiency</Text>
+      </TouchableHighlight>
+
       <TouchableHighlight style={styles.submitButton}
       onPress={this.onPress}
       underlayColor={'#68a0ff'} >
@@ -67,7 +78,7 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 350
+    paddingTop: 200
   },
   input: {
     margin: 15,
@@ -81,6 +92,15 @@ const styles = StyleSheet.create({
     margin: 15,
     height: 40,
   },
+    title: {
+        backgroundColor: '#7a42f4',
+        padding: 10,
+        margin: 15,
+        height: 40,
+    },
+    titleText: {
+      color: 'white'
+    },
   submitButtonText: {
     color: 'white'
   }

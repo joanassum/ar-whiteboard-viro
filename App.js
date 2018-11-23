@@ -16,6 +16,7 @@ class App extends Component {
           <Scene key="login"
                  component={LoginContainer}
                  title="Login"
+                 initial
 
 
           />
@@ -23,7 +24,6 @@ class App extends Component {
             key="viro"
             component={ViroEntry}
             title="Kaizen AR"
-            initial
           />
         </Scene>
       </Router>
