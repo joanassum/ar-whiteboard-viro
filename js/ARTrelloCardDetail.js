@@ -37,30 +37,37 @@ class ARTrelloCardDetail extends Component {
     super();
     this.state = {
       cardPosition: [-4, -0.5, 0],
-      cardId: "",
       members:[],
-      checkLists: []
+      membersLoaded: false,
+      checkLists: [],
+      checkListsLoaded: false,
+      timeLineGraph: "Loading...",
+      timeLineGraphLoaded: false,
     };
   }
 
   componentDidMount() {
-    this.setState({
-      cardId: this.props.cardId,
-    });
-
     getCardMembers(this.props.cardId).then((response) => {
-      this.setState({members: response});
+      this.setState({
+        members: response,
+        membersLoaded: true
+      });
     });
 
     getCheckLists(this.props.cardId).then((response) => {
+      console.log("Checklist");
+      console.log(response);
       this.setState({
-        checkLists: response
+        checkLists: response,
+        checkListsLoaded: true
       });
     });
 
     getTimeLineGraph(this.props.cardId).then((response) => {
-      console.log("fetched: " + response);
-      this.setState({timeLineGraph: response});
+      this.setState({
+        timeLineGraph: response,
+        timeLineGraphLoaded: true
+      });
     });
   }
 
@@ -84,34 +91,37 @@ class ARTrelloCardDetail extends Component {
               );
             })}
           </ViroFlexView>
-
         );
       })
     );
 
+
     return (
-      <ViroNode position={this.state.cardPosition}>
-        <ViroFlexView style={styles.titleContainer} height={5.5} width={6}>
-          <ViroFlexView style={{flexDirection: 'column'}} height={12} width={3}>
+      <ViroNode position={this.props.cardViewPosition}>
+        <ViroFlexView style={styles.titleContainer} height={6} width={3}>
+          <ViroFlexView style={{flexDirection: 'column'}} >
             <ViroImage
-              style={styles.prodDescriptionText}
-              source={{uri: this.state.timeLineGraph}}
+              height={3}
+              width={3}
+              source={(this.state.timeLineGraphLoaded) ? {uri: this.state.timeLineGraph} : require("./res/Logo.png")}
             />
           </ViroFlexView>
           <ViroFlexView style={{flexDirection: 'column'}} height={1} width={3}>
-            <ViroFlexView style={{flexDirection: 'row'}} height={0.7} width={3}>
+            <ViroFlexView style={{flexDirection: 'row'}} height={0.7} width={1.75}>
               <ViroText
                 style={styles.prodDescriptionText}
                 text="Members: "
               />
 
               {
-                this.state.members.map((n, i) => {
-                  return <ViroText style={styles.memberNameText} text={this.state.members[i].fullName}/>;
-                })
+                (this.state.membersLoaded) ? (
+                  this.state.members.map((n, i) => {
+                      return (<ViroText style={styles.memberNameText} text={this.state.members[i].fullName}/>);
+                  })
+                ) : null
               }
             </ViroFlexView>
-            {checkLists}
+            {(this.state.checkListsLoaded) ? checkLists : null}
           </ViroFlexView>
         </ViroFlexView>
 
@@ -128,7 +138,11 @@ var styles = StyleSheet.create({
     color: '#222222',
     textAlignVertical: 'center',
     textAlign: 'left',
-    flex: 0.35,
+    flex: 1,
+  },
+  titleContainer: {
+    flexDirection: 'column',
+    backgroundColor: "#ffffdd",
   },
   memberNameText: {
     fontFamily: 'sans-serif-light',
@@ -137,10 +151,6 @@ var styles = StyleSheet.create({
     textAlignVertical: 'center',
     textAlign: 'left',
     flex: 0.2,
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    backgroundColor: "#ffffdd",
   },
   cardBack: {
     flexDirection: 'column',

@@ -79,7 +79,7 @@ class KaizenBoardEntry extends Component {
       <ViroARScene onTrackingUpdated={this._onInitialized}>
         {/*<ViroARImageMarker target={"menumarker"}>*/}
         <ViroNode
-           position={[1.5, 0, -5]} //rotation={[-90, 0, 0]}
+           position={[0, 0, -5]} //rotation={[-90, 0, 0]}
         >
           <ARTrelloMenu
             menuTitle={this.props.menuTitle}
@@ -104,14 +104,18 @@ class KaizenBoardEntry extends Component {
         </ViroNode>
 
         {/*TODO Card Detail*/}
-        {/*<ViroNode*/}
-          {/*position={[-5,0,-5]}*/}
-        {/*>*/}
-          {/*/!*{this.props.cardChosen ? <ARTrelloCardDetail timelinePosition={[0,0,0]} cardId={this.props.cardId} boardId={this.props.boardId}/> : null}*!/*/}
-        {/*</ViroNode>*/}
+        <ViroNode
+          position={[-3.2,0,-5]}
+        >
+          {this.props.cardChosen ? <ARTrelloCardDetail
+            cardViewPosition={[0,0,0]}
+            cardId={this.props.cardId}
+            boardId={this.props.boardId}/> : null}
+
+        </ViroNode>
 
         <ViroNode
-          position={[-5, 0, -5]} //rotation={[-90, 0, 0]}
+          position={[6, 0, -5]} //rotation={[-90, 0, 0]}
         >
           {this.props.cardChosen ? <ARTrelloCardTimeline timelinePosition={[0,0,0]} cardId={this.props.cardId} boardId={this.props.boardId}/> : null}
         </ViroNode>
