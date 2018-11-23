@@ -11,24 +11,53 @@ import {
 } from 'react-viro';
 import {getCardMembers, getCheckLists, getTimeLineGraph} from "./backend/backendController";
 
-function Checkbox(props) {
-  const state = props.state;
-  if (state == "complete") {
-    return (
-      <ViroImage
-        style={styles.prodDescriptionText}
-        source={require("./res/complete.jpg")}
-        scale= {[0.5, 0.5, 0.5]}
-      />
-    );
-  }
-  return (
-    <ViroImage
-      style={styles.prodDescriptionText}
-      source={require("./res/incomplete.jpg")}
-      scale= {[0.5, 0.5, 0.5]}
-    />
-  );
+class Checkbox extends Component {
+
+ constructor(props) {
+   super(props);
+   this.state = {
+     stateComplete: "lala"
+   };
+   this.onClick = this.onClick.bind(this);
+ }
+
+componentDidMount(){
+
+  this.setState({stateComplete: this.props.state});
+
+}
+
+ onClick(position, source){
+   if(this.state.stateComplete === "complete") {
+     this.setState({stateComplete: 'incomplete'});
+   } else {
+     this.setState({stateComplete: 'complete'});
+   }
+ }
+
+ render(){
+
+   let ret = null;
+   console.log(this.state.stateComplete);
+   if(this.state.stateComplete === "complete"){
+     ret =
+       <ViroImage
+         style={styles.prodDescriptionText}
+         source={require("./res/complete.jpg")}
+         onClick={this.onClick}
+         scale= {[0.5, 0.5, 0.5]}
+       />;
+   } else {
+     ret =
+       <ViroImage
+         style={styles.prodDescriptionText}
+         source={require("./res/incomplete.jpg")}
+         onClick={this.onClick}
+         scale= {[0.5, 0.5, 0.5]}
+       />;
+   }
+   return (ret);
+ }
 }
 
 class ARTrelloCardDetail extends Component {
@@ -76,13 +105,18 @@ class ARTrelloCardDetail extends Component {
     let checkLists = (
       this.state.checkLists.map ((n, i) => {
         return(
-          <ViroFlexView style={{flexDirection: 'column'}} height={4} width={3}>
-            <ViroFlexView style={{flexDirection: 'column'}} height={0.7} width={3}>
+          <ViroFlexView style={{flexDirection: 'column'}} height={4} width={3} key={n.name}>
+            <ViroFlexView style={{flexDirection: 'column'}} height={0.5} width={3}>
               <ViroText style={styles.prodDescriptionText} text={n.name + ": "}/>
             </ViroFlexView>
             {this.state.checkLists[i].checkItems.map((m, j) => {
               return (
-                <ViroFlexView style={{flexDirection: 'row'}} height={0.7} width={3}>
+                <ViroFlexView
+                style={{flexDirection: 'row', backgroundColor: "#ffffdd"}}
+                height={0.7}
+                width={3}
+                key={m.name}
+                >
                   <Checkbox state={m.state} />
                   <ViroText style={styles.prodDescriptionText} text={
                     m.name
@@ -99,14 +133,14 @@ class ARTrelloCardDetail extends Component {
     return (
       <ViroNode position={this.props.cardViewPosition}>
         <ViroFlexView style={styles.titleContainer} height={6} width={3}>
-          <ViroFlexView style={{flexDirection: 'column'}} >
+          <ViroFlexView style={{flexDirection: 'column', overflow: 'scroll'}} >
             <ViroImage
               height={3}
               width={3}
               source={(this.state.timeLineGraphLoaded) ? {uri: this.state.timeLineGraph} : require("./res/Logo.png")}
             />
           </ViroFlexView>
-          <ViroFlexView style={{flexDirection: 'column'}} height={1} width={3}>
+          <ViroFlexView style={{flexDirection: 'column', overflow: 'scroll'}} height={2} width={3}>
             <ViroFlexView style={{flexDirection: 'row'}} height={0.7} width={3}>
               <ViroText
                 style={styles.prodDescriptionText}
@@ -144,6 +178,7 @@ var styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'column',
     backgroundColor: "#ffffdd",
+    overflow: 'hidden',
   },
   memberNameText: {
     fontFamily: 'sans-serif-light',
