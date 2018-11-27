@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import ARTrelloMenu from "./ARTrelloMenu.js";
 import ARTrelloCardTimeline from "./ARTrelloCardTimeline.js";
 import ARTrelloCardDetail from "./ARTrelloCardDetail.js";
-import {getPerformanceGraph} from './backend/backendController';
+import BoardMetric from "./BoardMetric.js";
 
 import {
   ViroARScene,
@@ -97,11 +97,14 @@ class KaizenBoardEntry extends Component {
             titlePicked={this.props.titlePicked}
             setMenuViewName={(title) => this.props.setMenuViewName(title)}
             setMenuOption={(option) => this.props.setMenuOption(option)}
-            setCardId={(cardId) => this.props.setCardId(cardId)}
             setListID={(listID) => this.props.setListID(listID)}
+            setGraphType={(graphType) => this.props.setGraphType(graphType)}
             setLabelID={(labelID) => this.props.setLabelID(labelID)}
             setLabelName={(labelName) => this.props.setLabelName(labelName)}
+            setCardId={(cardId) => this.props.setCardId(cardId)}
             unsetCardId={() => this.props.unsetCardId()}
+            setBoardMetric={() => this.props.setBoardMetric()}
+            unsetBoardMetric={() => this.props.unsetBoardMetric()}
           />
         </ViroNode>
 
@@ -115,6 +118,17 @@ class KaizenBoardEntry extends Component {
             boardId={this.props.boardId}/> : null}
 
         </ViroNode>
+        <ViroNode
+          position={[-3.2,0,-5]}
+        >
+          {this.props.boardMetricChosen ? <BoardMetric
+            graphViewPosition={[0,0,0]}
+            boardId={this.props.boardId}
+            graphType={this.props.graphType}
+           /> : null}
+
+        </ViroNode>
+
 
         <ViroNode
           position={[6, 0, -5]} //rotation={[-90, 0, 0]}

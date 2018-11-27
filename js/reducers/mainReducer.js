@@ -10,6 +10,7 @@ const mainReducer = (state = {
   cardId: "None",
   menuTitle: "",
   cardChosen: false,
+  boardMetricChosen: false,
   option: "Main Menu",
 }, action) => {
   switch (action.type) {
@@ -21,6 +22,12 @@ const mainReducer = (state = {
       return { ...state, cardChosen: false};
     case "SET_CARD_ID":
       return { ...state, cardId: action.cardId, cardChosen: true};
+    case "SET_GRAPH_TYPE":
+      return { ...state, graphType: action.graphType};
+    case "UNSET_BOARD_METRIC":
+      return { ...state, boardMetricChosen: false};
+    case "SET_BOARD_METRIC":
+      return { ...state, boardMetricChosen: true};
     case "SET_MENU_TITLE":
       return { ...state, menuTitle: action.menuTitle, titlePicked: true};
     case "SET_LIST_ID":

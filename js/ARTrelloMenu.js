@@ -3,6 +3,7 @@
 import React, {Component} from 'react';
 import ARTrelloBoard from "./ARTrelloBoard.js";
 import ARTrelloLabel from "./ARTrelloLabel.js";
+import BoardMetricGraphs from "./BoardMetricGraphs.js";
 import MenuCardContainer from "./containers/MenuCardContainer.js";
 import ARTrelloList from "./ARTrelloList.js";
 
@@ -32,8 +33,7 @@ class ARTrelloMenu extends Component {
   }
 
   onClick(option){
-
-    if(option === "Board Menu"){
+    if(option === "Board Menu" || option === "Board Metric"){
       this.props.unsetCardId();
     }
     this.props.setMenuOption(option);
@@ -41,8 +41,6 @@ class ARTrelloMenu extends Component {
 
 
   render() {
-
-
     let mainMenu = (
       <ViroNode
         position={[0,0,0]}
@@ -63,6 +61,15 @@ class ARTrelloMenu extends Component {
           <ViroText
             style={styles.prodDescriptionText}
             text={`${(this.props.titlePicked) ? "Search: " + this.props.menuTitle : "Search Options"}`}
+          />
+        </ViroFlexView>
+        <ViroFlexView
+          position={[0, -1.5, 0]} style={styles.titleContainer} height={0.4} width={2.5}
+          onClick={() => this.onClick("Board Metric")}
+        >
+          <ViroText
+            style={styles.prodDescriptionText}
+            text={"Board Metric"}
           />
         </ViroFlexView>
       </ViroNode>
@@ -90,6 +97,14 @@ class ARTrelloMenu extends Component {
             listSet={this.props.listSet}
             disArr={[0,-0.5,0]}
             listID={this.props.listID}
+          />;
+        case "Board Metric":
+          return <BoardMetricGraphs
+            setMenuOption={(option) => this.props.setMenuOption(option)}
+            setBoardMetric={() => this.props.setBoardMetric()}
+            unsetBoardMetric={() => this.props.unsetBoardMetric()}
+            setGraphType={(graphType) => this.props.setGraphType(graphType)}
+            disArr={[0,-0.5,0]}
           />;
         case "Filter Menu":
           console.log("Filter Menu");

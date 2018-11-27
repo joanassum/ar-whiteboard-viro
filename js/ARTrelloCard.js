@@ -31,6 +31,7 @@ class ARTrelloCard extends Component {
       getFilteredCardMap(this.props.listID , this.props.labelID).then((response) => {
         this.setState({cards: response, cardLoaded: true});
       });
+      this.props.unsetBoardMetric();
     }
 
     onClick(position, source, cardObj){
@@ -41,7 +42,6 @@ class ARTrelloCard extends Component {
         this.props.setMenuViewName(cardObj.cardName);
         this.props.setMenuOption("Main Menu");
         this.props.setCardId(cardObj.cardId);
-
       }
     }
 

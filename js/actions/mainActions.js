@@ -24,6 +24,17 @@ export function unsetCardId(){
     type: "UNSET_CARD_ID",
   };
 }
+export function setBoardMetric(){
+  return {
+    type: "SET_BOARD_METRIC",
+  };
+}
+
+export function unsetBoardMetric(){
+  return {
+    type: "UNSET_BOARD_METRIC",
+  };
+}
 
 export function setMenuViewName(menuTitle){
   return {
@@ -36,6 +47,13 @@ export function setListID(listID){
   return {
     type: "SET_LIST_ID",
     listID,
+  };
+}
+
+export function setGraphType(graphType){
+  return {
+    type: "SET_GRAPH_TYPE",
+    graphType,
   };
 }
 

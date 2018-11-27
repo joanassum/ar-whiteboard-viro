@@ -109,9 +109,9 @@ export function getCardHistory(cardId){
         });
 }
 
-export function getPerformanceGraph(boardId){
+export function getPerformanceGraph(localBoardId){
   //console.log("getPerformanceGraph");
-    return fetch(`${url}/trello/getPerformanceGraph/${boardId}`)
+    return fetch(`${url}/trello/getPerformanceGraph/${localBoardId}`)
         .then((response) => response.text())
         .then((response) => `${url}/${response}`)
         .catch((error) => {
@@ -122,6 +122,16 @@ export function getPerformanceGraph(boardId){
 export function getTimeLineGraph(cardId){
   //console.log("getTimeLineGraph");
     return fetch(`${url}/trello/getTimelineGraph/${cardId}`)
+        .then((response) => response.text())
+        .then((response) => `${url}/${response}`)
+        .catch((error) => {
+            console.error(error);
+        });
+}
+//"http://ec2-35-177-195-223.eu-west-2.compute.amazonaws.com:8080/trello/getBoardItemsGraph/SkS6g4qa";
+export function getColumnCountGraph(localBoardId){
+  //console.log("getTimeLineGraph");
+    return fetch(`${url}/trello/getBoardItemsGraph/${localBoardId}`)
         .then((response) => response.text())
         .then((response) => `${url}/${response}`)
         .catch((error) => {
