@@ -12,39 +12,45 @@ import {
 import {getCardMembers, getCheckLists, getTimeLineGraph} from "./backend/backendController";
 
 class Checkbox extends Component {
-
   constructor(props) {
-    super(props);
-
-    this.onClick = this.onClick.bind(this);
-  }
-
-  onClick(){
-
-  }
-
+   super(props);
+   this.state = {
+     stateComplete: "lala"
+   };
+   this.onClick = this.onClick.bind(this);
+ }
+ componentDidMount(){
+   this.setState({stateComplete: this.props.state});
+ }
+  onClick(position, source){
+   if(this.state.stateComplete === "complete") {
+     this.setState({stateComplete: 'incomplete'});
+   } else {
+     this.setState({stateComplete: 'complete'});
+   }
+ }
   render(){
-
     let ret = null;
-    if(this.props.state === "complete"){
-      ret =  (
-        <ViroImage
-          style={styles.prodDescriptionText}
-          source={require("./res/complete.jpg")}
-          onClick={this.onClick}
-          scale= {[0.5, 0.5, 0.5]}
-        />);
-    } else {
-      ret = ((
-        <ViroImage
-          style={styles.prodDescriptionText}
-          source={require("./res/incomplete.jpg")}
-          onClick
-          scale= {[0.5, 0.5, 0.5]}
-        />));
-    }
-    return (ret);
-  }
+   console.log(this.state.stateComplete);
+   if(this.state.stateComplete === "complete"){
+     ret =
+       <ViroImage
+         style={styles.prodDescriptionText}
+         source={require("./res/complete.jpg")}
+         onClick={this.onClick}
+         scale= {[0.5, 0.5, 0.5]}
+       />;
+   } else {
+     ret =
+       <ViroImage
+         style={styles.prodDescriptionText}
+         source={require("./res/incomplete.jpg")}
+         onClick={this.onClick}
+         scale= {[0.5, 0.5, 0.5]}
+       />;
+   }
+   return (ret);
+ }
 }
 
 class ARTrelloCardDetail extends Component {
@@ -112,7 +118,7 @@ class ARTrelloCardDetail extends Component {
 
     return (
       <ViroNode position={this.props.cardViewPosition}>
-        <ViroFlexView style={styles.titleContainer} height={6} width={3}>
+        <ViroFlexView style={styles.titleContainer} height={8} width={3}>
           <ViroFlexView style={{flexDirection: 'column'}} >
             <ViroImage
               height={3}
