@@ -79,9 +79,10 @@ class KaizenBoardEntry extends Component {
     console.log("Update card ID: " + this.props.cardId);
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized}>
-        {/*<ViroARImageMarker target={"menumarker"}>*/}
+        <ViroARImageMarker target={"menumarker"}>
         <ViroNode
-           position={[0, 0, -5]} //rotation={[-90, 0, 0]}
+            position={[-1, -6, -1]} rotation={[-90, 0, 0]} dragType="FixedToWorld" onDrag={()=>{}}
+            // position={[0, 0, -5]} // rotation={[-90, 0, 0]
         >
           <ARTrelloMenu
             menuTitle={this.props.menuTitle}
@@ -110,7 +111,8 @@ class KaizenBoardEntry extends Component {
 
         {/*TODO Card Detail*/}
         <ViroNode
-          position={[-3.2,0,-5]}
+          position={[-1,0,-5]} rotation={[-90, 0, 0]}
+          dragType="FixedToWorld" onDrag={()=>{}}
         >
           {this.props.cardChosen ? <ARTrelloCardDetail
             cardViewPosition={[0,0,0]}
@@ -119,7 +121,8 @@ class KaizenBoardEntry extends Component {
 
         </ViroNode>
         <ViroNode
-          position={[-3.2,0,-5]}
+          position={[-3,-7,-3]} rotation={[-90, 0, 0]}
+          dragType="FixedToWorld" onDrag={()=>{}}
         >
           {this.props.boardMetricChosen ? <BoardMetric
             graphViewPosition={[0,0,0]}
@@ -131,11 +134,12 @@ class KaizenBoardEntry extends Component {
 
 
         <ViroNode
-          position={[6, 0, -5]} //rotation={[-90, 0, 0]}
+          position={[5, -7, -3]} rotation={[-90, 0, 0]}
+          dragType="FixedToWorld" onDrag={()=>{}}
         >
           {this.props.cardChosen ? <ARTrelloCardTimeline timelinePosition={[0,0,0]} cardId={this.props.cardId} boardId={this.props.boardId}/> : null}
         </ViroNode>
-        {/*</ViroARImageMarker>*/}
+        </ViroARImageMarker>
 
 
       </ViroARScene>
