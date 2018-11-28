@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Router, Scene, Modal } from 'react-native-router-flux';
 import ViroEntry from "./js/ViroEntry";
 import LoginContainer from "./js/containers/LoginContainer";
-import CommentModal from "./js/CommentModal";
+import CommentContainer from "./js/containers/CommentContainer";
+import KaizenImprovement from "./js/KaizenImprovement";
 
 class App extends Component {
 
@@ -13,7 +14,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <Modal hideNavBar >
+        <Modal hideNavBar>
           <Scene key="root">
             <Scene
               key="login"
@@ -25,10 +26,14 @@ class App extends Component {
               key="viro"
               component={ViroEntry}
               title="Kaizen AR"
-
+            />
+            <Scene
+              key="improvement"
+              component={KaizenImprovement}
+              title="Kaizen Improvement"
             />
           </Scene>
-          <Scene key="commentModal" component={CommentModal} />
+          <Scene key="commentModal" component={CommentContainer} />
         </Modal>
       </Router>
     );

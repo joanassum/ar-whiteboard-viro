@@ -14,6 +14,24 @@ export function getLabels() {
     });
 }
 
+export function getCardComments(cardId) {
+  //console.log("getBoardName");
+  return fetch(`${url}/trello/getCardComment/${cardId}`)
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+export function postCardComment(cardId, commentData) {
+  //console.log("getBoardName");
+  return fetch(`${url}/trello/postCardComment/${cardId}/${commentData}`)
+    .then((response) => response)
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
 export function getBoardName(boardIdParam) {
   //console.log("getBoardName");
   return fetch(`${url}/trello/getBoardName/${boardIdParam}`)

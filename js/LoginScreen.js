@@ -22,6 +22,7 @@ class LoginScreen extends Component {
   }
 
   submitPin(){
+    alert("Submitted: " + this.state.board_pin);
     if(!isNaN(this.state.board_pin) && this.state.board_pin.length === 6){
       //fetch call
       getBoardIdMapping(this.state.board_pin).then((response) => {
@@ -30,7 +31,6 @@ class LoginScreen extends Component {
         this.props.setBoardId(response);
       });
     }
-    Actions.commentModal();
   }
 
   onPress() {
