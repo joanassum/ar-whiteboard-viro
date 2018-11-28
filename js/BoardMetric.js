@@ -18,10 +18,16 @@ class BoardMetric extends Component {
     this.state = {
       graph: "Loading...",
       graphLoaded: false,
+      cardLoaded: false,
+      cards: [{
+        cardName: "Loading....", cardId: "Loading...."
+      }],
     };
   }
 
-  componentDidMount() {
+
+
+componentDidMount() {
 
     switch(this.props.graphType){
       case "Column Count":

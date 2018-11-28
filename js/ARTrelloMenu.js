@@ -90,6 +90,7 @@ class ARTrelloMenu extends Component {
             boardId={this.props.boardId}
             setListID={(listID) => this.props.setListID(listID)}
             setMenuViewName={(title) => this.props.setMenuViewName(title)}
+            setOverDueFlag={(flag) => this.props.setOverDueFlag(flag)}
             setMenuOption={(option) => this.props.setMenuOption(option)}
           />;
         case "Card Menu":
@@ -101,6 +102,7 @@ class ARTrelloMenu extends Component {
         case "Board Metric":
           return <BoardMetricGraphs
             setMenuOption={(option) => this.props.setMenuOption(option)}
+            setOverDueFlag={(flag) => this.props.setOverDueFlag(flag)}
             setBoardMetric={() => this.props.setBoardMetric()}
             unsetBoardMetric={() => this.props.unsetBoardMetric()}
             setGraphType={(graphType) => this.props.setGraphType(graphType)}

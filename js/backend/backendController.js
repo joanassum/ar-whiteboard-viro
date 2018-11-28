@@ -1,7 +1,7 @@
 const url = "http://ec2-35-177-195-223.eu-west-2.compute.amazonaws.com:8080";
 let boardId = "SkS6g4qa";
 
-export function setBoardID(newBoardID){
+export function setBoardID(newBoardID) {
   boardId = newBoardID;
 }
 
@@ -23,22 +23,22 @@ export function getBoardName(boardIdParam) {
     });
 }
 
-export function getBoard(){
+export function getBoard() {
   //console.log("getBoard");
-    return fetch(`${url}/trello/getBoard/SkS6g4qa`)
-        .then((response) => response.json())
-        .catch((error) => {
-            console.error(error);
-        });
+  return fetch(`${url}/trello/getBoard/SkS6g4qa`)
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error(error);
+    });
 }
 
-export function getBoardById(boardId){
+export function getBoardById(boardId) {
   //console.log("getBoardById: " + boardId);
-    return fetch(`${url}/trello/getBoard/${boardId}`)
-        .then((response) => response.json())
-        .catch((error) => {
-            console.error(error);
-        });
+  return fetch(`${url}/trello/getBoard/${boardId}`)
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error(error);
+    });
 }
 
 export function getListIds() {
@@ -100,47 +100,60 @@ export function getFilteredCardMap(listId, labelId) {
     });
 }
 
-export function getCardHistory(cardId){
+export function getCardHistory(cardId) {
   //console.log("getCardHistory: " + cardId);
-    return fetch(`${url}/trello/getCardHistory/${cardId}`)
-        .then((response) => response.json())
-        .catch((error) => {
-            console.error(error);
-        });
+  return fetch(`${url}/trello/getCardHistory/${cardId}`)
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error(error);
+    });
 }
 
-export function getPerformanceGraph(localBoardId){
+export function getPerformanceGraph(localBoardId) {
   //console.log("getPerformanceGraph");
-    return fetch(`${url}/trello/getPerformanceGraph/${localBoardId}`)
-        .then((response) => response.text())
-        .then((response) => `${url}/${response}`)
-        .catch((error) => {
-            console.error(error);
-        });
+  return fetch(`${url}/trello/getPerformanceGraph/${localBoardId}`)
+    .then((response) => response.text())
+    .then((response) => `${url}/${response}`)
+    .catch((error) => {
+      console.error(error);
+    });
 }
 
-export function getTimeLineGraph(cardId){
+export function getTimeLineGraph(cardId) {
   //console.log("getTimeLineGraph");
-    return fetch(`${url}/trello/getTimelineGraph/${cardId}`)
-        .then((response) => response.text())
-        .then((response) => `${url}/${response}`)
-        .catch((error) => {
-            console.error(error);
-        });
+  return fetch(`${url}/trello/getTimelineGraph/${cardId}`)
+    .then((response) => response.text())
+    .then((response) => `${url}/${response}`)
+    .catch((error) => {
+      console.error(error);
+    });
 }
+
 //"http://ec2-35-177-195-223.eu-west-2.compute.amazonaws.com:8080/trello/getBoardItemsGraph/SkS6g4qa";
-export function getColumnCountGraph(localBoardId){
+export function getColumnCountGraph(localBoardId) {
   //console.log("getTimeLineGraph");
-    return fetch(`${url}/trello/getBoardItemsGraph/${localBoardId}`)
-        .then((response) => response.text())
-        .then((response) => `${url}/${response}`)
-        .catch((error) => {
-            console.error(error);
-        });
+  return fetch(`${url}/trello/getBoardItemsGraph/${localBoardId}`)
+    .then((response) => response.text())
+    .then((response) => `${url}/${response}`)
+    .catch((error) => {
+      console.error(error);
+    });
 }
 
 
-export function getBoardIdMapping(boardPin){
+//http://ec2-35-177-195-223.eu-west-2.compute.amazonaws.com:8080/trello/getOverdueCards/SkS6g4qa
+export function getOverdueTicketCard(localBoardId) {
+  //console.log("getBoardIdMapping");
+  return fetch(`${url}/trello/getOverdueCards/${localBoardId}`)
+    .then((response) => {
+      return response.json();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+export function getBoardIdMapping(boardPin) {
   //console.log("getBoardIdMapping");
   return fetch(`${url}/queriesDB/getBoardMapping/${boardPin}`)
     .then((response) => response.text())

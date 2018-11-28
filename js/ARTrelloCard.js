@@ -8,7 +8,7 @@ import {
     ViroText,
     ViroFlexView,
 } from 'react-viro';
-import {getFilteredCardMap} from "./backend/backendController";
+import {getFilteredCardMap, getOverdueTicketCard} from "./backend/backendController";
 
 class ARTrelloCard extends Component {
 
@@ -16,21 +16,30 @@ class ARTrelloCard extends Component {
         super();
         this.state = {
           cardLoaded: false,
-          cardss: [{
-            cardName: "Loading....", cardId: "Loading...."
+          cards: [{
+            cardName: "Loading....", cardId: "Loading....", dueDate: "Loading...."
           }],
           cardClick: false,
           cardObj: {
-            cardName: "Loading....", cardId: "Loading...."
+            cardName: "Loading....", cardId: "Loading....", dueDate: "Loading...."
           },
         };
         this.onClick = this.onClick.bind(this);
     }
 
+
     componentDidMount() {
-      getFilteredCardMap(this.props.listID , this.props.labelID).then((response) => {
-        this.setState({cards: response, cardLoaded: true});
-      });
+
+      if(this.props.overDueFlag){
+        getOverdueTicketCard(this.props.boardId).then((response) => {
+          this.setState({cards: response, cardLoaded: true});
+        });
+      } else {
+        getFilteredCardMap(this.props.listID , this.props.labelID).then((response) => {
+          this.setState({cards: response, cardLoaded: true});
+        });
+      }
+
       this.props.unsetBoardMetric();
     }
 
@@ -64,7 +73,7 @@ class ARTrelloCard extends Component {
                         onClick={(pos, src, cardObj = n) => this.onClick(pos, src, cardObj)}>
                         <ViroText
                           style={styles.prodDescriptionText}
-                          text={n.cardName}
+                          text={(this.props.overDueFlag) ? `${n.cardName} was due on ${n.dueDate}` : n.cardName}
                           key={n.cardId}
                         />
                       </ViroFlexView>);

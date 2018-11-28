@@ -25,9 +25,16 @@ class BoardMetricGraphs extends Component {
   }
 
   onClick(graphType){
-    this.props.setMenuOption("Main Menu");
-    this.props.setGraphType(graphType)
-    this.props.setBoardMetric();
+
+    if(graphType === "OverDue"){
+      this.props.setMenuOption("Card Menu");
+      this.props.setOverDueFlag(true);
+      this.props.unsetBoardMetric();
+    } else {
+      this.props.setMenuOption("Main Menu");
+      this.props.setGraphType(graphType)
+      this.props.setBoardMetric();
+    }
   }
 
   render() {
@@ -50,6 +57,15 @@ class BoardMetricGraphs extends Component {
           <ViroText
             style={styles.prodDescriptionText}
             text={"Performance"}
+          />
+        </ViroFlexView>
+        <ViroFlexView
+          position={[0, -1.0, 0]} style={styles.titleContainer} height={0.4} width={2.5}
+          onClick={() => this.onClick("OverDue")}
+        >
+          <ViroText
+            style={styles.prodDescriptionText}
+            text={"Over Due Tickets"}
           />
         </ViroFlexView>
       </ViroNode>

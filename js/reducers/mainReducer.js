@@ -12,6 +12,7 @@ const mainReducer = (state = {
   cardChosen: false,
   boardMetricChosen: false,
   option: "Main Menu",
+  overDueFlag: false,
 }, action) => {
   switch (action.type) {
     case "CHECK_TEST":
@@ -26,6 +27,8 @@ const mainReducer = (state = {
       return { ...state, graphType: action.graphType};
     case "UNSET_BOARD_METRIC":
       return { ...state, boardMetricChosen: false};
+    case "SET_OVERDUE_FLAG":
+      return { ...state, overDueFlag: action.flag};
     case "SET_BOARD_METRIC":
       return { ...state, boardMetricChosen: true};
     case "SET_MENU_TITLE":

@@ -85,6 +85,7 @@ class KaizenBoardEntry extends Component {
         >
           <ARTrelloMenu
             menuTitle={this.props.menuTitle}
+            graphType={this.props.graphType}
             option={this.props.option}
             cardId={this.props.cardId}
             boardId={this.props.boardId}
@@ -104,6 +105,7 @@ class KaizenBoardEntry extends Component {
             setCardId={(cardId) => this.props.setCardId(cardId)}
             unsetCardId={() => this.props.unsetCardId()}
             setBoardMetric={() => this.props.setBoardMetric()}
+            setOverDueFlag={(flag) => this.props.setOverDueFlag(flag)}
             unsetBoardMetric={() => this.props.unsetBoardMetric()}
           />
         </ViroNode>

@@ -29,6 +29,7 @@ class ARTrelloList extends Component {
   }
 
   componentDidMount() {
+    this.props.setOverDueFlag(false);
     getFilteredListMap(this.props.boardId, "none").then((response) => {
       this.setState({lists: response, listLoaded: true});
     });

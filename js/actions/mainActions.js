@@ -30,6 +30,13 @@ export function setBoardMetric(){
   };
 }
 
+export function setOverDueFlag(flag){
+  return {
+    type: "SET_OVERDUE_FLAG",
+    flag
+  };
+}
+
 export function unsetBoardMetric(){
   return {
     type: "UNSET_BOARD_METRIC",

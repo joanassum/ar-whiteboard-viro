@@ -1,6 +1,8 @@
 import { connect } from "react-redux";
 import KaizenBoardEntry from "../KaizenBoardEntry";
-import {setCardId, setMenuViewName, unsetCardId, setMenuOption, setListID, setLabelID, setLabelName, setBoardMetric, unsetBoardMetric, setGraphType} from "../actions/mainActions";
+import {setCardId, setMenuViewName, unsetCardId, setMenuOption,
+  setListID, setLabelID, setLabelName, setBoardMetric,
+  unsetBoardMetric, setGraphType, setOverDueFlag} from "../actions/mainActions";
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -28,6 +30,7 @@ const mapDispatchToProps = dispatch => {
     setLabelID: (labelID) => dispatch(setLabelID(labelID)),
     setLabelName: (labelName) => dispatch(setLabelName(labelName)),
     setListID: (listID) => dispatch(setListID(listID)),
+    setOverDueFlag: (flag) => dispatch(setOverDueFlag(flag)),
     setGraphType: (graphType) => dispatch(setGraphType(graphType)),
     unsetCardId: () => dispatch(unsetCardId()),
     setBoardMetric: () => dispatch(setBoardMetric()),
