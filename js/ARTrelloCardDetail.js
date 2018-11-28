@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react';
 import {StyleSheet} from 'react-native';
-
+import { Actions } from 'react-native-router-flux';
 import {
   ViroNode,
   ViroText,
@@ -66,6 +66,8 @@ class ARTrelloCardDetail extends Component {
       timeLineGraph: "Loading...",
       timeLineGraphLoaded: false,
     };
+
+    this.onClickComment = this.onClickComment.bind(this);
   }
 
   componentDidMount() {
@@ -89,6 +91,10 @@ class ARTrelloCardDetail extends Component {
         timeLineGraphLoaded: true
       });
     });
+  }
+
+  onClickComment(){
+    Actions.commentModal();
   }
 
   render() {
@@ -118,7 +124,17 @@ class ARTrelloCardDetail extends Component {
 
     return (
       <ViroNode position={this.props.cardViewPosition}>
-        <ViroFlexView style={styles.titleContainer} height={8} width={3}>
+        <ViroFlexView style={styles.titleContainer} height={9} width={3}>
+          <ViroFlexView style={{flexDirection: 'column'}}
+                        height={1}
+                        width={3}
+                        onClick={this.onClickComment}
+          >
+            <ViroText
+              style={styles.prodDescriptionText}
+              text="Comments"
+            />
+          </ViroFlexView>
           <ViroFlexView style={{flexDirection: 'column'}} >
             <ViroImage
               height={3}
