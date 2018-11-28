@@ -3,7 +3,7 @@ import { Router, Scene, Modal } from 'react-native-router-flux';
 import ViroEntry from "./js/ViroEntry";
 import LoginContainer from "./js/containers/LoginContainer";
 import CommentContainer from "./js/containers/CommentContainer";
-import KaizenImprovement from "./js/KaizenImprovement";
+import KaizenImprovContainer from "./js/containers/KaizenImprovContainer";
 
 class App extends Component {
 
@@ -29,7 +29,7 @@ class App extends Component {
             />
             <Scene
               key="improvement"
-              component={KaizenImprovement}
+              component={KaizenImprovContainer}
               title="Kaizen Improvement"
             />
           </Scene>

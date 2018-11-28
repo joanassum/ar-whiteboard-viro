@@ -13,6 +13,8 @@ const mainReducer = (state = {
   boardMetricChosen: false,
   option: "Main Menu",
   overDueFlag: false,
+  currentMemberID: "5a6c7351d9f2320d569e9c58",
+  currentMemberName: "athi16",
 }, action) => {
   switch (action.type) {
     case "CHECK_TEST":

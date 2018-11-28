@@ -32,6 +32,24 @@ export function postCardComment(cardId, commentData) {
     });
 }
 
+export function getKaizenImprovements(localBoardId) {
+  //console.log("getBoardName");
+  return fetch(`${url}/queriesDB/getKaizenImprovements/${localBoardId}`)
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+export function postKaizenImprovements(localBoardId, improvementData) {
+  //console.log("getBoardName");
+  return fetch(`${url}/queriesDB/postKaizenImprovements/${localBoardId}/${improvementData}`)
+    .then((response) => response)
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
 export function getBoardName(boardIdParam) {
   //console.log("getBoardName");
   return fetch(`${url}/trello/getBoardName/${boardIdParam}`)

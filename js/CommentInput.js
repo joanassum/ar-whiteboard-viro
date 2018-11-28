@@ -30,7 +30,7 @@ class CommentInput extends Component {
     if(text){
       this.setState({}, () => this.props.onSubmit(text));
     } else {
-      alert("Enter a valid comment");
+      alert("Enter a valid input");
     }
   }
 

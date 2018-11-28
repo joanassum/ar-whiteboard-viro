@@ -1,13 +1,10 @@
+import KaizenImprovement from "../KaizenImprovement";
 import { connect } from "react-redux";
-import CommentModal from "../CommentModal.js";
 import {} from "../actions/mainActions";
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    cardId: state.mainReducer.cardId,
-    cardChosen: state.mainReducer.cardChosen,
-    currentMemberID: state.mainReducer.currentMemberID,
-    currentMemberName: state.mainReducer.currentMemberName,
+    boardId: state.mainReducer.boardId,
   };
 };
 
@@ -20,4 +17,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CommentModal);
+)(KaizenImprovement);

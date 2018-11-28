@@ -13,6 +13,7 @@ class LoginScreen extends Component {
     };
 
     this.onPress = this.onPress.bind(this);
+    this.onPressKaizenImprov = this.onPressKaizenImprov.bind(this);
     this.handlePin = this.handlePin.bind(this);
     this.submitPin = this.submitPin.bind(this);
   }
@@ -35,6 +36,10 @@ class LoginScreen extends Component {
 
   onPress() {
     Actions.viro();
+  }
+
+  onPressKaizenImprov() {
+    Actions.improvement();
   }
 
   render() {
@@ -62,6 +67,13 @@ class LoginScreen extends Component {
 
       <Text style={styles.submitButtonText}>Enter AR</Text>
       </TouchableHighlight>
+      <TouchableHighlight style={styles.submitButton}
+                            onPress={this.onPressKaizenImprov}
+                            underlayColor={'#68a0ff'} >
+
+      <Text style={styles.submitButtonText}>Kaizen Improvements</Text>
+      </TouchableHighlight>
+
         <TextInput style = {styles.input}
                    placeholder = "Board Pin"
                    autoCapitalize = "none"

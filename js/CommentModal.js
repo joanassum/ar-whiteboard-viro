@@ -14,7 +14,7 @@ class CommentModal extends Component {
       commentsLoaded: false,
       commentsLoading: false,
       comments: [{
-        cardId: "Loading....", userId: "Loading....", userName: "Loading....", comment: "Loading...."
+        cardId: "Loading....", userId: "Loading....", userName: "Loading....", comment: "Loading....", date: "Loading..."
       }],
     };
     this.onPostSubmit = this.onPostSubmit.bind(this);
@@ -46,16 +46,19 @@ class CommentModal extends Component {
     postCardComment(this.props.cardId, commentData).then((response) => {
       console.log(response);
       let newComments = this.state.comments;
-      newComments.push(
+
+      let date = new Date();
+
+      newComments.unshift(
         {
-          cardId: newComments[0].cardId,
-          userId: newComments[0].userId,
-          userName: newComments[0].userName,
+          cardId: this.props.cardId,
+          userId: this.props.currentMemberID,
+          userName: this.props.currentMemberName,
+          date: date.toDateString(),
           comment: commentData
         });
       this.setState({comments: newComments});
     });
-
   }
 
   render() {
@@ -70,7 +73,7 @@ class CommentModal extends Component {
             />
           }
         >
-          {this.state.comments.map((comment, index) => <CommentComponent key={index} comment={comment}/>)}
+          {this.state.comments.reverse().map((comment, index) => <CommentComponent key={index} comment={comment}/>)}
         </ScrollView>
         <CommentInput onSubmit={(text) => this.onPostSubmit(text)} />
 

@@ -39,7 +39,7 @@ class Comment extends Component {
             {' '}
             <Text style={styles.text}>{this.props.comment.comment}</Text>
           </Text>
-          <Text style={[styles.text, styles.created]}> TODO DATE</Text>
+          <Text style={[styles.text, styles.created]}> {this.props.comment.date}</Text>
         </View>
       </View>
     );
