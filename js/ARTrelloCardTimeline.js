@@ -27,8 +27,9 @@ class ARTrelloCardTimeline extends Component {
             infoPanel:
                 {
                     text: ""
-                }
+                },
         };
+        this.onClick = this.onClick.bind(this);
     }
 
     componentDidMount() {
@@ -53,7 +54,11 @@ class ARTrelloCardTimeline extends Component {
                     columnsLoaded: true
                 })
             }));
-        infoPanel.text = "Tap on the graph components to interact with them."
+        this.setState({
+            infoPanel : {
+                text : "Tap on the graph components to interact with them."
+            }
+        });
     }
 
     createDiagram = (_h, w) => {
@@ -234,6 +239,7 @@ class ARTrelloCardTimeline extends Component {
                             height={barHeight}
                             width={widths[i]}
                             key={id}
+                            onClick={()}
                         />
                     );
                 } else { // else empty container
