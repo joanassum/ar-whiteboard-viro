@@ -24,11 +24,12 @@ class ARTrelloCardTimeline extends Component {
             cardInfo: "",
             columns: [],
             cardHistory: [],
-            infoPanel:
-                {
-                    text: ""
-                },
-            actionTimes: []
+            infoPanelText: "",
+            columnTimes: [],
+            barStyles: [],
+            selected : [],
+            widths: [],
+            times: []
         };
         this.onClick = this.onClick.bind(this);
     }
@@ -52,12 +53,52 @@ class ARTrelloCardTimeline extends Component {
             .then((response => {
                 this.setState({
                     columns: response.map(x => x["name"]).reverse(),
+                    selected : new Array(response.length).fill(false),
                     columnsLoaded: true
                 })
             }));
+
         this.setState({
-            infoPanelText : "Tap on the graph components to interact with them."
+            infoPanelText: "Tap on the graph components to interact with them.",
         });
+
+        let actions = this.state.cardHistory;
+        let columns = this.state.columns;
+
+        let firstDate = Date.parse(actions[0].date);
+        let finalDate = Date.parse(actions[actions.length - 1].date);
+        let datePadding = finalDate + 3600000; // 1 hour padding time at the end for visual niceness
+        let totalTime = datePadding - firstDate;
+
+        let graph = [];
+        let widths = [];
+        let times = [];
+        for (let i = 0; i < actions.length; i++) {
+            let actionDate = Date.parse(actions[i].date);
+            let nextDate;
+            if (i != actions.length - 1) {
+                nextDate = Date.parse(actions[i + 1].date);
+            } else {
+                nextDate = datePadding;
+            }
+            let time = nextDate - actionDate;
+            let timeFraction = (time) / totalTime;
+            times.push(time);
+            widths.push(timeFraction * (graphWidth - 2) + 2 / actions.length); // to give width to very small values
+        }
+        let columnTimes = [];
+        for (let j = 0; j < columns.length; j++) {
+            let columnTime = 0;
+            for (let i = 0; i < actions.length; i++) {
+                if (j == columns.indexOf(actions[i].column)) {
+                    columnTime += times[i];
+                }
+            }
+            columnTimes.push(columnTime);
+        }
+        this.setState({
+            columnTimes: columnTimes
+        })
     }
 
     createDiagram = (_h, w) => {
@@ -181,27 +222,6 @@ class ARTrelloCardTimeline extends Component {
         </ViroFlexView>;
     };
 
-    onClick(pos, src, index, column){
-        let ms = this.state.actionTimes[index];
-        let t;
-        if (ms > 86400000){
-            t = ms/86400000 + " days"
-        } else if (ms > 3600000){
-            t = ms/3600000 + " hours"
-        } else if (ms > 60000){
-            t = ms/60000 + " minutes"
-        } else if (ms > 1000){
-            t = ms/1000 + " seconds"
-        } else {
-            t = ms + " milliseconds"
-        }
-        let text = "This ticket has spent " + t  + " in column " + this.state.columns[column];
-
-        this.setState({
-            infoPanelText: text
-        })
-    };
-
     createYAxis = (yAxisHeight, graphWidth, w, xAxisWidth) => {
         let lineHeight = xAxisWidth / 30;
         let lineWidth = graphWidth + lineHeight;
@@ -231,11 +251,11 @@ class ARTrelloCardTimeline extends Component {
                 width={graphWidth}
             >
                 <ViroText
-                text = "Time spent"
-                height={textHeight}
-                width={graphWidth}
-            />
-        </ViroFlexView>;
+                    text = "Time spent"
+                    height={textHeight}
+                    width={graphWidth}
+                />
+            </ViroFlexView>;
         children.push(textPadding);
         children.push(label);
 
@@ -244,32 +264,40 @@ class ARTrelloCardTimeline extends Component {
         </ViroFlexView>;
     };
 
+    onClick(pos, src, index){
+        let selected = this.state.selected;
+        if (selected[index]){
+            selected[index] = false;
+            this.setState({
+                selected: selected
+            })
+        } else {
+            let ms = this.state.columnTimes[index];
+            let t;
+            if (ms > 86400000) {
+                t = ms / 86400000 + " days"
+            } else if (ms > 3600000) {
+                t = ms / 3600000 + " hours"
+            } else if (ms > 60000) {
+                t = ms / 60000 + " minutes"
+            } else if (ms > 1000) {
+                t = ms / 1000 + " seconds"
+            } else {
+                t = ms + " milliseconds"
+            }
+            let text = "This ticket has spent " + t + " in column " + this.state.columns[index];
+
+            let newSelected = new Array(selected.length).fill(false);
+            newSelected[index] = true;
+            this.setState({
+                selected: newSelected,
+                infoPanelText: text
+            })
+        }
+    };
+
     createGraph = (graphHeight, graphWidth, actions, columns) => {
 
-        let firstDate = Date.parse(actions[0].date);
-        let finalDate = Date.parse(actions[actions.length - 1].date);
-        let datePadding = finalDate + 3600000; // 1 hour padding time at the end for visual niceness
-        let totalTime = datePadding - firstDate;
-
-        let graph = [];
-        let widths = [];
-        let times = [];
-        for (let i = 0; i < actions.length; i++) {
-            let actionDate = Date.parse(actions[i].date);
-            let nextDate;
-            if (i != actions.length - 1) {
-                nextDate = Date.parse(actions[i + 1].date);
-            } else {
-                nextDate = datePadding;
-            }
-            let time = nextDate - actionDate;
-            let timeFraction = (time) / totalTime;
-            times.push(time);
-            widths.push(timeFraction * (graphWidth - 2) + 2 / actions.length); // to give width to very small values
-        }
-        this.setState({
-            times : times
-        });
 
         let barHeight = graphHeight / columns.length;
         for (let j = 0; j < columns.length; j++) {
@@ -278,11 +306,11 @@ class ARTrelloCardTimeline extends Component {
                 if (j == columns.indexOf(actions[i].column)) { // if column name is correct, draw bar
                     graph.push(
                         <ViroFlexView
-                            style={styles.barContainer}
+                            style={this.state.selected[j] ? styles.selectedContainer : styles.barContainer}
                             height={barHeight}
                             width={widths[i]}
                             key={id}
-                            onClick={(pos, src, ind = i, c = j) => this.onClick(pos, src, i, c)}
+                            onClick={(pos, src, ind = j) => this.onClick(pos, src, ind)}
                         />
                     );
                 } else { // else empty container
@@ -297,6 +325,7 @@ class ARTrelloCardTimeline extends Component {
                 }
             }
         }
+
         return <ViroFlexView style={styles.graphContainer} height={graphHeight} width={graphWidth}>
             {graph}
         </ViroFlexView>;
@@ -321,7 +350,6 @@ var styles = StyleSheet.create({
     },
 
     titleStyle: {
-        fontSize: 14,
         color: "#ffffff",
         textAlign: "center"
     },
@@ -331,7 +359,6 @@ var styles = StyleSheet.create({
         alignItems: 'flex-start',
         flexWrap: 'wrap',
         backgroundColor: "#ffffff00",
-        fontSize: 8,
         color: "#ffffff",
         textAlign: "center"
     },
@@ -341,7 +368,6 @@ var styles = StyleSheet.create({
         alignItems: 'flex-start',
         flexWrap: 'wrap',
         backgroundColor: "#ffffff00",
-        fontSize: 7,
         color: "#ffffff"
     },
 
