@@ -86,12 +86,18 @@ class ARTrelloCardTimeline extends Component {
                 height = {titleHeight}
                 width = {xAxisWidth}
         />;
-        let title = <ViroText
-                style = {styles.titleStyle}
+        let title = <ViroFlexView
+                style = {styles.emptyContainer}
                 height = {titleHeight}
                 width = {w-xAxisWidth}
-                text = "Timeline of column movement"
-        />;
+        >
+            <ViroText
+                    style = {styles.titleStyle}
+                    height = {titleHeight}
+                    width = {w-xAxisWidth}
+                    text = "Timeline of column movement"
+            />
+        </ViroFlexView>;
 
         let panelHeight = h / 2;
         let panelWidth = w;
@@ -300,14 +306,15 @@ var styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'flex-start',
         flexWrap: 'wrap',
-        backgroundColor: "#ffffff00"
+        flex: 1,
+        backgroundColor: "#00000000"
     },
 
     graphContainer: {
         flexDirection: 'row',
         alignItems: 'flex-start',
         flexWrap: 'wrap',
-        backgroundColor: "#ffffff00"
+        backgroundColor: "#00000000"
     },
 
     barContainer: {
