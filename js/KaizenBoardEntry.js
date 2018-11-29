@@ -29,7 +29,6 @@ class KaizenBoardEntry extends Component {
       text: "Initializing AR...!"
     };
     this.setMarker();
-    this.setMarker2();
     this._onInitialized = this._onInitialized.bind(this);
   }
 
@@ -42,17 +41,6 @@ class KaizenBoardEntry extends Component {
       }
     });
   }
-
-  setMarker2() {
-    ViroARTrackingTargets.createTargets({
-      carddetailmarker: {
-        source: require('./res/viro-logo.jpeg'),
-        orientation: "Up",
-        physicalWidth: 0.1 // real world width in meters
-      }
-    });
-  }
-
 
 
 
@@ -76,12 +64,13 @@ class KaizenBoardEntry extends Component {
 
   render() {
 
-    console.log("Update card ID: " + this.props.cardId);
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized}>
-        {/*<ViroARImageMarker target={"menumarker"}>*/}
+        <ViroARImageMarker target={"menumarker"}>
         <ViroNode
-           position={[0, 0, -5]} //rotation={[-90, 0, 0]}
+            position={[-1, -7, -1]} rotation={[-90, 0, 0]} dragType="FixedDistance" onDrag={()=>{}}
+            // dragPlane={[[-1, -10, -1], [0, 1, 0], 3]}
+            // position={[0, 0, -5]} // rotation={[-90, 0, 0]
         >
           <ARTrelloMenu
             menuTitle={this.props.menuTitle}
@@ -90,6 +79,7 @@ class KaizenBoardEntry extends Component {
             cardId={this.props.cardId}
             boardId={this.props.boardId}
             listID={this.props.listID}
+            currentMemberID={this.props.currentMemberID}
             listSet={this.props.listSet}
             labelName={this.props.labelName}
             labelID={this.props.labelID}
@@ -104,6 +94,7 @@ class KaizenBoardEntry extends Component {
             setLabelName={(labelName) => this.props.setLabelName(labelName)}
             setCardId={(cardId) => this.props.setCardId(cardId)}
             setBoardName={(boardName) => this.props.setBoardName(boardName)}
+            setBoardId={(boardId) => this.props.setBoardId(boardId)}
             unsetCardId={() => this.props.unsetCardId()}
             setBoardMetric={() => this.props.setBoardMetric()}
             setOverDueFlag={(flag) => this.props.setOverDueFlag(flag)}
@@ -113,7 +104,8 @@ class KaizenBoardEntry extends Component {
 
         {/*TODO Card Detail*/}
         <ViroNode
-          position={[-3.2,0,-5]}
+          position={[-3,-13,-5]} rotation={[-90, 0, 0]}
+          dragType="FixedDistance" onDrag={()=>{}}
         >
           {this.props.cardChosen ? <ARTrelloCardDetail
             cardViewPosition={[0,0,0]}
@@ -122,7 +114,9 @@ class KaizenBoardEntry extends Component {
 
         </ViroNode>
         <ViroNode
-          position={[-3.2,0,-5]}
+          position={[-3,-13,-3]} rotation={[-90, 0, 0]}
+          dragType="FixedDistance" onDrag={()=>{}}
+          dragP
         >
           {this.props.boardMetricChosen ? <BoardMetric
             graphViewPosition={[0,0,0]}
@@ -134,11 +128,12 @@ class KaizenBoardEntry extends Component {
 
 
         <ViroNode
-          position={[6, 0, -5]} //rotation={[-90, 0, 0]}
+          position={[5, -13, -3]} rotation={[-90, 0, 0]}
+          dragType="FixedDistance" onDrag={()=>{}}
         >
           {this.props.cardChosen ? <ARTrelloCardTimeline timelinePosition={[0,0,0]} cardId={this.props.cardId} boardId={this.props.boardId}/> : null}
         </ViroNode>
-        {/*</ViroARImageMarker>*/}
+        </ViroARImageMarker>
 
 
       </ViroARScene>

@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import KaizenBoardEntry from "../KaizenBoardEntry";
 import {setCardId, setMenuViewName, unsetCardId, setMenuOption,
-  setListID, setLabelID, setLabelName, setBoardMetric,
+  setListID, setLabelID, setLabelName, setBoardMetric, setBoardId,
   unsetBoardMetric, setGraphType, setOverDueFlag, setBoardName} from "../actions/mainActions";
 
 const mapStateToProps = (state, ownProps) => {
@@ -14,6 +14,7 @@ const mapStateToProps = (state, ownProps) => {
     boardMetricChosen: state.mainReducer.boardMetricChosen,
     titlePicked: state.mainReducer.titlePicked,
     listID: state.mainReducer.listID,
+    currentMemberID: state.mainReducer.currentMemberID,
     listSet: state.mainReducer.listSet,
     labelID: state.mainReducer.labelID,
     labelName: state.mainReducer.labelName,
@@ -26,6 +27,7 @@ const mapDispatchToProps = dispatch => {
   return {
     setCardId: (cardId) => dispatch(setCardId(cardId)),
     setBoardName: (boardName) => dispatch(setBoardName(boardName)),
+    setBoardId: (boardId) => dispatch(setBoardId(boardId)),
     setMenuViewName: (menuTitle) => dispatch(setMenuViewName(menuTitle)),
     setMenuOption: (option) => dispatch(setMenuOption(option)),
     setLabelID: (labelID) => dispatch(setLabelID(labelID)),
