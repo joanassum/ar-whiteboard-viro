@@ -76,7 +76,6 @@ class KaizenBoardEntry extends Component {
 
   render() {
 
-    console.log("Update card ID: " + this.props.cardId);
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized}>
         {/*<ViroARImageMarker target={"menumarker"}>*/}
@@ -90,6 +89,7 @@ class KaizenBoardEntry extends Component {
             cardId={this.props.cardId}
             boardId={this.props.boardId}
             listID={this.props.listID}
+            currentMemberID={this.props.currentMemberID}
             listSet={this.props.listSet}
             labelName={this.props.labelName}
             labelID={this.props.labelID}
@@ -104,6 +104,7 @@ class KaizenBoardEntry extends Component {
             setLabelName={(labelName) => this.props.setLabelName(labelName)}
             setCardId={(cardId) => this.props.setCardId(cardId)}
             setBoardName={(boardName) => this.props.setBoardName(boardName)}
+            setBoardId={(boardId) => this.props.setBoardId(boardId)}
             unsetCardId={() => this.props.unsetCardId()}
             setBoardMetric={() => this.props.setBoardMetric()}
             setOverDueFlag={(flag) => this.props.setOverDueFlag(flag)}

@@ -60,6 +60,14 @@ export function getBoardName(boardIdParam) {
       console.error(error);
     });
 }
+export function getBoardId(userId) {
+  //console.log("getBoardName");
+  return fetch(`${url}/queriesDB/getUserBoards/${userId}`)
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error(error);
+    });
+}
 
 export function getBoard() {
   //console.log("getBoard");
@@ -118,7 +126,7 @@ export function getFilteredList(labelId, listId) {
 
 export function getFilteredListMap(localBoardId, labelId) {
   //console.log("getFilteredListMap: " + localBoardId);
-  return fetch(`${url}/trello/getFilteredListMap/${boardId}/${labelId}`)
+  return fetch(`${url}/trello/getFilteredListMap/${localBoardId}/${labelId}`)
     .then((response) => {
       return response.json();
     })
