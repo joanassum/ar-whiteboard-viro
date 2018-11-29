@@ -8,7 +8,7 @@ import {
 } from 'react-viro';
 
 import {StyleSheet} from "react-native";
-import {getBoardName} from "./backend/backendController";
+import {getBoardName, getBoardId, setBoardID} from "./backend/backendController";
 
 class ARTrelloBoard extends Component {
 
@@ -16,45 +16,60 @@ class ARTrelloBoard extends Component {
     super(props);
 
     this.state = {
-      boardName: "Loading...",
+      boardList: [{boardName: "Loading...", boardId: "Loading...."}],
       boardNameLoaded: false,
+      boardClick: false,
+      boardObj: {boardName: "Loading...", boardId: "Loading...."},
     };
 
     this.onClick = this.onClick.bind(this);
   }
 
   componentDidMount() {
-    console.log("GET BOARD ID");
-    getBoardName(this.props.boardId).then((response) => {
-      this.setState({
-        boardName: response._value,
-        boardNameLoaded: true,
-      });
+    getBoardId(this.props.currentMemberID).then((response) => {
+      this.setState({boardList: response, boardNameLoaded: true});
     });
   }
 
-  onClick(){
+  onClick(position, source, boardObj){
+    this.setState({boardClick: true, boardObj: boardObj});
     if(this.state.boardNameLoaded){
-      this.props.setMenuViewName(this.state.boardName);
-      this.props.setBoardName(this.state.boardName);
+      console.log("Setting boardId: " + boardObj.boardId);
+      this.props.setMenuViewName(boardObj.boardName);
+      this.props.setBoardName(boardObj.boardName);
+      this.props.setBoardId(boardObj.boardId);
+      setBoardID(boardObj.boardId);
       this.props.setMenuOption("List Menu");
     }
   }
 
   render() {
+
+    console.log(this.state.boardList);
     return (
       <ViroNode
         position={this.props.disArr}
       >
-        <ViroFlexView
-          style={styles.titleContainer} height={0.4} width={1.75}
-          onClick={this.onClick}
-        >
-          <ViroText
-            style={styles.prodDescriptionText}
-            text={(this.state.boardNameLoaded) ? this.state.boardName : "Loading..."}
-          />
-        </ViroFlexView>
+        {
+          (this.state.boardNameLoaded)? (
+            this.state.boardList.map((n, i) => {
+              return (
+                <ViroFlexView
+                  position={[0, (-0.5 * (i)), 0]}
+                  style={styles.titleContainer}
+                  height={0.4}
+                  width={1.75}
+                  key={n.boardId}
+                  onClick={(pos, src, boardObj = n) => this.onClick(pos, src, boardObj)}>
+                  <ViroText
+                    style={styles.prodDescriptionText}
+                    text={n.boardName}
+                    key={n.boardId}
+                  />
+                </ViroFlexView>);
+            })
+          ) : null
+        }
       </ViroNode>
     );
   }

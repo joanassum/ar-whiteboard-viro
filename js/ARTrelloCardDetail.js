@@ -126,6 +126,13 @@ class ARTrelloCardDetail extends Component {
     return (
       <ViroNode position={this.props.cardViewPosition}>
         <ViroFlexView style={styles.titleContainer} height={9} width={3}>
+          <ViroFlexView style={{flexDirection: 'column'}} >
+            <ViroImage
+              height={3}
+              width={3}
+              source={(this.state.timeLineGraphLoaded) ? {uri: this.state.timeLineGraph} : require("./res/Logo.png")}
+            />
+          </ViroFlexView>
           <ViroFlexView style={{flexDirection: 'column'}}
                         height={1}
                         width={3}
@@ -134,13 +141,6 @@ class ARTrelloCardDetail extends Component {
             <ViroText
               style={styles.prodDescriptionText}
               text="Comments"
-            />
-          </ViroFlexView>
-          <ViroFlexView style={{flexDirection: 'column'}} >
-            <ViroImage
-              height={3}
-              width={3}
-              source={(this.state.timeLineGraphLoaded) ? {uri: this.state.timeLineGraph} : require("./res/Logo.png")}
             />
           </ViroFlexView>
           <ViroFlexView style={{flexDirection: 'column'}} height={1} width={3}>
