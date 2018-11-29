@@ -82,6 +82,7 @@ class ARTrelloMenu extends Component {
             disArr={[0,-0.5,0]}
             boardId={this.props.boardId}
             setMenuViewName={(title) => this.props.setMenuViewName(title)}
+            setBoardName={(boardName) => this.props.setBoardName(boardName)}
             setMenuOption={(option) => this.props.setMenuOption(option)}
           />;
         case "List Menu":

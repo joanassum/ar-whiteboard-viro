@@ -36,6 +36,7 @@ class ARTrelloBoard extends Component {
   onClick(){
     if(this.state.boardNameLoaded){
       this.props.setMenuViewName(this.state.boardName);
+      this.props.setBoardName(this.state.boardName);
       this.props.setMenuOption("List Menu");
     }
   }

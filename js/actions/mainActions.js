@@ -12,6 +12,13 @@ export function setBoardId(boardId){
   };
 }
 
+export function setBoardName(boardName){
+  return {
+    type: "SET_BOARD_NAME",
+    boardName
+  };
+}
+
 export function setCardId(cardId){
   return {
     type: "SET_CARD_ID",

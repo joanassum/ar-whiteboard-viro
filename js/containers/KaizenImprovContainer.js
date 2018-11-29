@@ -5,6 +5,7 @@ import {} from "../actions/mainActions";
 const mapStateToProps = (state, ownProps) => {
   return {
     boardId: state.mainReducer.boardId,
+    boardName: state.mainReducer.boardName,
   };
 };
 

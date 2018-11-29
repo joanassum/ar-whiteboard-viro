@@ -41,9 +41,11 @@ export function getKaizenImprovements(localBoardId) {
     });
 }
 
-export function postKaizenImprovements(localBoardId, improvementData) {
+export function postKaizenImprovements(localBoardId, boardName, improvementData) {
   //console.log("getBoardName");
-  return fetch(`${url}/queriesDB/postKaizenImprovements/${localBoardId}/${improvementData}`)
+  //postKaizenImprovements(this.props.boardId, this.props.boardName, improvementData)
+  const status = "Testing";
+  return fetch(`${url}/queriesDB/postKaizenImprovements/${localBoardId}/${boardName}/${status}/${improvementData}`)
     .then((response) => response)
     .catch((error) => {
       console.error(error);

@@ -103,6 +103,7 @@ class KaizenBoardEntry extends Component {
             setLabelID={(labelID) => this.props.setLabelID(labelID)}
             setLabelName={(labelName) => this.props.setLabelName(labelName)}
             setCardId={(cardId) => this.props.setCardId(cardId)}
+            setBoardName={(boardName) => this.props.setBoardName(boardName)}
             unsetCardId={() => this.props.unsetCardId()}
             setBoardMetric={() => this.props.setBoardMetric()}
             setOverDueFlag={(flag) => this.props.setOverDueFlag(flag)}

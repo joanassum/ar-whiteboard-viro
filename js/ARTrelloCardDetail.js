@@ -94,6 +94,7 @@ class ARTrelloCardDetail extends Component {
   }
 
   onClickComment(){
+    console.log("Load comment module");
     Actions.commentModal();
   }
 

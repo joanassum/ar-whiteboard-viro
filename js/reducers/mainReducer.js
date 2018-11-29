@@ -3,7 +3,8 @@ const mainReducer = (state = {
   labelID: "none",
   labelName: "",
   labelSet: false,
-  boardId: "",
+  boardId: "5bbb7e4006d2af393fc53e4d",
+  boardName: "WeWeregonnatest",
   titlePicked: false,
   listID: "",
   listSet: false,
@@ -21,6 +22,8 @@ const mainReducer = (state = {
       return { ...state, test: "Checked test", testCheck: action.checkTest};
     case "SET_BOARD_ID":
       return { ...state, boardId: action.boardId};
+    case "SET_BOARD_NAME":
+      return { ...state, boardName: action.boardName};
     case "UNSET_CARD_ID":
       return { ...state, cardChosen: false};
     case "SET_CARD_ID":
