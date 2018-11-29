@@ -28,6 +28,7 @@ class ARTrelloCardTimeline extends Component {
                 {
                     text: ""
                 },
+            actionTimes: []
         };
         this.onClick = this.onClick.bind(this);
     }
@@ -55,9 +56,7 @@ class ARTrelloCardTimeline extends Component {
                 })
             }));
         this.setState({
-            infoPanel : {
-                text : "Tap on the graph components to interact with them."
-            }
+            infoPanelText : "Tap on the graph components to interact with them."
         });
     }
 
@@ -105,8 +104,7 @@ class ARTrelloCardTimeline extends Component {
         </ViroFlexView>;
 
         let panelHeight = h / 2;
-        let panelWidth = w;
-        let panel = this.createInfoPanel(panelHeight, panelWidth, graphWidth);
+        let panel = this.createInfoPanel(panelHeight, w, graphWidth);
 
         return <ViroFlexView style={styles.diagramContainer} height={h} width={w}>
             {titlePadding}
@@ -116,11 +114,6 @@ class ARTrelloCardTimeline extends Component {
             {yAxis}
             {panel}
         </ViroFlexView>
-
-    };
-    ;
-
-    getTimeLabel = (t) => { // t is in milliseconds
 
     };
 
@@ -147,21 +140,34 @@ class ARTrelloCardTimeline extends Component {
         let halfWidth = xAxisWidth / 2;
         let labels = [];
         labels.push(
-            <ViroText
-                text="Columns"
+            <ViroFlexView
+                style={styles.emptyContainer}
                 height={graphHeight}
                 width={halfWidth}
-                textAlignVertical='center'
-            />
+            >
+                <ViroText
+                    text="Columns"
+                    height={graphHeight}
+                    width={halfWidth}
+                    textAlignVertical='center'
+                />
+            </ViroFlexView>
         );
         let lineWidth = halfWidth / 15;
         for (let i = 0; i < columns.length; i++) {
             labels.push(
-                <ViroText
-                    text={columns[i]}
+                <ViroFlexView
+                    style={styles.emptyContainer}
                     height={graphHeight/columns.length}
                     width={halfWidth - lineWidth}
-                />)
+                >
+                    <ViroText
+                        text={columns[i]}
+                        height={graphHeight/columns.length}
+                        width={halfWidth - lineWidth}
+                    />
+                </ViroFlexView>
+            );
         }
         let line =
             <ViroFlexView
@@ -173,6 +179,27 @@ class ARTrelloCardTimeline extends Component {
             {labels}
             {line}
         </ViroFlexView>;
+    };
+
+    onClick(pos, src, index, column){
+        let ms = this.state.actionTimes[index];
+        let t;
+        if (ms > 86400000){
+            t = ms/86400000 + " days"
+        } else if (ms > 3600000){
+            t = ms/3600000 + " hours"
+        } else if (ms > 60000){
+            t = ms/60000 + " minutes"
+        } else if (ms > 1000){
+            t = ms/1000 + " seconds"
+        } else {
+            t = ms + " milliseconds"
+        }
+        let text = "This ticket has spent " + t  + " in column " + this.state.columns[column];
+
+        this.setState({
+            infoPanelText: text
+        })
     };
 
     createYAxis = (yAxisHeight, graphWidth, w, xAxisWidth) => {
@@ -197,11 +224,18 @@ class ARTrelloCardTimeline extends Component {
             height={textHeight}
             width={xAxisWidth}
         />;
-        let label = <ViroText
-            text = "Time spent"
-            height={textHeight}
-            width={graphWidth}
-        />;
+        let label =
+            <ViroFlexView
+                style={styles.emptyContainer}
+                height={textHeight}
+                width={graphWidth}
+            >
+                <ViroText
+                text = "Time spent"
+                height={textHeight}
+                width={graphWidth}
+            />
+        </ViroFlexView>;
         children.push(textPadding);
         children.push(label);
 
@@ -233,6 +267,9 @@ class ARTrelloCardTimeline extends Component {
             times.push(time);
             widths.push(timeFraction * (graphWidth - 2) + 2 / actions.length); // to give width to very small values
         }
+        this.setState({
+            times : times
+        });
 
         let barHeight = graphHeight / columns.length;
         for (let j = 0; j < columns.length; j++) {
@@ -245,7 +282,7 @@ class ARTrelloCardTimeline extends Component {
                             height={barHeight}
                             width={widths[i]}
                             key={id}
-                            onClick={()}
+                            onClick={(pos, src, ind = i, c = j) => this.onClick(pos, src, i, c)}
                         />
                     );
                 } else { // else empty container
