@@ -23,7 +23,11 @@ class ARTrelloCardTimeline extends Component {
             timelinePosition: [-5, 0, 0],
             cardInfo: "",
             columns: [],
-            cardHistory: []
+            cardHistory: [],
+            infoPanel:
+                {
+                    text: ""
+                }
         };
     }
 
@@ -42,16 +46,17 @@ class ARTrelloCardTimeline extends Component {
                 });
 
             });
-        getBoardById(this.props.boardId)//this.props.boardId")
+        getBoardById(this.props.boardId)
             .then((response => {
                 this.setState({
                     columns: response.map(x => x["name"]).reverse(),
                     columnsLoaded: true
                 })
             }));
+        infoPanel.text = "Tap on the graph components to interact with them."
     }
 
-    createDiagram = (h, w) => {
+    createDiagram = (_h, w) => {
         if (!this.state.historyLoaded || !this.state.columnsLoaded) {
             return (<ViroFlexView style={styles.titleContainer} height={0.4} width={1.5}>
                 <ViroText
@@ -63,6 +68,8 @@ class ARTrelloCardTimeline extends Component {
         let actions = this.state.cardHistory;
         let columns = this.state.columns;
 
+        let h = _h * 1/2; // split into graph and panel
+
         let graphHeight = h * 3 / 4;
         let graphWidth = w * 2 / 3;
 
@@ -70,10 +77,10 @@ class ARTrelloCardTimeline extends Component {
         let xAxisWidth = w * 1 / 3;
 
         let xAxis = this.createXAxis(graphHeight, xAxisWidth, columns);
-        let yAxisHeight = h * 1 / 8;
+        let yAxisHeight = h / 8;
         let yAxis = this.createYAxis(yAxisHeight, graphWidth, w, xAxisWidth);
 
-        let titleHeight = h * 1 / 8;
+        let titleHeight = h / 8;
         let titlePadding = <ViroFlexView
                 style = {styles.emptyContainer}
                 height = {titleHeight}
@@ -86,14 +93,43 @@ class ARTrelloCardTimeline extends Component {
                 text = "Timeline of column movement"
         />;
 
+        let panelHeight = h / 2;
+        let panelWidth = w;
+        let panel = this.createInfoPanel(panelHeight, panelWidth, graphWidth);
+
         return <ViroFlexView style={styles.diagramContainer} height={h} width={w}>
             {titlePadding}
             {title}
             {xAxis}
             {graph}
             {yAxis}
+            {panel}
         </ViroFlexView>
 
+    };
+    ;
+
+    getTimeLabel = (t) => { // t is in milliseconds
+
+    };
+
+    createInfoPanel = (panelHeight, panelWidth, graphWidth) =>{
+        let padding = <ViroFlexView
+            style={styles.emptyContainer}
+            height={panelHeight}
+            width={panelWidth-graphWidth}
+        />;
+
+        let textBox = <ViroFlexView
+            height={panelHeight}
+            width={graphWidth}
+            text={this.state.infoPanel.text}
+        />;
+
+        return <ViroFlexView style={styles.infoPanelContainer} height={panelHeight} width={panelWidth}>
+            {padding}
+            {textBox}
+        </ViroFlexView>;
     };
 
     createXAxis = (graphHeight, xAxisWidth, columns) => {
@@ -107,14 +143,13 @@ class ARTrelloCardTimeline extends Component {
                 textAlignVertical='center'
             />
         );
-        let lineWidth = halfWidth / 10;
+        let lineWidth = halfWidth / 15;
         for (let i = 0; i < columns.length; i++) {
             labels.push(
                 <ViroText
                     text={columns[i]}
                     height={graphHeight/columns.length}
                     width={halfWidth - lineWidth}
-
                 />)
         }
         let line =
@@ -130,7 +165,7 @@ class ARTrelloCardTimeline extends Component {
     };
 
     createYAxis = (yAxisHeight, graphWidth, w, xAxisWidth) => {
-        let lineHeight = xAxisWidth / 20;
+        let lineHeight = xAxisWidth / 30;
         let lineWidth = graphWidth + lineHeight;
         let children = [];
         let linePadding = <ViroFlexView
@@ -173,6 +208,7 @@ class ARTrelloCardTimeline extends Component {
 
         let graph = [];
         let widths = [];
+        let times = [];
         for (let i = 0; i < actions.length; i++) {
             let actionDate = Date.parse(actions[i].date);
             let nextDate;
@@ -181,26 +217,33 @@ class ARTrelloCardTimeline extends Component {
             } else {
                 nextDate = datePadding;
             }
-            let timeFraction = (nextDate - actionDate) / totalTime;
+            let time = nextDate - actionDate;
+            let timeFraction = (time) / totalTime;
+            times.push(time);
             widths.push(timeFraction * (graphWidth - 2) + 2 / actions.length); // to give width to very small values
         }
 
         let barHeight = graphHeight / columns.length;
         for (let j = 0; j < columns.length; j++) {
             for (let i = 0; i < actions.length; i++) {
+                let id = j * columns.length + i;
                 if (j == columns.indexOf(actions[i].column)) { // if column name is correct, draw bar
                     graph.push(
                         <ViroFlexView
                             style={styles.barContainer}
                             height={barHeight}
-                            width={widths[i]}/>
+                            width={widths[i]}
+                            key={id}
+                        />
                     );
                 } else { // else empty container
                     graph.push(
                         <ViroFlexView
                             style={styles.emptyContainer}
                             height={barHeight}
-                            width={widths[i]}/>
+                            width={widths[i]}
+                            key={id}
+                        />
                     );
                 }
             }
@@ -216,7 +259,7 @@ class ARTrelloCardTimeline extends Component {
             <ViroNode
                 position={this.state.cardPosition}
             >
-                {this.createDiagram(3, 5)}
+                {this.createDiagram(6, 5)}
             </ViroNode>
         );
     }
@@ -266,9 +309,15 @@ var styles = StyleSheet.create({
         flexWrap: 'wrap',
         backgroundColor: "#ffffff00"
     },
+
     barContainer: {
         backgroundColor: "#990022",
     },
+
+    selectedContainer: {
+        backgroundColor: "#bb0099"
+    },
+
     emptyContainer: {
         backgroundColor: "#00000000"
     }
