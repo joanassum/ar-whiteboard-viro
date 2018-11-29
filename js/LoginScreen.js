@@ -58,6 +58,9 @@ class LoginScreen extends Component {
       </TouchableHighlight>
 
       <Image style={styles.stretch}
+             resizeMode={"center"}
+             height={200}
+             width={400}
       source={require('./res/Logo.png')}
       />
 

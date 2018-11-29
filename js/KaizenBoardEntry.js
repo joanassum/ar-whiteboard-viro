@@ -35,7 +35,7 @@ class KaizenBoardEntry extends Component {
   setMarker() {
     ViroARTrackingTargets.createTargets({
       menumarker: {
-        source: require('./res/trello.png'),
+        source: require('./res/Logo.png'),
         orientation: "Up",
         physicalWidth: 0.26 // real world width in meters
       }
