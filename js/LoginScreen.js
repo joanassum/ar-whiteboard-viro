@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import {View, Text, TouchableOpacity, TextInput, StyleSheet, TouchableHighlight, Image} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import {getBoardIdMapping, setBoardID} from "./backend/backendController";
 
 class LoginScreen extends Component {
 
+    disabled = true;
+
   constructor(props){
+
     super(props);
 
     this.state = {
@@ -18,8 +21,10 @@ class LoginScreen extends Component {
     this.submitPin = this.submitPin.bind(this);
   }
 
+
   handlePin(text) {
-    this.setState({ board_pin: text })
+    this.setState({ board_pin: text });
+    this.disabled = false;
   }
 
   submitPin(){
@@ -42,53 +47,48 @@ class LoginScreen extends Component {
     Actions.improvement();
   }
 
+
   render() {
     return (
-      <View style = {styles.container}>
+        <View style={styles.container}>
+            <Text style={styles.description}>
+                Kaizen AR
+            </Text>
+            <Text style={styles.description}>
+                Augmenting Efficiency
+            </Text>
 
-     <TouchableHighlight style={styles.title}
-      underlayColor={'#68a0ff'} >
+                <TouchableOpacity activeOpacity={this.disabled ? 1 : 0.7} onPress={!this.disabled && this.onPress}>
+                    <View style={styles.button}>
+                        <Text style={styles.buttonText}>ENTER AR</Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={this.onPressKaizenImprov}>
+                    <View style={styles.button}>
+                        <Text style={styles.buttonText}>KAIZEN IMPROVEMENT</Text>
+                    </View>
+                </TouchableOpacity>
+                <TextInput
+                    underlineColorAndroid={'transparent'}
+                    style={styles.searchInput}
+                    value={this.state.searchString}
+                    onChange={this._onSearchTextChanged}
+                    placeholder='Enter Username'/>
+            <TextInput
+                underlineColorAndroid={'transparent'}
+                style={styles.searchInput}
+                value={this.state.searchString}
+                onChange={this._onSearchTextChanged}
+                secureTextEntry={true}
+                placeholder='Enter Password'/>
+            <TouchableOpacity onPress={this.handlePin}>
+                <View style={styles.button}>
+                    <Text style={styles.buttonText}>LOGIN</Text>
+                </View>
+            </TouchableOpacity>
 
-          <Text style={styles.titleText}>Kaizen AR</Text>
-      </TouchableHighlight>
-
-          <TouchableHighlight style={styles.title}
-      underlayColor={'#68a0ff'} >
-          <Text style={styles.NontitleText}>Augment Efficiency</Text>
-      </TouchableHighlight>
-
-      <Image style={styles.stretch}
-             resizeMode={"center"}
-             height={200}
-             width={400}
-      source={require('./res/Logo.png')}
-      />
-
-      <TouchableHighlight style={styles.submitButton}
-      onPress={this.onPress}
-      underlayColor={'#68a0ff'} >
-
-      <Text style={styles.submitButtonText}>Enter AR</Text>
-      </TouchableHighlight>
-      <TouchableHighlight style={styles.submitButton}
-                            onPress={this.onPressKaizenImprov}
-                            underlayColor={'#68a0ff'} >
-
-      <Text style={styles.submitButtonText}>Kaizen Improvements</Text>
-      </TouchableHighlight>
-
-        <TextInput style = {styles.input}
-                   placeholder = "Board Pin"
-                   autoCapitalize = "none"
-                   onChangeText = {this.handlePin}/>
-
-        <TouchableOpacity
-          style = {styles.submitButton}
-          onPress = {this.submitPin}>
-          <Text style = {styles.submitButtonText}> Submit </Text>
-        </TouchableOpacity>
-
-      </View>
+            <Image source={require('./res/Logo.png')} style={styles.image}/>
+        </View>
     );
   }
 }
@@ -96,40 +96,53 @@ class LoginScreen extends Component {
 export default LoginScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 0
-  },
-  input: {
-    margin: 15,
-    height: 40,
-    borderColor: '#7a42f4',
-    borderWidth: 1
-  },
-  submitButton: {
-    backgroundColor: '#7a42f4',
-    padding: 10,
-    margin: 15,
-    height: 40,
-  },
-    title: {
-        backgroundColor: '#7a42f4',
-        padding: 10,
-        margin: 15,
-        height: 40,
-    },
-    titleText: {
-      color: 'white',
-      fontSize: 20,
+    description: {
+        marginBottom: 20,
+        fontSize: 18,
         textAlign: 'center',
+        color: '#656565'
     },
-    NontitleText: {
+    container: {
+        padding: 20,
+        marginTop: 30,
+        alignItems: 'center',
+    },
+    searchInput: {
+        height: 36,
+        width: 150,
+        padding: 4,
+        marginRight: 5,
+        marginBottom: 15,
+        flexGrow: 1,
+        fontSize: 18,
+        borderWidth: 1,
+        borderColor: '#48BBEC',
+        borderRadius: 8,
+        color: '#48BBEC',
+    },
+    image: {
+        resizeMode: 'contain',
+        width: 333,
+        height: 249,
+    },
+    button: {
+        marginBottom: 15,
+        alignItems: 'center',
+        backgroundColor: '#48BBEC',
+        shadowColor: 'rgba(0,0,0, .4)', // IOS
+        shadowOffset: { height: 1, width: 1 }, // IOS
+        shadowOpacity: 1, // IOS
+        shadowRadius: 1, //IOS
+        elevation: 4, // Android
+        justifyContent: 'center',
+        borderRadius: 2,
+        padding: 0
+    },
+    buttonText: {
         color: 'white',
-        fontSize: 16,
+        fontSize: 20,
         textAlign: 'center',
+        padding: 8,
+        fontWeight: '500',
     },
-    stretch: {
-    },
-  submitButtonText: {
-    color: 'white'
-  }
 });
