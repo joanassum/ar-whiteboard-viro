@@ -66,11 +66,11 @@ class KaizenBoardEntry extends Component {
 
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized}>
-        <ViroARImageMarker target={"menumarker"}>
+        {/*<ViroARImageMarker target={"menumarker"}>*/}
         <ViroNode
-            position={[-1, -7, -1]} rotation={[-90, 0, 0]} dragType="FixedDistance" onDrag={()=>{}}
+//            position={[-1, -7, -1]} rotation={[-90, 0, 0]} dragType="FixedDistance" onDrag={()=>{}}
             // dragPlane={[[-1, -10, -1], [0, 1, 0], 3]}
-            // position={[0, 0, -5]} // rotation={[-90, 0, 0]
+            position={[0, 0, -5]} // rotation={[-90, 0, 0]
         >
           <ARTrelloMenu
             menuTitle={this.props.menuTitle}
@@ -104,7 +104,8 @@ class KaizenBoardEntry extends Component {
 
         {/*TODO Card Detail*/}
         <ViroNode
-          position={[-3,-13,-5]} rotation={[-90, 0, 0]}
+         // position={[-3,-13,-5]} rotation={[-90, 0, 0]}
+          position={[-5, 0,-5]}
           dragType="FixedDistance" onDrag={()=>{}}
         >
           {this.props.cardChosen ? <ARTrelloCardDetail
@@ -128,12 +129,13 @@ class KaizenBoardEntry extends Component {
 
 
         <ViroNode
-          position={[5, -13, -3]} rotation={[-90, 0, 0]}
+          //position={[5, -13, -3]} rotation={[-90, 0, 0]}
+          position={[5, 0, -5]}
           dragType="FixedDistance" onDrag={()=>{}}
         >
           {this.props.cardChosen ? <ARTrelloCardTimeline timelinePosition={[0,0,0]} cardId={this.props.cardId} boardId={this.props.boardId}/> : null}
         </ViroNode>
-        </ViroARImageMarker>
+        {/*</ViroARImageMarker>*/}
 
 
       </ViroARScene>

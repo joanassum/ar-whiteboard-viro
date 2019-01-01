@@ -32,17 +32,20 @@ class BoardMetricGraphs extends Component {
       this.props.unsetBoardMetric();
     } else {
       this.props.setMenuOption("Main Menu");
-      this.props.setGraphType(graphType)
+      this.props.setGraphType(graphType);
       this.props.setBoardMetric();
     }
   }
 
   render() {
 
+    const cardHeight = 0.4;
+    const cardWidth = 2.5;
+
     return (
       <ViroNode position={this.props.disArr}>
         <ViroFlexView
-          position={[0, 0, 0]} style={styles.titleContainer} height={0.4} width={2.5}
+          position={[0, 0, 0]} style={styles.titleContainer} height={cardHeight} width={cardWidth}
           onClick={() => this.onClick("Column Count")}
         >
           <ViroText
@@ -51,7 +54,7 @@ class BoardMetricGraphs extends Component {
           />
         </ViroFlexView>
         <ViroFlexView
-          position={[0, -0.5, 0]} style={styles.titleContainer} height={0.4} width={2.5}
+          position={[0, -0.5, 0]} style={styles.titleContainer} height={cardHeight} width={cardWidth}
           onClick={() => this.onClick("Performance")}
         >
           <ViroText
@@ -60,7 +63,7 @@ class BoardMetricGraphs extends Component {
           />
         </ViroFlexView>
         <ViroFlexView
-          position={[0, -1.0, 0]} style={styles.titleContainer} height={0.4} width={2.5}
+          position={[0, -1.0, 0]} style={styles.titleContainer} height={cardHeight} width={cardWidth}
           onClick={() => this.onClick("OverDue")}
         >
           <ViroText
@@ -78,15 +81,15 @@ var styles = StyleSheet.create({
   prodDescriptionText: {
     fontFamily: 'sans-serif-light',
     fontSize: 20,
+    flex: 1,
     color: '#222222',
     textAlignVertical: 'center',
-    textAlign: 'left',
-    flex: 1,
+    overflow: 'hidden',
+    textAlign: 'center',
   },
   titleContainer: {
     flexDirection: 'column',
-    backgroundColor: "#ffffdd",
-  },
+    backgroundColor: "rgba(245, 245, 245, 0.8)",
+  }
 });
-
 module.exports = BoardMetricGraphs;

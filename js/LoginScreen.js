@@ -64,7 +64,7 @@ class LoginScreen extends Component {
                 Augmenting Efficiency
             </Text>
 
-                <TouchableOpacity activeOpacity={this.disabled ? 1 : 0.7} onPress={!this.disabled && this.onPress}>
+                <TouchableOpacity activeOpacity={this.disabled ? 1 : 0.7} onPress={this.onPress}>
                     <View style={styles.button}>
                         <Text style={styles.buttonText}>ENTER AR</Text>
                     </View>

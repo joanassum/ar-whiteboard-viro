@@ -72,7 +72,7 @@ class KaizenImprovement extends Component {
           ref={(scrollView) => this._scrollView = scrollView}
           refreshControl={
             <RefreshControl
-              refreshing={this.state.commentsLoading}
+              refreshing={this.state.sectionLoading}
               onRefresh={this.onRefresh}
             />
           }

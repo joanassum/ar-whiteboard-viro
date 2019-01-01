@@ -56,23 +56,36 @@ class ARTrelloCard extends Component {
 
     render() {
 
-        return (
+      const cardHeight = 0.4;
+      const cardWidth = 2.5;
+      const charLimit = 25;
+      let styleSizeCard = styles.prodDescriptionText;
+
+      return (
             <ViroNode
                 position={this.props.disArr}
             >
               {
                 (this.state.cardLoaded && this.props.listSet)? (
                   this.state.cards.map((n, i) => {
+
+
+                    if(n.cardName !== undefined && n.cardName.length > charLimit){
+                      styleSizeCard = styles.prodDescriptionTextSmall;
+                    } else {
+                      styleSizeCard = styles.prodDescriptionText;
+                    }
+
                     return (
                       <ViroFlexView
                         position={[0, (-0.5 * (i)), 0]}
                         style={styles.titleContainer}
-                        height={0.4}
-                        width={1.75}
+                        height={cardHeight}
+                        width={cardWidth}
                         key={n.cardId}
                         onClick={(pos, src, cardObj = n) => this.onClick(pos, src, cardObj)}>
                         <ViroText
-                          style={styles.prodDescriptionText}
+                          style={styleSizeCard}
                           text={(this.props.overDueFlag) ? `${n.cardName} was due on ${n.dueDate}` : n.cardName}
                           key={n.cardId}
                         />
@@ -86,18 +99,27 @@ class ARTrelloCard extends Component {
 }
 
 var styles = StyleSheet.create({
-    prodDescriptionText: {
-        fontFamily: 'sans-serif-light',
-        fontSize: 20,
-        color: '#222222',
-        textAlignVertical: 'center',
-        textAlign: 'left',
-        flex: 1,
-    },
-    titleContainer: {
-        flexDirection: 'column',
-        backgroundColor: "#ffffffdd",
-    },
+  prodDescriptionText: {
+    fontFamily: 'sans-serif-light',
+    fontSize: 20,
+    flex: 1,
+    color: '#222222',
+    textAlignVertical: 'center',
+    overflow: 'hidden',
+    textAlign: 'center',
+  },
+  prodDescriptionTextSmall: {
+    fontFamily: 'sans-serif-light',
+    fontSize: 10,
+    flex: 1,
+    color: '#222222',
+    textAlignVertical: 'center',
+    overflow: 'hidden',
+    textAlign: 'center',
+  },
+  titleContainer: {
+    flexDirection: 'column',
+    backgroundColor: "rgba(245, 245, 245, 0.8)",
+  }
 });
-
 module.exports = ARTrelloCard;
