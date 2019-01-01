@@ -13,6 +13,8 @@ import {
     ViroFlexView,
 } from 'react-viro';
 import {StyleSheet} from "react-native";
+//import {Actions} from "react-native-router-flux/index";
+import {Actions} from "react-native-router-flux";
 
 
 class ARTrelloMenu extends Component {
@@ -21,6 +23,7 @@ class ARTrelloMenu extends Component {
     super(props);
 
     this.onClick = this.onClick.bind(this);
+    this.onClickComment = this.onClickComment.bind(this);
 
     this.state = {
       index: 0,
@@ -37,6 +40,11 @@ class ARTrelloMenu extends Component {
       this.props.unsetCardId();
     }
     this.props.setMenuOption(option);
+  }
+
+  onClickComment(){
+    console.log("Load comment module");
+    Actions.commentModal();
   }
 
 
@@ -70,6 +78,15 @@ class ARTrelloMenu extends Component {
           <ViroText
             style={styles.prodDescriptionText}
             text={"Board Metric"}
+          />
+        </ViroFlexView>
+        <ViroFlexView
+          position={[0, -2.0, 0]} style={styles.titleContainer} height={0.4} width={2.5}
+          onClick={this.onClickComment}
+        >
+          <ViroText
+            style={styles.prodDescriptionText}
+            text={"Card Comments"}
           />
         </ViroFlexView>
       </ViroNode>
