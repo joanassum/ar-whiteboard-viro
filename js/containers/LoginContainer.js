@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import LoginScreen from "../LoginScreen";
-import {setBoardId} from "../actions/mainActions";
+import {setUserId} from "../actions/mainActions";
 
 const mapStateToProps = state => {
   return {
@@ -11,7 +11,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     //funcName: () => dispatch(actionName(paramters))
-    setBoardId: (boardId) => dispatch(setBoardId(boardId))
+    setUserId: (userId) => dispatch(setUserId(userId))
   };
 };
 

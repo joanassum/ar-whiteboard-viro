@@ -22,6 +22,8 @@ const mainReducer = (state = {
       return { ...state, test: "Checked test", testCheck: action.checkTest};
     case "SET_BOARD_ID":
       return { ...state, boardId: action.boardId};
+    case "SET_USER_ID":
+      return { ...state, currentMemberID: action.userId};
     case "SET_BOARD_NAME":
       return { ...state, boardName: action.boardName};
     case "UNSET_CARD_ID":

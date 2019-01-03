@@ -69,6 +69,15 @@ export function getBoardId(userId) {
     });
 }
 
+export function getUserIdMapping(userName, userPassword) {
+  //console.log("getBoardName");
+  return fetch(`${url}/queriesDB/getUserIdMapping/${userName}/${userPassword}`)
+    .then((response) => response.text())
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
 export function getBoard() {
   //console.log("getBoard");
   return fetch(`${url}/trello/getBoard/SkS6g4qa`)

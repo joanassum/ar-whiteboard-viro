@@ -20,12 +20,13 @@ class App extends Component {
               key="login"
               component={LoginContainer}
               title="Login"
-              initial
+
             />
             <Scene
               key="viro"
               component={ViroEntry}
               title="Kaizen AR"
+              initial
             />
             <Scene
               key="improvement"

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import {getBoardIdMapping, setBoardID} from "./backend/backendController";
+import {getUserIdMapping} from "./backend/backendController";
 
 class LoginScreen extends Component {
 
@@ -12,29 +12,35 @@ class LoginScreen extends Component {
     super(props);
 
     this.state = {
-      board_pin : "",
+      userName: "",
+      password: "",
     };
 
     this.onPress = this.onPress.bind(this);
     this.onPressKaizenImprov = this.onPressKaizenImprov.bind(this);
-    this.handlePin = this.handlePin.bind(this);
+    this.handleUsername = this.handleUsername.bind(this);
+    this.handlePassword = this.handlePassword.bind(this);
     this.submitPin = this.submitPin.bind(this);
   }
 
 
-  handlePin(text) {
-    this.setState({ board_pin: text });
+  handleUsername(text) {
+    this.setState({ userName: text });
+    this.disabled = false;
+  }
+
+  handlePassword(text) {
+    this.setState({ password: text });
     this.disabled = false;
   }
 
   submitPin(){
-    alert("Submitted: " + this.state.board_pin);
-    if(!isNaN(this.state.board_pin) && this.state.board_pin.length === 6){
+    alert("Logged On User: " + this.state.userName);
+    //Refactor to validate input
+    if(this.state.userName !== ""){
       //fetch call
-      getBoardIdMapping(this.state.board_pin).then((response) => {
-        //dispatch
-        setBoardID(response);
-        this.props.setBoardId(response);
+      getUserIdMapping(this.state.userName, this.state.password).then((response) => {
+        this.props.setUserId(response);
       });
     }
   }
@@ -58,7 +64,7 @@ class LoginScreen extends Component {
                 Augmenting Efficiency
             </Text>
 
-                <TouchableOpacity activeOpacity={this.disabled ? 1 : 0.7} onPress={!this.disabled && this.onPress}>
+                <TouchableOpacity activeOpacity={this.disabled ? 1 : 0.7} onPress={this.onPress}>
                     <View style={styles.button}>
                         <Text style={styles.buttonText}>ENTER AR</Text>
                     </View>
@@ -71,17 +77,17 @@ class LoginScreen extends Component {
                 <TextInput
                     underlineColorAndroid={'transparent'}
                     style={styles.searchInput}
-                    value={this.state.searchString}
-                    onChange={this._onSearchTextChanged}
+                    value={this.state.userName}
+                    onChange={this.handleUsername}
                     placeholder='Enter Username'/>
             <TextInput
                 underlineColorAndroid={'transparent'}
                 style={styles.searchInput}
-                value={this.state.searchString}
-                onChange={this._onSearchTextChanged}
+                value={this.state.password}
+                onChange={this.handlePassword}
                 secureTextEntry={true}
                 placeholder='Enter Password'/>
-            <TouchableOpacity onPress={this.handlePin}>
+            <TouchableOpacity onPress={this.submitPin}>
                 <View style={styles.button}>
                     <Text style={styles.buttonText}>LOGIN</Text>
                 </View>

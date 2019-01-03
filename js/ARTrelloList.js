@@ -46,6 +46,12 @@ class ARTrelloList extends Component {
   }
 
   render() {
+
+    const cardHeight = 0.4;
+    const cardWidth = 2.5;
+    const charLimit = 25;
+    let styleSizeCard = styles.prodDescriptionText;
+
     return (
       <ViroNode
         position={this.props.disArr}
@@ -53,16 +59,25 @@ class ARTrelloList extends Component {
         {
           (this.state.listLoaded) ? (
             this.state.lists.map((n, i) => {
+
+
+              if(n.listName !== undefined && n.listName.length > charLimit){
+                styleSizeCard = styles.prodDescriptionTextSmall;
+              } else {
+                styleSizeCard = styles.prodDescriptionText;
+              }
+
+
               return (
                 <ViroFlexView
                   position={[0, (-0.5 * (i)), 0]}
                   style={styles.titleContainer}
-                  height={0.4}
-                  width={1.75}
+                  height={cardHeight}
+                  width={cardWidth}
                   key={n.listId}
                   onClick={(pos, src, listObj = n) => this.clickList(pos, src, listObj)}>
                   <ViroText
-                    style={styles.prodDescriptionText}
+                    style={styleSizeCard}
                     text={n.listName}
                     key={n.listId}
                   />
@@ -81,13 +96,23 @@ var styles = StyleSheet.create({
   prodDescriptionText: {
     fontFamily: 'sans-serif-light',
     fontSize: 20,
-    color: '#000000',
-    textAlignVertical: 'center',
-    textAlign: 'left',
     flex: 1,
+    color: '#222222',
+    textAlignVertical: 'center',
+    overflow: 'hidden',
+    textAlign: 'center',
+  },
+  prodDescriptionTextSmall: {
+    fontFamily: 'sans-serif-light',
+    fontSize: 10,
+    flex: 1,
+    color: '#222222',
+    textAlignVertical: 'center',
+    overflow: 'hidden',
+    textAlign: 'center',
   },
   titleContainer: {
     flexDirection: 'column',
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "rgba(245, 245, 245, 0.8)",
   }
 });
