@@ -5,6 +5,15 @@ export function setBoardID(newBoardID) {
   boardId = newBoardID;
 }
 
+
+export function loginTrello() {
+  return fetch(`${url}/login/`)
+    .then((response) => response)
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
 export function getLabels() {
   //console.log("getLabels");
   return fetch(`${url}/trello/getLabels/${boardId}`)
@@ -60,9 +69,17 @@ export function getBoardName(boardIdParam) {
       console.error(error);
     });
 }
+
+export function getUserName(userId) {
+  return fetch(`${url}/trello/getUserName/${userId}`)
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error(error);
+    });
+}
 export function getBoardId(userId) {
   //console.log("getBoardName");
-  return fetch(`${url}/queriesDB/getUserBoards/${userId}`)
+  return fetch(`${url}/trello/getUserBoards/${userId}`)
     .then((response) => response.json())
     .catch((error) => {
       console.error(error);

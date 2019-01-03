@@ -1,52 +1,38 @@
 import React, { Component } from 'react';
-import {View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Button} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Button, Linking, WebView} from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import {getUserIdMapping} from "./backend/backendController";
+import {getUserIdMapping, loginTrello} from "./backend/backendController";
 
 class LoginScreen extends Component {
-
-    disabled = true;
 
   constructor(props){
 
     super(props);
 
     this.state = {
-      userName: "",
-      password: "",
     };
 
-    this.onPress = this.onPress.bind(this);
+    this.onPressAR = this.onPressAR.bind(this);
     this.onPressKaizenImprov = this.onPressKaizenImprov.bind(this);
-    this.handleUsername = this.handleUsername.bind(this);
-    this.handlePassword = this.handlePassword.bind(this);
     this.submitPin = this.submitPin.bind(this);
   }
 
 
-  handleUsername(text) {
-    this.setState({ userName: text });
-    this.disabled = false;
-  }
-
-  handlePassword(text) {
-    this.setState({ password: text });
-    this.disabled = false;
-  }
-
   submitPin(){
-    alert("Logged On User: " + this.state.userName);
-    //Refactor to validate input
-    if(this.state.userName !== ""){
-      //fetch call
-      getUserIdMapping(this.state.userName, this.state.password).then((response) => {
-        this.props.setUserId(response);
-      });
-    }
+    loginTrello().then((response) => {
+      this.props.setURL(response.url);
+      Actions.loginwebview();
+    });
   }
 
-  onPress() {
-    Actions.viro();
+  onPressAR() {
+    console.log(this.props.userId);
+    console.log(this.props.userName);
+    if(this.props.userId === "none"){
+      alert("No user selected");
+    } else {
+      Actions.viro();
+    }
   }
 
   onPressKaizenImprov() {
@@ -56,45 +42,33 @@ class LoginScreen extends Component {
 
   render() {
     return (
-        <View style={styles.container}>
-            <Text style={styles.description}>
-                Kaizen AR
-            </Text>
-            <Text style={styles.description}>
-                Augmenting Efficiency
-            </Text>
+      <View style={styles.container}>
+        <Text style={styles.description}>
+          Kaizen AR
+        </Text>
+        <Text style={styles.description}>
+          Augmenting Efficiency
+        </Text>
 
-                <TouchableOpacity activeOpacity={this.disabled ? 1 : 0.7} onPress={this.onPress}>
-                    <View style={styles.button}>
-                        <Text style={styles.buttonText}>ENTER AR</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={this.onPressKaizenImprov}>
-                    <View style={styles.button}>
-                        <Text style={styles.buttonText}>KAIZEN IMPROVEMENT</Text>
-                    </View>
-                </TouchableOpacity>
-                <TextInput
-                    underlineColorAndroid={'transparent'}
-                    style={styles.searchInput}
-                    value={this.state.userName}
-                    onChange={this.handleUsername}
-                    placeholder='Enter Username'/>
-            <TextInput
-                underlineColorAndroid={'transparent'}
-                style={styles.searchInput}
-                value={this.state.password}
-                onChange={this.handlePassword}
-                secureTextEntry={true}
-                placeholder='Enter Password'/>
-            <TouchableOpacity onPress={this.submitPin}>
-                <View style={styles.button}>
-                    <Text style={styles.buttonText}>LOGIN</Text>
-                </View>
-            </TouchableOpacity>
+        <TouchableOpacity activeOpacity={this.disabled ? 1 : 0.7} onPress={this.onPressAR}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>{this.props.userId === "none" ? "ENTER AR" : `ENTER AR: ${this.props.userName}`}</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={this.onPressKaizenImprov}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>KAIZEN IMPROVEMENT</Text>
+          </View>
+        </TouchableOpacity>
 
-            <Image source={require('./res/Logo.png')} style={styles.image}/>
-        </View>
+        <TouchableOpacity onPress={this.submitPin}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>LOGIN</Text>
+          </View>
+        </TouchableOpacity>
+
+        <Image source={require('./res/Logo.png')} style={styles.image}/>
+      </View>
     );
   }
 }

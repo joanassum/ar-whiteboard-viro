@@ -4,6 +4,8 @@ import ViroEntry from "./js/ViroEntry";
 import LoginContainer from "./js/containers/LoginContainer";
 import CommentContainer from "./js/containers/CommentContainer";
 import KaizenImprovContainer from "./js/containers/KaizenImprovContainer";
+import LoginWebContainer from "./js/containers/LoginWebContainer";
+
 
 class App extends Component {
 
@@ -20,13 +22,18 @@ class App extends Component {
               key="login"
               component={LoginContainer}
               title="Login"
-
+              initial
             />
             <Scene
               key="viro"
               component={ViroEntry}
               title="Kaizen AR"
-              initial
+            />
+
+            <Scene
+              key="loginwebview"
+              component={LoginWebContainer}
+              title="LoginBrowser"
             />
             <Scene
               key="improvement"

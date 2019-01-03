@@ -12,10 +12,18 @@ export function setBoardId(boardId){
   };
 }
 
-export function setUserId(userId){
+export function setUserId(userId, userName){
   return {
     type: "SET_USER_ID",
-    userId
+    userId,
+    userName
+  };
+}
+
+export function setURL(url){
+  return {
+    type: "SET_URL",
+    url
   };
 }
 
