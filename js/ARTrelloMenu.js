@@ -174,7 +174,7 @@ class ARTrelloMenu extends Component {
         position={[1.5,0,0]}
       >
 
-        <ViroFlexView position={[0, 0, 0]} style={styles.titleContainer} height={cardHeight} width={cardWidth}>
+        <ViroFlexView position={[0, 0, 0]} style={styles.titleContainerMenu} height={cardHeight} width={cardWidth}>
           <ViroText
             style={styles.prodDescriptionText}
             text={(this.props.option === "Main Menu") ? "Menu" : "Back"}
@@ -211,8 +211,12 @@ var styles = StyleSheet.create({
     overflow: 'hidden',
     textAlign: 'center',
   },
-  titleContainer: {
+  titleContainerMenu: {
     flexDirection: 'column',
     backgroundColor: "rgba(192, 192, 192, 0.8)",
+  },
+  titleContainer: {
+    flexDirection: 'column',
+    backgroundColor: "rgba(245, 245, 245, 0.8)",
   }
 });
