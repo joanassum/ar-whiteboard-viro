@@ -15,6 +15,7 @@ class LoginScreen extends Component {
     this.onPressAR = this.onPressAR.bind(this);
     this.onPressKaizenImprov = this.onPressKaizenImprov.bind(this);
     this.submitPin = this.submitPin.bind(this);
+    this.loadHelp = this.loadHelp.bind(this);
   }
 
 
@@ -23,6 +24,10 @@ class LoginScreen extends Component {
       this.props.setURL(response.url);
       Actions.loginwebview();
     });
+  }
+
+  loadHelp(){
+    Actions.help();
   }
 
   onPressAR() {
@@ -64,6 +69,12 @@ class LoginScreen extends Component {
         <TouchableOpacity onPress={this.submitPin}>
           <View style={styles.button}>
             <Text style={styles.buttonText}>LOGIN</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={this.loadHelp}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>HELP</Text>
           </View>
         </TouchableOpacity>
 

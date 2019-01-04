@@ -70,7 +70,7 @@ class ARTrelloCard extends Component {
                   this.state.cards.map((n, i) => {
 
 
-                    if(n.cardName !== undefined && n.cardName.length > charLimit){
+                    if(n.cardName !== undefined && n.cardName.length > charLimit || this.props.overDueFlag){
                       styleSizeCard = styles.prodDescriptionTextSmall;
                     } else {
                       styleSizeCard = styles.prodDescriptionText;

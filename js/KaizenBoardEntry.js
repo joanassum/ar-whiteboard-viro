@@ -114,10 +114,13 @@ class KaizenBoardEntry extends Component {
             boardId={this.props.boardId}/> : null}
 
         </ViroNode>
+
+
         <ViroNode
-          position={[-3,-13,-3]} rotation={[-90, 0, 0]}
-          dragType="FixedDistance" onDrag={()=>{}}
-          dragP
+          //position={[-3,-13,-3]} rotation={[-90, 0, 0]}
+          position={[-5,0,-5]}
+          //dragType="FixedDistance" onDrag={()=>{}}
+
         >
           {this.props.boardMetricChosen ? <BoardMetric
             graphViewPosition={[0,0,0]}
