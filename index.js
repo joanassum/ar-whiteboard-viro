@@ -5,8 +5,10 @@ import configureStore from "./js/store/configureStore";
 import { Provider } from "react-redux";
 
 const store = configureStore({
-  mainReducer: {boardId: "SkS6g4qa", cardId: "None", menuTitle: "Board", cardChosen: false, listID: "", option: "Main Menu", labelID: "none", currentMemberID: "none",}
+  mainReducer: {boardId: "SkS6g4qa", cardId: "None", menuTitle: "Board", cardChosen: false, listID: "", option: "Main Menu", labelID: "none", currentMemberID: "none", firstLoad: true,}
 });
+
+console.disableYellowBox = true;
 
 const ReduxApp = () => (
   <Provider store={store}>

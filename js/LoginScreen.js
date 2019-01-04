@@ -26,7 +26,10 @@ class LoginScreen extends Component {
 
 
   componentDidMount() {
-    this.props.start();
+    if(this.props.firstLoad){
+      this.props.start();
+      this.props.setFirstLoad();
+    }
   }
 
 
