@@ -24,7 +24,8 @@ class HelpView extends Component {
       {title: 'Enter AR', data: ['Enter the AR application']},
       {title: 'Kaizen Improvement', data: ['View and add improvement measures with their current state across all projects']},
       {title: 'Login', data: ['Login using your Trello Login Credentials in order to access the Augmented Reality Interface']},
-      {title: 'Help', data: ['User Guide for the application']},
+      {title: 'Help', data: ['User Guide for the AR Aspect']},
+      {title: 'Tutorial', data: ['User Guide for the Login Screen']},
     ];
 
 

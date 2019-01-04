@@ -3,6 +3,12 @@ import {View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Button, Link
 import { Actions } from 'react-native-router-flux';
 import {getUserIdMapping, loginTrello} from "./backend/backendController";
 
+import { copilot, walkthroughable, CopilotStep } from '@okgrow/react-native-copilot';
+const WalkthroughableText = walkthroughable(Text);
+const WalkthroughableImage = walkthroughable(Image);
+const WalkthroughableButton = walkthroughable(TouchableOpacity);
+
+
 class LoginScreen extends Component {
 
   constructor(props){
@@ -17,6 +23,12 @@ class LoginScreen extends Component {
     this.submitPin = this.submitPin.bind(this);
     this.loadHelp = this.loadHelp.bind(this);
   }
+
+
+  componentDidMount() {
+    this.props.start();
+  }
+
 
 
   submitPin(){
@@ -55,36 +67,56 @@ class LoginScreen extends Component {
           Augmenting Efficiency
         </Text>
 
-        <TouchableOpacity activeOpacity={this.disabled ? 1 : 0.7} onPress={this.onPressAR}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>{this.props.userId === "none" ? "ENTER AR" : `ENTER AR: ${this.props.userName}`}</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this.onPressKaizenImprov}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>KAIZEN IMPROVEMENT</Text>
-          </View>
-        </TouchableOpacity>
 
-        <TouchableOpacity onPress={this.submitPin}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>LOGIN</Text>
-          </View>
-        </TouchableOpacity>
+        <CopilotStep text="Enter the AR application" order={2} name="Enter AR">
+          <WalkthroughableButton activeOpacity={this.disabled ? 1 : 0.7} onPress={this.onPressAR}>
+            <View style={styles.button}>
+              <Text  style={styles.buttonText}>
+                {this.props.userId === "none" ? "ENTER AR" : `ENTER AR: ${this.props.userName}`}
+              </Text>
+            </View>
+          </WalkthroughableButton>
+        </CopilotStep>
 
-        <TouchableOpacity onPress={this.loadHelp}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>HELP</Text>
-          </View>
-        </TouchableOpacity>
+        <CopilotStep text="View the Cross Project Kaizen Improvements" order={3} name="Kaizen Improvement">
+          <WalkthroughableButton onPress={this.onPressKaizenImprov}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>KAIZEN IMPROVEMENT</Text>
+            </View>
+          </WalkthroughableButton>
+        </CopilotStep>
 
-        <Image source={require('./res/Logo.png')} style={styles.image}/>
+        <CopilotStep text="Login using your Trello Login Credentials first!" order={1} name="Login">
+          <WalkthroughableButton onPress={this.submitPin}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>LOGIN</Text>
+            </View>
+          </WalkthroughableButton>
+        </CopilotStep>
+
+        <CopilotStep text="User Guide for the Application" order={4} name="Help">
+          <WalkthroughableButton onPress={this.loadHelp}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>HELP</Text>
+            </View>
+          </WalkthroughableButton>
+        </CopilotStep>
+
+        <CopilotStep active={this.state.secondStepActive} text="Kaizen AR Logo" order={5} name="logo">
+          <WalkthroughableImage source={require('./res/Logo.png')} style={styles.image}/>
+        </CopilotStep>
+
+
+
       </View>
     );
   }
 }
 
-export default LoginScreen;
+export default copilot({
+  animated: false,
+  overlay: 'view',
+})(LoginScreen);
 
 const styles = StyleSheet.create({
     description: {
