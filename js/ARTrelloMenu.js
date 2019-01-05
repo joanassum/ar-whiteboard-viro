@@ -13,6 +13,8 @@ import {
     ViroFlexView,
 } from 'react-viro';
 import {StyleSheet} from "react-native";
+//import {Actions} from "react-native-router-flux/index";
+import {Actions} from "react-native-router-flux";
 
 
 class ARTrelloMenu extends Component {
@@ -21,6 +23,7 @@ class ARTrelloMenu extends Component {
     super(props);
 
     this.onClick = this.onClick.bind(this);
+    this.onClickComment = this.onClickComment.bind(this);
 
     this.state = {
       index: 0,
@@ -39,37 +42,76 @@ class ARTrelloMenu extends Component {
     this.props.setMenuOption(option);
   }
 
+  onClickComment(){
+    console.log("Load comment module for : " + this.props.cardId);
+    if(this.props.cardId !== "None"){
+      Actions.commentModal();
+    } else {
+      alert("No Card Id chosen!");
+    }
+  }
+
 
   render() {
+
+    const cardHeight = 0.4;
+    const cardWidth = 2.5;
+    const charLimit = 25;
+    let styleSizeFilter = styles.prodDescriptionText;
+    let styleSizeMenu = styles.prodDescriptionText;
+    if(this.props.menuTitle !== undefined && this.props.menuTitle.length > charLimit){
+      styleSizeMenu = styles.prodDescriptionTextSmall;
+    }
+    if(this.props.labelName !== undefined && this.props.labelName.length > charLimit){
+      styleSizeFilter = styles.prodDescriptionTextSmall;
+    }
+
     let mainMenu = (
       <ViroNode
         position={[0,0,0]}
       >
         <ViroFlexView
-          position={[0, -0.5, 0]} style={styles.titleContainer} height={0.4} width={2.5}
+          position={[0, -0.5, 0]}
+          style={styles.titleContainer}
+          height={cardHeight} width={cardWidth}
           onClick={() => this.onClick("Filter Menu")}
         >
           <ViroText
-            style={styles.prodDescriptionText}
+            style={styleSizeFilter}
             text={`${(this.props.labelSet) ? "Filter: " + this.props.labelName : "Filter Options"}`}
           />
         </ViroFlexView>
         <ViroFlexView
-          position={[0, -1.0, 0]} style={styles.titleContainer} height={0.4} width={2.5}
+          position={[0, -1.0, 0]}
+          style={styles.titleContainer}
+          height={cardHeight} width={cardWidth}
           onClick={() => this.onClick("Board Menu")}
         >
           <ViroText
-            style={styles.prodDescriptionText}
+            style={styleSizeMenu}
             text={`${(this.props.titlePicked) ? "Search: " + this.props.menuTitle : "Search Options"}`}
           />
         </ViroFlexView>
         <ViroFlexView
-          position={[0, -1.5, 0]} style={styles.titleContainer} height={0.4} width={2.5}
+          position={[0, -1.5, 0]}
+          style={styles.titleContainer}
+          height={cardHeight} width={cardWidth}
           onClick={() => this.onClick("Board Metric")}
         >
           <ViroText
             style={styles.prodDescriptionText}
             text={"Board Metric"}
+          />
+        </ViroFlexView>
+        <ViroFlexView
+          position={[0, -2.0, 0]}
+          style={styles.titleContainer}
+          height={cardHeight} width={cardWidth}
+          onClick={this.onClickComment}
+        >
+          <ViroText
+            style={styles.prodDescriptionText}
+            text={"Card Comments"}
           />
         </ViroFlexView>
       </ViroNode>
@@ -132,7 +174,7 @@ class ARTrelloMenu extends Component {
         position={[1.5,0,0]}
       >
 
-        <ViroFlexView position={[0, 0, 0]} style={styles.titleContainer} height={0.4} width={2.5}>
+        <ViroFlexView position={[0, 0, 0]} style={styles.titleContainerMenu} height={cardHeight} width={cardWidth}>
           <ViroText
             style={styles.prodDescriptionText}
             text={(this.props.option === "Main Menu") ? "Menu" : "Back"}
@@ -148,108 +190,33 @@ class ARTrelloMenu extends Component {
 module.exports = ARTrelloMenu;
 
 
+
+
 var styles = StyleSheet.create({
   prodDescriptionText: {
     fontFamily: 'sans-serif-light',
     fontSize: 20,
     flex: 1,
-    color: '#000000',
+    color: '#222222',
     textAlignVertical: 'center',
-    textAlign: 'left',
+    overflow: 'hidden',
+    textAlign: 'center',
+  },
+  prodDescriptionTextSmall: {
+    fontFamily: 'sans-serif-light',
+    fontSize: 10,
+    flex: 1,
+    color: '#222222',
+    textAlignVertical: 'center',
+    overflow: 'hidden',
+    textAlign: 'center',
+  },
+  titleContainerMenu: {
+    flexDirection: 'column',
+    backgroundColor: "rgba(192, 192, 192, 0.8)",
   },
   titleContainer: {
     flexDirection: 'column',
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "rgba(245, 245, 245, 0.8)",
   }
 });
-
-
-//Legacy Code
-// let filterOption;
-// let filterOptionNone;
-// let filterOptions;
-// let boardGraph;
-// let board;
-//
-// if(this.state.displayBoard) {
-//   filterOption = (
-//     <ViroFlexView position={[0, -2.0, 0]} style={styles.titleContainer} height={0.4} width={1.5}>
-//       <ViroText
-//         style={styles.prodDescriptionText}
-//         text={"Filter Labels"}
-//       />
-//     </ViroFlexView>
-//   );
-//
-//   boardGraph = this.state.displayBoard ? (
-//     <ViroNode animation={{name : this.state.graphAnimation, run : this.state.runAnimation, loop : false,
-//       onFinish:this._onAnimationFinished, onStart: this._onStart}}>
-//       <ViroFlexView position={[0, -1.5, 0]} style={styles.titleContainer} height={0.4} width={1.5}
-//                     onClick={this._clickProjectPerformance} ignoreEventHandling={this.state.showPerGraph}>
-//         <ViroText
-//           style={styles.prodDescriptionText}
-//           text={"Project Performance"}
-//         />
-//       </ViroFlexView >
-//       <ViroFlexView position={[0, -1.5, 0]} style={styles.titleContainer} height={2.5} width={3}
-//                     rotation={[0,180,0]} onClick={this._clickProjectPerformance} ignoreEventHandling={!this.state.showPerGraph}>
-//         <ViroImage
-//           style={styles.prodDescriptionText}
-//           source={{uri: this.state.performanceGraph}}
-//         />
-//       </ViroFlexView>
-//     </ViroNode>
-//   ) : null;
-//
-//   filterOptionNone = (
-//     <ViroFlexView position={[0, -2.0, 0]} style={styles.titleContainer} height={0.4} width={1.5}>
-//       <ARTrelloLabel n={{id: "none", name: "None", color: "grey"}} i={0} labelClick={this.labelClick}/>
-//     </ViroFlexView>
-//   );
-//
-//   filterOptions = this.state.labelsLoaded ? (
-//     this.state.labelIds.map ((n, i) => {
-//       return <ARTrelloLabel n={n} i={i} labelClick={this.labelClick}/>;
-//     })
-//   ) : null;
-//
-//   board = (<ARTrelloBoard filter={this.state.filter} ref={this.child}/>);
-// } else {
-//   filterOption = null;
-//   filterOptionNone = null;
-//   filterOptions = null;
-//   board = null;
-// }
-
-//
-// labelClick(id){
-//   let returnObj = this.state.labelIds.filter( (obj) => {
-//
-//     console.log("LABEL CLICK: " + id);
-//
-//     if(id === "none"){
-//       console.log("none filter");
-//       return {id: "none", name: "None", color: "white"};
-//     }
-//
-//     if(obj.id === id){
-//       console.log("Obj filter");
-//       obj["clicked"] = true;
-//       return obj;
-//     }
-//   });
-//   console.log("RETURN OBJEC IS; " + returnObj);
-//   this.setState({filter: returnObj[0]}, () => this.child.current.cascadeClick());
-//
-// }
-//
-// labelIds: [],
-//   labelsLoaded: false,
-//   filter: {id: "none", name: "None", color: "white"},
-// labelObjs: [],
-//
-// getLabels().then((response) => {
-//   this.setState({
-//     labelIds: response,
-//     labelsLoaded: true});
-// });

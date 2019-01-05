@@ -45,7 +45,12 @@ class ARTrelloBoard extends Component {
 
   render() {
 
-    console.log(this.state.boardList);
+
+    const cardHeight = 0.4;
+    const cardWidth = 2.5;
+    const charLimit = 25;
+    let styleSizeCard = styles.prodDescriptionText;
+
     return (
       <ViroNode
         position={this.props.disArr}
@@ -53,16 +58,23 @@ class ARTrelloBoard extends Component {
         {
           (this.state.boardNameLoaded)? (
             this.state.boardList.map((n, i) => {
+
+              if(n.boardName !== undefined && n.boardName.length > charLimit){
+                styleSizeCard = styles.prodDescriptionTextSmall;
+              } else {
+                styleSizeCard = styles.prodDescriptionText;
+              }
+
               return (
                 <ViroFlexView
                   position={[0, (-0.5 * (i)), 0]}
                   style={styles.titleContainer}
-                  height={0.4}
-                  width={1.75}
+                  height={cardHeight}
+                  width={cardWidth}
                   key={n.boardId}
                   onClick={(pos, src, boardObj = n) => this.onClick(pos, src, boardObj)}>
                   <ViroText
-                    style={styles.prodDescriptionText}
+                    style={styleSizeCard}
                     text={n.boardName}
                     key={n.boardId}
                   />
@@ -77,17 +89,28 @@ class ARTrelloBoard extends Component {
 
 module.exports = ARTrelloBoard;
 
+
 var styles = StyleSheet.create({
   prodDescriptionText: {
     fontFamily: 'sans-serif-light',
     fontSize: 20,
     flex: 1,
-    color: '#000000',
+    color: '#222222',
     textAlignVertical: 'center',
-    textAlign: 'left',
+    overflow: 'hidden',
+    textAlign: 'center',
+  },
+  prodDescriptionTextSmall: {
+    fontFamily: 'sans-serif-light',
+    fontSize: 10,
+    flex: 1,
+    color: '#222222',
+    textAlignVertical: 'center',
+    overflow: 'hidden',
+    textAlign: 'center',
   },
   titleContainer: {
     flexDirection: 'column',
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "rgba(245, 245, 245, 0.8)",
   }
 });
