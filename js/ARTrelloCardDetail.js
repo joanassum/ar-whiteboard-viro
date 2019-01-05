@@ -9,7 +9,7 @@ import {
   ViroFlexView,
   ViroImage,
 } from 'react-viro';
-import {getCardMembers, getCheckLists, getTimeLineGraph} from "./backend/backendController";
+import {getCardMembers, getCardDueDate, getCheckLists, getTimeLineGraph} from "./backend/backendController";
 
 class Checkbox extends Component {
   constructor(props) {
@@ -61,6 +61,8 @@ class ARTrelloCardDetail extends Component {
       cardPosition: [-4, -0.5, 0],
       members:[],
       membersLoaded: false,
+      dueDate:"",
+      dueDateLoaded: false,
       checkLists: [],
       checkListsLoaded: false,
       timeLineGraph: "Loading...",
@@ -75,6 +77,13 @@ class ARTrelloCardDetail extends Component {
       this.setState({
         members: response,
         membersLoaded: true
+      });
+    });
+
+    getCardDueDate(this.props.cardId).then((response) => {
+      this.setState({
+        dueDate: response._value,
+        dueDateLoaded: true
       });
     });
 
@@ -122,6 +131,32 @@ class ARTrelloCardDetail extends Component {
       })
     );
 
+    // var dateStr = () => {
+    //
+    //   var today = (new Date()).toLocaleDateString();
+    //
+    //   if (this.state.dueDate == null) {
+    //     return "No Due Date";
+    //   } else {
+    //     return "Due Date"
+    //     //return this.state.dueDate;
+    //   }
+    // };
+
+    var dateStr = "";
+
+    var today = (new Date()).toLocaleDateString();
+
+    if (this.state.dueDate == null) {
+        dateStr = "No Due Date";
+    } else {
+      var diff = Math.round((new Date(this.state.dueDate.slice(0, 19)).getTime() - new Date().getTime())/(1000*60*60*24));
+      if (diff < 0) {
+        dateStr = "Overdue for " + (0 - diff) + " days!!"
+      } else {
+        dateStr = diff + " days until deadline!!"
+      }
+    }
 
     return (
       <ViroNode position={this.props.cardViewPosition}>
@@ -133,6 +168,14 @@ class ARTrelloCardDetail extends Component {
               onClick={this.onClickComment}
               source={(this.state.timeLineGraphLoaded) ? {uri: this.state.timeLineGraph} : require("./res/Logo.png")}
             />
+          </ViroFlexView>
+          <ViroFlexView style={{flexDirection: 'column'}}  height={0.5} width={3}>
+            <ViroFlexView style={{flexDirection: 'row'}} height={0.5} width={3}>
+              <ViroText
+                style={styles.prodDescriptionText}
+                text={dateStr}
+                />
+            </ViroFlexView>
           </ViroFlexView>
           <ViroFlexView style={{flexDirection: 'column'}} height={1} width={3}>
             <ViroFlexView style={{flexDirection: 'row'}} height={0.7} width={3}>
@@ -169,7 +212,7 @@ var styles = StyleSheet.create({
   },
   titleContainer: {
     flexDirection: 'column',
-    backgroundColor: "#ffffdd",
+    backgroundColor: "#c0c0c0",
   },
   memberNameText: {
     fontFamily: 'sans-serif-light',
@@ -181,7 +224,7 @@ var styles = StyleSheet.create({
   },
   cardBack: {
     flexDirection: 'column',
-    backgroundColor: "#ffffdd",
+    backgroundColor: "#c0c0c0",
     display: 'none',
   }
 });
