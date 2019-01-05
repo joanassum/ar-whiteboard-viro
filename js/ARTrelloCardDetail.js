@@ -161,6 +161,14 @@ class ARTrelloCardDetail extends Component {
     return (
       <ViroNode position={this.props.cardViewPosition}>
         <ViroFlexView style={styles.titleContainer} height={9} width={3}>
+        <ViroFlexView style={{flexDirection: 'column'}}  height={0.5} width={3}>
+          <ViroFlexView style={{flexDirection: 'row'}} height={0.5} width={3}>
+            <ViroText
+              style={styles.prodDescriptionText}
+              text="Dummy Card 1"
+              />
+          </ViroFlexView>
+        </ViroFlexView>
           <ViroFlexView style={{flexDirection: 'column'}} >
             <ViroImage
               height={3}
