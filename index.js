@@ -8,6 +8,8 @@ const store = configureStore({
   mainReducer: {boardId: "SkS6g4qa", cardId: "None", menuTitle: "Board", cardChosen: false, listID: "", option: "Main Menu", labelID: "none", currentMemberID: "none",}
 });
 
+console.disableYellowBox = true;
+
 const ReduxApp = () => (
   <Provider store={store}>
     <MainContainer />
