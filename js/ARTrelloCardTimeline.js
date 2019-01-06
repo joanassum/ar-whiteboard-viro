@@ -27,7 +27,7 @@ class ARTrelloCardTimeline extends Component {
             infoPanelText: "",
             columnTimes: [],
             barStyles: [],
-            selected : [],
+            selected: [],
             widths: [],
             times: []
         };
@@ -39,7 +39,8 @@ class ARTrelloCardTimeline extends Component {
             timelinePosition: this.props.timelinePosition,
             cardId: this.props.cardId,
             columns: [],
-            cardHistory: []
+            cardHistory: [],
+            infoPanelText: "Tap on the graph components to interact with them.",
         });
         getCardHistory(this.props.cardId)
             .then((response) => {
@@ -48,20 +49,19 @@ class ARTrelloCardTimeline extends Component {
                     historyLoaded: true
                 });
 
-            });
-        getBoardById(this.props.boardId)
-            .then((response => {
-                this.setState({
-                    columns: response.map(x => x["name"]).reverse(),
-                    selected : new Array(response.length).fill(false),
-                    columnsLoaded: true
-                })
-            }));
+            }).then(getBoardById(this.props.boardId)
+                .then((response => {
+                    this.setState({
+                        columns: response.map(x => x["name"]).reverse(),
+                        selected: new Array(response.length).fill(false),
+                        columnsLoaded: true
+                    });
+                })).then(this.initGraph())
+        )
+    }
 
-        this.setState({
-            infoPanelText: "Tap on the graph components to interact with them.",
-        });
-
+    initGraph = () => {
+        console.log(this.state);
         let actions = this.state.cardHistory;
         let columns = this.state.columns;
 
@@ -69,8 +69,6 @@ class ARTrelloCardTimeline extends Component {
         let finalDate = Date.parse(actions[actions.length - 1].date);
         let datePadding = finalDate + 3600000; // 1 hour padding time at the end for visual niceness
         let totalTime = datePadding - firstDate;
-
-        let graph = [];
         let widths = [];
         let times = [];
         for (let i = 0; i < actions.length; i++) {
@@ -98,8 +96,8 @@ class ARTrelloCardTimeline extends Component {
         }
         this.setState({
             columnTimes: columnTimes
-        })
-    }
+        });
+    };
 
     createDiagram = (_h, w) => {
         if (!this.state.historyLoaded || !this.state.columnsLoaded) {
@@ -113,7 +111,7 @@ class ARTrelloCardTimeline extends Component {
         let actions = this.state.cardHistory;
         let columns = this.state.columns;
 
-        let h = _h * 1/2; // split into graph and panel
+        let h = _h * 1 / 2; // split into graph and panel
 
         let graphHeight = h * 3 / 4;
         let graphWidth = w * 2 / 3;
@@ -127,20 +125,20 @@ class ARTrelloCardTimeline extends Component {
 
         let titleHeight = h / 8;
         let titlePadding = <ViroFlexView
-                style = {styles.emptyContainer}
-                height = {titleHeight}
-                width = {xAxisWidth}
+            style={styles.emptyContainer}
+            height={titleHeight}
+            width={xAxisWidth}
         />;
         let title = <ViroFlexView
-                style = {styles.emptyContainer}
-                height = {titleHeight}
-                width = {w-xAxisWidth}
+            style={styles.emptyContainer}
+            height={titleHeight}
+            width={w-xAxisWidth}
         >
             <ViroText
-                    style = {styles.titleStyle}
-                    height = {titleHeight}
-                    width = {w-xAxisWidth}
-                    text = "Timeline of column movement"
+                style={styles.titleStyle}
+                height={titleHeight}
+                width={w-xAxisWidth}
+                text="Timeline of column movement"
             />
         </ViroFlexView>;
 
@@ -158,7 +156,7 @@ class ARTrelloCardTimeline extends Component {
 
     };
 
-    createInfoPanel = (panelHeight, panelWidth, graphWidth) =>{
+    createInfoPanel = (panelHeight, panelWidth, graphWidth) => {
         let padding = <ViroFlexView
             style={styles.emptyContainer}
             height={panelHeight}
@@ -238,7 +236,7 @@ class ARTrelloCardTimeline extends Component {
         />;
         children.push(linePadding);
         children.push(line);
-        let textHeight = yAxisHeight-lineHeight;
+        let textHeight = yAxisHeight - lineHeight;
         let textPadding = <ViroFlexView
             style={styles.emptyContainer}
             height={textHeight}
@@ -251,7 +249,7 @@ class ARTrelloCardTimeline extends Component {
                 width={graphWidth}
             >
                 <ViroText
-                    text = "Time spent"
+                    text="Time spent"
                     height={textHeight}
                     width={graphWidth}
                 />
@@ -264,9 +262,9 @@ class ARTrelloCardTimeline extends Component {
         </ViroFlexView>;
     };
 
-    onClick(pos, src, index){
+    onClick(pos, src, index) {
         let selected = this.state.selected;
-        if (selected[index]){
+        if (selected[index]) {
             selected[index] = false;
             this.setState({
                 selected: selected
