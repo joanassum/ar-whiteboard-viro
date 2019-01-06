@@ -7,6 +7,8 @@ import {
 } from 'react-native'
 import Swiper from 'react-native-swiper';
 
+import {vw, vh} from 'react-native-viewport-units';
+
 
 class HelpView extends Component {
 
@@ -33,7 +35,7 @@ class HelpView extends Component {
       {title: 'Filter Options', data: ['Allows you to filter the Trello Card results based on a Trello Label assigned on your Trello board by displaying the Trello Labels.']},
       {title: 'Search Options', data: ['Finds a Trello Card to display additional information. You search first through the Trello boards from the chosen Trello Board, you select a Trello List. Finally upon choosing the Trello List you can select a Trello Card from the list which will bring you back to the AR Menu with the chosen Trello Card title shown in the search options button. The Card Detail View and Card Timeline View will also pop up for the chosen card.']},
       {title: 'Board Metric', data: ['From the AR Menu, a project manager can also access the Board Metric Sub Menu which allows the manager to see various metrics about the project. These metrics are the cards per column, the performance of the group and the over due tickets. ']},
-      {title: 'Card Comments', data: ['Allows you to communicate with team members and also flag certain cards. When a card has been selected via the search options sub menus, you can the see the comments on the card as well as post comments. If you want to refresh the comments pull down the screen from the top. ']},
+      {title: 'Card Comments', data: ['Allows you to communicate with team members and also flag certain cards. When a card has been selected via the search options sub menus, you can the see the comments on the card as well as post comments. If you want to refresh the comments pull down the screen from the top. \n']},
     ];
 
     const data3 = [
@@ -87,44 +89,45 @@ export default HelpView;
 
 var styles = {
   wrapper: {
-    marginTop: 10,
-    marginBottom: 30,
-    marginLeft: 35,
-    marginRight: 35,
-
+    marginTop: 1 * vh,
+    marginBottom: 2 * vh,
+    marginLeft: 2 * vw,
+    marginRight: 2 * vw,
   },
   slide1: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#9DD6EB'
+    backgroundColor: '#9ef5f6'
   },
   slide2: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#9DD6EB'
+    backgroundColor: '#9ef5f6'
   },
   slide3: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#9DD6EB'
+    backgroundColor: '#9ef5f6'
   },
   text: {
-    color: '#000000',
+    color: '#444444',
     fontSize: 16,
-    marginLeft: 10,
+    marginLeft: 2 * vw,
+    marginRight: 3 * vw,
   },
   headerText: {
-    color: '#000000',
+    color: '#444444',
     fontSize: 24,
     fontWeight: 'bold',
     lineHeight: 50,
-    marginLeft: 4
+    marginLeft: 4,
+    backgroundColor: '#9ef5f6'
   },
   titleText: {
-    color: '#000000',
+    color: '#444444',
     fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
