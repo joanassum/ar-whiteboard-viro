@@ -98,16 +98,19 @@ var styles = {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingBottom: 8 * vh,
   },
   slide2: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingBottom: 8 * vh,
   },
   slide3: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingBottom: 8 * vh,
   },
   text: {
     color: '#444444',

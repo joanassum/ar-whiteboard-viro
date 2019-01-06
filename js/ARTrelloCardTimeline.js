@@ -20,7 +20,7 @@ class ARTrelloCardTimeline extends Component {
         this.state = {
             historyLoaded: false,
             columnsLoaded: false,
-            timelinePosition: [-5, 0, 0],
+            timelinePosition: [-7, 0, 0],
             cardInfo: "",
             columns: [],
             cardHistory: [],
@@ -154,6 +154,7 @@ class ARTrelloCardTimeline extends Component {
             >
                 <ViroText
                     text="Columns"
+                    color = "#000000"
                     height={graphHeight}
                     width={halfWidth}
                     textAlignVertical='center'
@@ -169,6 +170,7 @@ class ARTrelloCardTimeline extends Component {
                     width={halfWidth - lineWidth}
                 >
                     <ViroText
+                        color = "#000000"
                         text={columns[i]}
                         height={graphHeight/columns.length}
                         width={halfWidth - lineWidth}
@@ -218,6 +220,7 @@ class ARTrelloCardTimeline extends Component {
             >
                 <ViroText
                     text="Time spent"
+                    color = "#000000"
                     height={textHeight}
                     width={graphWidth}
                 />
@@ -283,7 +286,7 @@ class ARTrelloCardTimeline extends Component {
             let time = nextDate - actionDate;
             let timeFraction = (time) / totalTime;
             times.push(time);
-            widths.push(timeFraction * (graphWidth - 2) + 2 / actions.length); // to give width to very small values
+            widths.push(timeFraction * (graphWidth - 2) + 2 / actions.length-0.005); // to give width to very small values
         }
 
         let columnTimes = [];
@@ -306,7 +309,7 @@ class ARTrelloCardTimeline extends Component {
                     console.log(widths[i], actions[i].column);
                     graph.push(
                         <ViroFlexView
-                            style={this.state.selected[j] ? styles.selectedContainer : styles.barContainer}
+                          style={this.state.selected[j] ? styles.selectedContainer : styles.barContainer}
                             height={barHeight}
                             width={widths[i]}
                             key={id}
@@ -316,7 +319,7 @@ class ARTrelloCardTimeline extends Component {
                 } else { // else empty container
                     graph.push(
                         <ViroFlexView
-                            style={styles.emptyContainer}
+                            style={styles.emptyBarContainer}
                             height={barHeight}
                             width={widths[i]}
                             key={id}
@@ -349,11 +352,11 @@ class ARTrelloCardTimeline extends Component {
 
 var styles = StyleSheet.create({
     lineStyle: {
-        backgroundColor: "#ffffff",
+        backgroundColor: "#000000",
     },
 
     titleStyle: {
-        color: "#ffffff",
+        color: "#000000",
         textAlign: "center"
     },
 
@@ -362,7 +365,7 @@ var styles = StyleSheet.create({
         alignItems: 'flex-start',
         flexWrap: 'wrap',
         backgroundColor: "#ffffff00",
-        color: "#ffffff",
+        color: "#000000",
         textAlign: "center"
     },
 
@@ -371,7 +374,7 @@ var styles = StyleSheet.create({
         alignItems: 'flex-start',
         flexWrap: 'wrap',
         backgroundColor: "#ffffff00",
-        color: "#ffffff"
+        color: "#000000"
     },
 
     diagramContainer: {
@@ -397,8 +400,8 @@ var styles = StyleSheet.create({
 
     infoTextStyle: {
         fontFamily: "Arial",
-        fontSize: 10,
-        color: "#FFFFFF"
+        fontSize: 12,
+        color: "#000000"
 
     },
 
@@ -408,6 +411,11 @@ var styles = StyleSheet.create({
 
     selectedContainer: {
         backgroundColor: "#bb0099"
+    },
+
+    emptyBarContainer: {
+        backgroundColor: "#00000000"
+
     },
 
     emptyContainer: {
