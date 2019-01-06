@@ -1,132 +1,171 @@
 import React, { Component } from 'react';
-import {View, Text, TouchableOpacity, TextInput, StyleSheet, TouchableHighlight, Image} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Button, Linking, WebView} from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import {getBoardIdMapping, setBoardID} from "./backend/backendController";
+import {getUserIdMapping, loginTrello} from "./backend/backendController";
+
+import { copilot, walkthroughable, CopilotStep } from '@okgrow/react-native-copilot';
+const WalkthroughableText = walkthroughable(Text);
+const WalkthroughableImage = walkthroughable(Image);
+const WalkthroughableButton = walkthroughable(TouchableOpacity);
+
 
 class LoginScreen extends Component {
 
   constructor(props){
+
     super(props);
 
     this.state = {
-      board_pin : "",
     };
 
-    this.onPress = this.onPress.bind(this);
+    this.onPressAR = this.onPressAR.bind(this);
     this.onPressKaizenImprov = this.onPressKaizenImprov.bind(this);
-    this.handlePin = this.handlePin.bind(this);
     this.submitPin = this.submitPin.bind(this);
+    this.loadHelp = this.loadHelp.bind(this);
   }
 
-  handlePin(text) {
-    this.setState({ board_pin: text })
+
+  componentDidMount() {
+    this.props.start();
   }
+
+
 
   submitPin(){
-    alert("Submitted: " + this.state.board_pin);
-    if(!isNaN(this.state.board_pin) && this.state.board_pin.length === 6){
-      //fetch call
-      getBoardIdMapping(this.state.board_pin).then((response) => {
-        //dispatch
-        setBoardID(response);
-        this.props.setBoardId(response);
-      });
-    }
+    loginTrello().then((response) => {
+      this.props.setURL(response.url);
+      Actions.loginwebview();
+    });
   }
 
-  onPress() {
-    Actions.viro();
+  loadHelp(){
+    Actions.help();
+  }
+
+  onPressAR() {
+    console.log(this.props.userId);
+    console.log(this.props.userName);
+    if(this.props.userId === "none"){
+      alert("No user selected");
+    } else {
+      Actions.viro();
+    }
   }
 
   onPressKaizenImprov() {
     Actions.improvement();
   }
 
+
   render() {
     return (
-      <View style = {styles.container}>
+      <View style={styles.container}>
+        <Text style={styles.description}>
+          Kaizen AR
+        </Text>
+        <Text style={styles.description}>
+          Augmenting Efficiency
+        </Text>
 
-     <TouchableHighlight style={styles.title}
-      underlayColor={'#68a0ff'} >
 
-          <Text style={styles.titleText}>Kaizen AR</Text>
-      </TouchableHighlight>
+        <CopilotStep text="Enter the AR application" order={2} name="Enter AR">
+          <WalkthroughableButton activeOpacity={this.disabled ? 1 : 0.7} onPress={this.onPressAR}>
+            <View style={styles.button}>
+              <Text  style={styles.buttonText}>
+                {this.props.userId === "none" ? "ENTER AR" : `ENTER AR: ${this.props.userName}`}
+              </Text>
+            </View>
+          </WalkthroughableButton>
+        </CopilotStep>
 
-          <TouchableHighlight style={styles.title}
-      underlayColor={'#68a0ff'} >
-          <Text style={styles.NontitleText}>Augment Efficiency</Text>
-      </TouchableHighlight>
+        <CopilotStep text="View the Cross Project Kaizen Improvements" order={3} name="Kaizen Improvement">
+          <WalkthroughableButton onPress={this.onPressKaizenImprov}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>KAIZEN IMPROVEMENT</Text>
+            </View>
+          </WalkthroughableButton>
+        </CopilotStep>
 
-      <Image style={styles.stretch}
-      source={require('./res/Logo.png')}
-      />
+        <CopilotStep text="Login using your Trello Login Credentials first!" order={1} name="Login">
+          <WalkthroughableButton onPress={this.submitPin}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>LOGIN</Text>
+            </View>
+          </WalkthroughableButton>
+        </CopilotStep>
 
-      <TouchableHighlight style={styles.submitButton}
-      onPress={this.onPress}
-      underlayColor={'#68a0ff'} >
+        <CopilotStep text="User Guide for the Application" order={4} name="Help">
+          <WalkthroughableButton onPress={this.loadHelp}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>HELP</Text>
+            </View>
+          </WalkthroughableButton>
+        </CopilotStep>
 
-      <Text style={styles.submitButtonText}>Enter AR</Text>
-      </TouchableHighlight>
-      <TouchableHighlight style={styles.submitButton}
-                            onPress={this.onPressKaizenImprov}
-                            underlayColor={'#68a0ff'} >
+        <CopilotStep active={this.state.secondStepActive} text="Kaizen AR Logo" order={5} name="logo">
+          <WalkthroughableImage source={require('./res/Logo.png')} style={styles.image}/>
+        </CopilotStep>
 
-      <Text style={styles.submitButtonText}>Kaizen Improvements</Text>
-      </TouchableHighlight>
 
-        <TextInput style = {styles.input}
-                   placeholder = "Board Pin"
-                   autoCapitalize = "none"
-                   onChangeText = {this.handlePin}/>
-
-        <TouchableOpacity
-          style = {styles.submitButton}
-          onPress = {this.submitPin}>
-          <Text style = {styles.submitButtonText}> Submit </Text>
-        </TouchableOpacity>
 
       </View>
     );
   }
 }
 
-export default LoginScreen;
+export default copilot({
+  animated: false,
+  overlay: 'view',
+})(LoginScreen);
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 0
-  },
-  input: {
-    margin: 15,
-    height: 40,
-    borderColor: '#7a42f4',
-    borderWidth: 1
-  },
-  submitButton: {
-    backgroundColor: '#7a42f4',
-    padding: 10,
-    margin: 15,
-    height: 40,
-  },
-    title: {
-        backgroundColor: '#7a42f4',
-        padding: 10,
-        margin: 15,
-        height: 40,
-    },
-    titleText: {
-      color: 'white',
-      fontSize: 20,
+    description: {
+        marginBottom: 20,
+        fontSize: 18,
         textAlign: 'center',
+        color: '#656565'
     },
-    NontitleText: {
+    container: {
+        padding: 20,
+        marginTop: 30,
+        alignItems: 'center',
+    },
+    searchInput: {
+        height: 36,
+        width: 150,
+        padding: 4,
+        marginRight: 5,
+        marginBottom: 15,
+        flexGrow: 1,
+        fontSize: 18,
+        borderWidth: 1,
+        borderColor: '#48BBEC',
+        borderRadius: 8,
+        color: '#48BBEC',
+    },
+    image: {
+        resizeMode: 'contain',
+        width: 333,
+        height: 249,
+    },
+    button: {
+        marginBottom: 15,
+        alignItems: 'center',
+        backgroundColor: '#48BBEC',
+        shadowColor: 'rgba(0,0,0, .4)', // IOS
+        shadowOffset: { height: 1, width: 1 }, // IOS
+        shadowOpacity: 1, // IOS
+        shadowRadius: 1, //IOS
+        elevation: 4, // Android
+        justifyContent: 'center',
+        borderRadius: 2,
+        padding: 0
+    },
+    buttonText: {
         color: 'white',
-        fontSize: 16,
+        fontSize: 20,
         textAlign: 'center',
+        padding: 8,
+        fontWeight: '500',
     },
-    stretch: {
-    },
-  submitButtonText: {
-    color: 'white'
-  }
 });

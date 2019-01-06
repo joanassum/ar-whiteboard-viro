@@ -5,7 +5,7 @@ import configureStore from "./js/store/configureStore";
 import { Provider } from "react-redux";
 
 const store = configureStore({
-  mainReducer: {boardId: "SkS6g4qa", cardId: "None", menuTitle: "Board", cardChosen: false, listID: "", option: "Main Menu", labelID: "none", currentMemberID: "5a6c7351d9f2320d569e9c58",}
+  mainReducer: {boardId: "SkS6g4qa", cardId: "None", menuTitle: "Board", cardChosen: false, listID: "", option: "Main Menu", labelID: "none", currentMemberID: "none",}
 });
 
 const ReduxApp = () => (

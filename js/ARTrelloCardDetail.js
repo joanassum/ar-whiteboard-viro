@@ -130,17 +130,8 @@ class ARTrelloCardDetail extends Component {
             <ViroImage
               height={3}
               width={3}
+              onClick={this.onClickComment}
               source={(this.state.timeLineGraphLoaded) ? {uri: this.state.timeLineGraph} : require("./res/Logo.png")}
-            />
-          </ViroFlexView>
-          <ViroFlexView style={{flexDirection: 'column'}}
-                        height={1}
-                        width={3}
-                        onClick={this.onClickComment}
-          >
-            <ViroText
-              style={styles.prodDescriptionText}
-              text="Comments"
             />
           </ViroFlexView>
           <ViroFlexView style={{flexDirection: 'column'}} height={1} width={3}>

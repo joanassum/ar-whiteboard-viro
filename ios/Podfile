@@ -1,0 +1,12 @@
+platform :ios, '9.3'
+target 'ViroSample' do
+  pod 'Stripe', '~> 11.2.0'
+  pod 'GoogleMaps'
+  pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
+  pod 'ViroReact', :path => '../node_modules/react-viro/ios/'
+  pod 'ViroKit', :path => '../node_modules/react-viro/ios/dist/ViroRenderer/'
+  #use_frameworks!
+  #pod 'ViroReact', :path => '../node_modules/react-viro/ios/'
+  #pod 'ViroKit', :path => '../node_modules/react-viro/ios/dist/ViroRenderer/'
+end

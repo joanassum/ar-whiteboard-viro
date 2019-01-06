@@ -3,7 +3,10 @@ import { Router, Scene, Modal } from 'react-native-router-flux';
 import ViroEntry from "./js/ViroEntry";
 import LoginContainer from "./js/containers/LoginContainer";
 import CommentContainer from "./js/containers/CommentContainer";
+import HelpContainer from "./js/containers/HelpContainer";
 import KaizenImprovContainer from "./js/containers/KaizenImprovContainer";
+import LoginWebContainer from "./js/containers/LoginWebContainer";
+
 
 class App extends Component {
 
@@ -27,10 +30,21 @@ class App extends Component {
               component={ViroEntry}
               title="Kaizen AR"
             />
+
+            <Scene
+              key="loginwebview"
+              component={LoginWebContainer}
+              title="LoginBrowser"
+            />
             <Scene
               key="improvement"
               component={KaizenImprovContainer}
               title="Kaizen Improvement"
+            />
+            <Scene
+              key="help"
+              component={HelpContainer}
+              title="Help Page"
             />
           </Scene>
           <Scene key="commentModal" component={CommentContainer} />

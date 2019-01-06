@@ -13,15 +13,21 @@ const mainReducer = (state = {
   cardChosen: false,
   boardMetricChosen: false,
   option: "Main Menu",
+  url: "",
+  urlSet: false,
   overDueFlag: false,
-  currentMemberID: "5a6c7351d9f2320d569e9c58",
-  currentMemberName: "athi16",
+  currentMemberID: "none",
+  currentMemberName: "none",
 }, action) => {
   switch (action.type) {
     case "CHECK_TEST":
       return { ...state, test: "Checked test", testCheck: action.checkTest};
     case "SET_BOARD_ID":
       return { ...state, boardId: action.boardId};
+    case "SET_USER_ID":
+      return { ...state, currentMemberID: action.userId, currentMemberName: action.userName};
+    case "SET_URL":
+      return { ...state, url: action.url, urlSet: true};
     case "SET_BOARD_NAME":
       return { ...state, boardName: action.boardName};
     case "UNSET_CARD_ID":
