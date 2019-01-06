@@ -98,33 +98,31 @@ var styles = {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#9ef5f6'
   },
   slide2: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#9ef5f6'
   },
   slide3: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#9ef5f6'
+    alignItems: 'center'
   },
   text: {
     color: '#444444',
     fontSize: 16,
-    marginLeft: 2 * vw,
-    marginRight: 3 * vw,
+    marginLeft: 7 * vw,
+    marginRight: 9 * vw,
   },
   headerText: {
     color: '#444444',
     fontSize: 24,
     fontWeight: 'bold',
     lineHeight: 50,
-    marginLeft: 4,
-    backgroundColor: '#9ef5f6'
+    marginLeft: 7 * vw,
+    marginRight: 9 * vw,
+    backgroundColor: '#e9e9ef'
   },
   titleText: {
     color: '#444444',

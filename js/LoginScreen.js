@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     button: {
         marginBottom: 3 * vh,
         alignItems: 'center',
-        backgroundColor: '#A9D8B8',
+        backgroundColor: '#9ef5f6',
         shadowColor: 'rgba(0,0,0, .4)', // IOS
         shadowOffset: { height: 1, width: 1 }, // IOS
         shadowOpacity: 1, // IOS
