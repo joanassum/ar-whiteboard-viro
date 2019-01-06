@@ -1,96 +1,33 @@
 PODS:
-  - Firebase/Core (5.15.0):
-    - Firebase/CoreOnly
-    - FirebaseAnalytics (= 5.4.0)
-  - Firebase/CoreOnly (5.15.0):
-    - FirebaseCore (= 5.1.10)
-  - Firebase/Messaging (5.15.0):
-    - Firebase/CoreOnly
-    - FirebaseMessaging (= 3.2.2)
-  - FirebaseAnalytics (5.4.0):
-    - FirebaseCore (~> 5.1)
-    - FirebaseInstanceID (~> 3.3)
-    - GoogleAppMeasurement (= 5.4.0)
-    - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
-    - GoogleUtilities/MethodSwizzler (~> 5.2)
-    - GoogleUtilities/Network (~> 5.2)
-    - "GoogleUtilities/NSData+zlib (~> 5.2)"
-    - nanopb (~> 0.3)
-  - FirebaseAnalyticsInterop (1.1.0)
-  - FirebaseCore (5.1.10):
-    - GoogleUtilities/Logger (~> 5.2)
-  - FirebaseInstanceID (3.3.0):
-    - FirebaseCore (~> 5.1)
-    - GoogleUtilities/Environment (~> 5.3)
-    - GoogleUtilities/UserDefaults (~> 5.3)
-  - FirebaseMessaging (3.2.2):
-    - FirebaseAnalyticsInterop (~> 1.1)
-    - FirebaseCore (~> 5.1)
-    - FirebaseInstanceID (~> 3.0)
-    - GoogleUtilities/Environment (~> 5.2)
-    - GoogleUtilities/Reachability (~> 5.2)
-    - Protobuf (~> 3.1)
-  - GoogleAppMeasurement (5.4.0):
-    - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
-    - GoogleUtilities/MethodSwizzler (~> 5.2)
-    - GoogleUtilities/Network (~> 5.2)
-    - "GoogleUtilities/NSData+zlib (~> 5.2)"
-    - nanopb (~> 0.3)
-  - GoogleMaps (2.7.0):
-    - GoogleMaps/Maps (= 2.7.0)
-  - GoogleMaps/Base (2.7.0)
-  - GoogleMaps/Maps (2.7.0):
-    - GoogleMaps/Base
-  - GoogleUtilities/AppDelegateSwizzler (5.3.6):
-    - GoogleUtilities/Environment
-    - GoogleUtilities/Logger
-    - GoogleUtilities/Network
-  - GoogleUtilities/Environment (5.3.6)
-  - GoogleUtilities/Logger (5.3.6):
-    - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (5.3.6):
-    - GoogleUtilities/Logger
-  - GoogleUtilities/Network (5.3.6):
-    - GoogleUtilities/Logger
-    - "GoogleUtilities/NSData+zlib"
-    - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (5.3.6)"
-  - GoogleUtilities/Reachability (5.3.6):
-    - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (5.3.6):
-    - GoogleUtilities/Logger
-  - nanopb (0.3.901):
-    - nanopb/decode (= 0.3.901)
-    - nanopb/encode (= 0.3.901)
-  - nanopb/decode (0.3.901)
-  - nanopb/encode (0.3.901)
-  - Protobuf (3.6.1)
-  - Stripe (11.2.0)
-  - ViroKit (1.0)
+  - AWSCore (2.6.7)
+  - AWSDynamoDB (2.6.7):
+    - AWSCore (= 2.6.7)
+  - GoogleToolboxForMac/Defines (2.1.0)
+  - GoogleToolboxForMac/Logger (2.1.0):
+    - GoogleToolboxForMac/Defines (= 2.1.0)
+  - GTMSessionFetcher/Core (1.1.6)
+  - GVRAudioSDK (1.120.0)
+  - GVRSDK (1.120.0):
+    - GoogleToolboxForMac/Logger (= 2.1.0)
+    - GTMSessionFetcher/Core (= 1.1.6)
+  - ViroKit (1.0):
+    - AWSDynamoDB (= 2.6.7)
+    - GVRAudioSDK (= 1.120.0)
+    - GVRSDK (= 1.120.0)
   - ViroReact (1.0)
 
 DEPENDENCIES:
-  - Firebase/Core
-  - Firebase/Messaging
-  - GoogleMaps
-  - Stripe (~> 11.2.0)
   - ViroKit (from `../node_modules/react-viro/ios/dist/ViroRenderer/`)
   - ViroReact (from `../node_modules/react-viro/ios/`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - Firebase
-    - FirebaseAnalytics
-    - FirebaseAnalyticsInterop
-    - FirebaseCore
-    - FirebaseInstanceID
-    - FirebaseMessaging
-    - GoogleAppMeasurement
-    - GoogleMaps
-    - GoogleUtilities
-    - nanopb
-    - Protobuf
-    - Stripe
+    - AWSCore
+    - AWSDynamoDB
+    - GoogleToolboxForMac
+    - GTMSessionFetcher
+    - GVRAudioSDK
+    - GVRSDK
 
 EXTERNAL SOURCES:
   ViroKit:
@@ -99,21 +36,15 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-viro/ios/"
 
 SPEC CHECKSUMS:
-  Firebase: 8bb9268bff82374f2cbaaabb143e725743c316ae
-  FirebaseAnalytics: c06f9d70577d79074214700a71fd5d39de5550fb
-  FirebaseAnalyticsInterop: e5f21be9af6548372e2f0815834ff909bff395a2
-  FirebaseCore: 35747502d9e8c6ee217385ad04446c7c2aaf9c5c
-  FirebaseInstanceID: e2fa4cb35ef5558c200f7f0ad8a53e212215f93e
-  FirebaseMessaging: b412996f6a09337d232bb3a6676ce4d1f353d024
-  GoogleAppMeasurement: 98b71f5e04142793729a5ef23e5b96651ff4b70f
-  GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
-  GoogleUtilities: 95996bea7c7d9b8fb811b7507669a4a8762f80c7
-  nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
-  Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
-  Stripe: 898f83a95d72180c6eb4acd65b2ae6158fc6a8bd
-  ViroKit: 4ff2ab5cc859c932e3032af2f533bb186f1308aa
+  AWSCore: a5ff5fb202342b922eb9036af9ecc3bc28a032eb
+  AWSDynamoDB: ea3631a84c0c4a19ef4cb4ec32d3348d3ae9d47c
+  GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
+  GTMSessionFetcher: 6aacd0ab48ddf0c3633ab2642d792abfcad1b08a
+  GVRAudioSDK: 302f0a8f190d855868ea07f246ce4f9b44c392ae
+  GVRSDK: 0cb9d0ce06a84d698e61e3db9509766022dcf815
+  ViroKit: b59a8004b4a180fe255356b9d0388173dff0fbdf
   ViroReact: 5520f26ac4654e361786c82da3b29ce0402c3c00
 
-PODFILE CHECKSUM: 0bcc68c68e9438a9dea7ce1c1a12f2dec778cb1a
+PODFILE CHECKSUM: 4ffd46b61047600612a675bffcbbfe7d873d9206
 
 COCOAPODS: 1.5.3
