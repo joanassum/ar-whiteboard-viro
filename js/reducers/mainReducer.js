@@ -18,6 +18,7 @@ const mainReducer = (state = {
   overDueFlag: false,
   currentMemberID: "none",
   currentMemberName: "none",
+  firstLoad: true,
 }, action) => {
   switch (action.type) {
     case "CHECK_TEST":
@@ -32,6 +33,8 @@ const mainReducer = (state = {
       return { ...state, boardName: action.boardName};
     case "UNSET_CARD_ID":
       return { ...state, cardChosen: false};
+    case "SET_FIRST_LOAD":
+      return { ...state, firstLoad: false};
     case "SET_CARD_ID":
       return { ...state, cardId: action.cardId, cardChosen: true};
     case "SET_GRAPH_TYPE":

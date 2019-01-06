@@ -19,6 +19,11 @@ export function setUserId(userId, userName){
     userName
   };
 }
+export function setFirstLoad(){
+  return {
+    type: "SET_FIRST_LOAD",
+  };
+}
 
 export function setURL(url){
   return {
