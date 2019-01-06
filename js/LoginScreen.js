@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Button, Linking, WebView} from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { Dimensions } from 'react-native';
+import {vw, vh} from 'react-native-viewport-units';
 import {getUserIdMapping, loginTrello} from "./backend/backendController";
 
 import { copilot, walkthroughable, CopilotStep } from '@okgrow/react-native-copilot';
@@ -63,11 +65,13 @@ class LoginScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+
+      <CopilotStep active={this.state.secondStepActive} text="Kaizen AR Logo" order={5} name="logo">
+        <WalkthroughableImage source={require('./res/Logo.png')} style={styles.image}/>
+      </CopilotStep>
+
         <Text style={styles.description}>
-          Kaizen AR
-        </Text>
-        <Text style={styles.description}>
-          Augmenting Efficiency
+          Driving Efficiency
         </Text>
 
 
@@ -105,12 +109,6 @@ class LoginScreen extends Component {
           </WalkthroughableButton>
         </CopilotStep>
 
-        <CopilotStep active={this.state.secondStepActive} text="Kaizen AR Logo" order={5} name="logo">
-          <WalkthroughableImage source={require('./res/Logo.png')} style={styles.image}/>
-        </CopilotStep>
-
-
-
       </View>
     );
   }
@@ -123,14 +121,15 @@ export default copilot({
 
 const styles = StyleSheet.create({
     description: {
-        marginBottom: 20,
+        marginTop: 1 * vh,
+        marginBottom: 3 * vh,
         fontSize: 18,
         textAlign: 'center',
-        color: '#656565'
+        color: '#444444'
     },
     container: {
-        padding: 20,
-        marginTop: 30,
+        padding: 5,
+        marginTop: 0,
         alignItems: 'center',
     },
     searchInput: {
@@ -147,14 +146,14 @@ const styles = StyleSheet.create({
         color: '#48BBEC',
     },
     image: {
-        resizeMode: 'contain',
-        width: 333,
-        height: 249,
+        resizeMode: 'cover',
+        width: 80 * vw,
+        height: 40 * vh,
     },
     button: {
-        marginBottom: 15,
+        marginBottom: 3 * vh,
         alignItems: 'center',
-        backgroundColor: '#48BBEC',
+        backgroundColor: '#A9D8B8',
         shadowColor: 'rgba(0,0,0, .4)', // IOS
         shadowOffset: { height: 1, width: 1 }, // IOS
         shadowOpacity: 1, // IOS
@@ -165,7 +164,7 @@ const styles = StyleSheet.create({
         padding: 0
     },
     buttonText: {
-        color: 'white',
+        color: '#444444',
         fontSize: 20,
         textAlign: 'center',
         padding: 8,
