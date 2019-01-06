@@ -1,17 +1,19 @@
 import { connect } from "react-redux";
 import LoginScreen from "../LoginScreen";
-import {setUserId, setURL} from "../actions/mainActions";
+import {setFirstLoad, setURL} from "../actions/mainActions";
 
 const mapStateToProps = state => {
   return {
     userId: state.mainReducer.currentMemberID,
-    userName: state.mainReducer.currentMemberName
+    userName: state.mainReducer.currentMemberName,
+    firstLoad: state.mainReducer.firstLoad
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setURL: (url) => dispatch(setURL(url))
+    setURL: (url) => dispatch(setURL(url)),
+    setFirstLoad: () => dispatch(setFirstLoad())
   };
 };
 
