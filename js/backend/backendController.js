@@ -243,6 +243,15 @@ export function getCardMembers(cardId) {
     });
 }
 
+export function getCardDueDate(cardId) {
+  //console.log("getCardMembers");
+  return fetch(`${url}/trello/getCardDueDate/${cardId}`)
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
 export function getCheckLists(cardId) {
   //console.log("getCheckLists");
   return fetch(`${url}/trello/getCardChecklists/${cardId}`)
