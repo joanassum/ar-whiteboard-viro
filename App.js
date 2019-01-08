@@ -46,8 +46,12 @@ class App extends Component {
               component={HelpContainer}
               title="Help Page"
             />
+            <Scene
+              key="commentModal"
+              component={CommentContainer}
+              title="Comments"
+            />
           </Scene>
-          <Scene key="commentModal" component={CommentContainer} />
         </Modal>
       </Router>
     );

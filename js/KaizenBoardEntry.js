@@ -66,7 +66,7 @@ class KaizenBoardEntry extends Component {
 
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized}>
-          <ViroARImageMarker target={"menumarker"} pauseUpdates={"True"}>
+          <ViroARImageMarker target={"menumarker"} pauseUpdates={true}>
         <ViroNode
            // position={[-1, -7, -1]} rotation={[-90, 0, 0]}
             // dragPlane={[[-1, -10, -1], [0, 1, 0], 3]}
