@@ -119,7 +119,7 @@ class KaizenBoardEntry extends Component {
         <ViroNode
           //position={[-3,-13,-3]} rotation={[-90, 0, 0]}
           position={[-5,0,-5]}
-          //dragType="FixedDistance" onDrag={()=>{}}
+          dragType="FixedDistance" onDrag={()=>{}}
 
         >
           {this.props.boardMetricChosen ? <BoardMetric
