@@ -1,5 +1,6 @@
-const url = "http://ec2-35-177-195-223.eu-west-2.compute.amazonaws.com:8080";
-let boardId = "SkS6g4qa";
+/* TODO: INSERT BACKEND API URL */
+const url = "API SERVER URL";
+let boardId = "default board id";
 
 export function setBoardID(newBoardID) {
   boardId = newBoardID;
